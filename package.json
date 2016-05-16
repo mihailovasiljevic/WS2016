@@ -1,0 +1,26 @@
+{
+  "name": "ticketing-system",
+  "version": "1.0.0",
+  "description": "System for project menaging.",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/remixgit/WS2016.git"
+  },
+  "keywords": [
+    "to-do",
+    "project",
+    "menaging",
+    "project",
+    "task"
+  ],
+  "author": "Mihailo Vasiljevic, Nemanja Starcev, Rajko Ilic, Milos Savic",
+  "license": "GPL-2.0",
+  "bugs": {
+    "url": "https://github.com/remixgit/WS2016/issues"
+  },
+  "homepage": "https://github.com/remixgit/WS2016#readme"
+}
