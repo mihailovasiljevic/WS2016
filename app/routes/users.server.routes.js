@@ -10,7 +10,7 @@ module.exports = function(app){
       .get(users.read)
       .put(users.update)
       .delete(users.delete);
-    app.param('usrId', users.userByID);
+    app.param('userId', users.userByID);
 
     app.route('/signup')
       .get(users.renderSignUp)
