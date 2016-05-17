@@ -1,4 +1,4 @@
-var Project = require('mongoose').model('Project'); // use mongoose to call module method to get User model
+var Project = require('mongoose').model('Project'); // use mongoose to call module method to get project model
 
 exports.create = function(req, res, next){
     var project = new Project(req.body);
@@ -6,7 +6,7 @@ exports.create = function(req, res, next){
         if (err) {
          return next(err);
         } else {
-            res.json(user);
+            res.json(project);
         }
     });
 };
@@ -39,7 +39,7 @@ exports.projectByID = function(req, res, next, id){
 };
 
 exports.update = function(req, res, next){
-  User.findByIdAndUpdate(req.project.id, req.body, function(err, project){
+  Project.findByIdAndUpdate(req.project.id, req.body, function(err, project){
     if(err){
       return next(err);
     }else{

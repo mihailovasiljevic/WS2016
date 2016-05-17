@@ -1,52 +1,58 @@
-var mongoose = require('mongoose');
-var Schema = mongoose.Schema;
+var mongoose = require('mongoose'),
+    Schema = mongoose.Schema;
 
 var taskSchema = new Schema({
 
   mark: {
     type: String,
-    required: true,
-	unique: true,
+    required: 'You have to insert mark',
+	  unique: true,
   },
   title: {
-	type: String,
-	required: true,
+	   type: String,
+	   required: 'You have to insert title',
   },
   description: String,
   project: {
     type: Schema.Types.ObjectId,
-	ref: 'Projekat',
+	   ref: 'Project',
+     required:'You have to pick a project.'
   },
   author: {
     type: Schema.Types.ObjectId,
-	ref: 'Korisnik',
-	require:true
+	  ref: 'User',
+	  require:'You have to insert author'
   },
   assignedFor: {
-	type: Schema.Types.ObjectId,
-	ref: 'Korisnik'
+  	type: Schema.Types.ObjectId,
+  	ref: 'User',
+    required: 'You have to insert who is task assigned for.'
   },
   ordinalNumber: {
-	type: Number,
+  	type: Number,
+    default: 0
   },
   createdAt: {
-	type: Date,
-	default: Date.now,
+  	type: Date,
+  	default: Date.now,
   },
   updatedAt: {
-	type: Date,
+  	type: Date,
   },
   finishedAt: {
-	type: Date,
+  	type: Date,
   },
 
   comments: [{
 	author: {
 	  type: Schema.Types.ObjectId,
-      ref: 'Korisnik',
-      require:true
+      ref: 'User',
+      required:true
 	},
-	text: String,
+	text: {
+    type: String,
+    required: 'You have to insert comment text.'
+  },
 	createdAt: {
 	  type: Date,
 	  default: Date.now,
@@ -54,20 +60,20 @@ var taskSchema = new Schema({
   }],
 
   priority: {
-    type: Array,
-    default: ['blocker', 'critical', 'major', 'minor', 'trivial']
+    type: String,
+    enum: ['blocker', 'critical', 'major', 'minor', 'trivial']
   },
 
   status: {
-    type: Array,
-    default: ['todo', 'progress', 'verify', 'done']
-  },
+    type: String,
+    enum: ['todo', 'progress', 'verify', 'done']
+  }
 
 });
 
 taskSchema.pre('save', function(next) {
-
 	this.updatedAt = new Date();
+  this.ordinalNumber = this.ordinalNumber + 1;
 	next();
 });
 
