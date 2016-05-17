@@ -22,11 +22,11 @@ exports.list = function(req, res, next){
 };
 
 exports.read = function(req, res){
-  res.json(project);
+  res.json(req.project);
 };
 
 exports.projectByID = function(req, res, next, id){
-  User.findOne({
+  Project.findOne({
     _id: id
   }, function(err, project){
     if(err){
