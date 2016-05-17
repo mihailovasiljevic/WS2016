@@ -1,4 +1,5 @@
-var Task = require('mongoose').model('Task'); // use mongoose to call module method to get task model
+var Task = require('mongoose').model('Task'),
+    Project = require('mongoose').model('Project'); // use mongoose to call module method to get task model
 
 exports.create = function(req, res, next){
     var task = new Task(req.body);
@@ -6,7 +7,35 @@ exports.create = function(req, res, next){
         if (err) {
          return next(err);
         } else {
-            res.json(task);
+          Project.findOne({
+            _id: task.project
+          }, function(err, project){
+            if(err){
+              return next(err);
+            }else {
+              var project = project;
+              var taskNumber = project.taskNumber + 1;
+              task.mark = project.title+"-"+taskNumber;
+              req.task = task;
+
+              Task.findByIdAndUpdate(req.task.id, req.task, function(err, task){
+                if(err){
+                  return next(err);
+                }else{
+                  project.taskNumber = project.taskNumber+1;
+                  Project.findByIdAndUpdate(project.id, project, function(err, project){
+                    if(err){
+                      return next(err);
+                    }else{
+                      res.json(task);
+                      next();
+                    }
+                  });
+                }
+              });
+            }
+          });
+
         }
     });
 };

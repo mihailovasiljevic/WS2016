@@ -18,6 +18,7 @@ var projectSchema = new Schema({
 });
 
 projectSchema.pre('save', function(next) {
+  console.log(this.project);
 	this.taskNumber = 0;
 	next();
 });

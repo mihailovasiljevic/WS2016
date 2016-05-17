@@ -1,4 +1,5 @@
 var mongoose = require('mongoose'),
+    Project = require('mongoose').model('Project'),
     Schema = mongoose.Schema;
 
 var taskSchema = new Schema({
