@@ -25,6 +25,14 @@
   "homepage": "https://github.com/remixgit/WS2016#readme",
   "dependencies": {
     "body-parser": "^1.15.1",
-    "express": "^4.13.4"
+    "compression": "^1.6.2",
+    "connect-flash": "^0.1.1",
+    "ejs": "^2.4.1",
+    "express": "^4.13.4",
+    "express-session": "^1.13.0",
+    "method-override": "^2.3.5",
+    "mongoose": "^4.4.17",
+    "morgan": "^1.7.0",
+    "passport": "^0.3.2"
   }
 }
