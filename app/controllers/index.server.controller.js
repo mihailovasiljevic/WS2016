@@ -5,6 +5,6 @@ exports.render = function(req, res) {
     req.session.lastVisit = new Date();
     res.render('index', { //first paramtere name of ejs template without .ejs
         title: 'Hello World', //list of parameters used in ejs template
-        userFullName: req.user? req.user.fullName : ''
+        user: JSON.stringify(req.user)
     });
 };

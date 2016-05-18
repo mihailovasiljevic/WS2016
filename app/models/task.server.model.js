@@ -6,8 +6,7 @@ var taskSchema = new Schema({
 
   mark: {
     type: String,
-    required: 'You have to insert mark',
-	  unique: true,
+    required: 'You have to insert mark'
   },
   title: {
 	   type: String,
