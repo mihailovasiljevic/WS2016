@@ -6,18 +6,13 @@ var taskSchema = new Schema({
   mark: {
     type: String,
     required: 'You have to insert mark',
-	  unique: true,
+    trim: true
   },
   title: {
 	   type: String,
 	   required: 'You have to insert title',
   },
   description: String,
-  project: {
-    type: Schema.Types.ObjectId,
-	   ref: 'Project',
-     required:'You have to pick a project.'
-  },
   author: {
     type: Schema.Types.ObjectId,
 	  ref: 'User',
@@ -42,23 +37,10 @@ var taskSchema = new Schema({
   finishedAt: {
   	type: Date,
   },
-
-  comments: [{
-	author: {
-	  type: Schema.Types.ObjectId,
-      ref: 'User',
-      required:true
-	},
-	text: {
-    type: String,
-    required: 'You have to insert comment text.'
+  comments: {
+   type:[Schema.ObjectId],
+   ref: 'Comment' 
   },
-	createdAt: {
-	  type: Date,
-	  default: Date.now,
-	}
-  }],
-
   priority: {
     type: String,
     enum: ['blocker', 'critical', 'major', 'minor', 'trivial']
@@ -67,6 +49,10 @@ var taskSchema = new Schema({
   status: {
     type: String,
     enum: ['todo', 'progress', 'verify', 'done']
+  },
+  commentCounter: {
+    type: Number,
+    default: 0
   }
 
 });

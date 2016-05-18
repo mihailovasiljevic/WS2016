@@ -1,46 +1,46 @@
 var mongoose = require('mongoose'),
-    Task = mongoose.model('Task'), // use mongoose to call module method to get project model
+    Comment = mongoose.model('Comment'), // use mongoose to call module method to get project model
     errorHandler = require('../controllers/index.server.controller');
 
 exports.create = function(req, res, next){
-    var task = new Task(req.body);
-    task.creator = req.user;
+    var comment = new Comment(req.body);
+    comment.creator = req.user;
     
-    task.save(function(err) {
+    comment.save(function(err) {
         if (err) {
          return res.status(400).send({
            message: errorHandler.getErrorMessage(err)
          });
         } else {
-            res.json(task);
+            res.json(comment);
         }
     });
 };
 
 exports.list = function(req, res, next){
   
-  Task.find().sort('-createdAt').exec(function(err, tasks){
+  Comment.find().sort('-createdAt').exec(function(err, comments){
     if(err){
          return res.status(400).send({
            message: errorHandler.getErrorMessage(err)
          }); 
     }else {
-      res.json(tasks);
+      res.json(comments);
     }    
   });
 };
 
 exports.read = function(req, res){
-  res.json(req.task);
+  res.json(req.comment);
 };
 
-exports.taskByID = function(req, res, next, id){
+exports.commentByID = function(req, res, next, id){
   
-  Task.findById(id).exec(function(err, task){
+  Comment.findById(id).exec(function(err, comment){
     if (err) return next(err);
-    if(!task) return next(new Error('Failed to load task ' + id));
+    if(!comment) return next(new Error('Failed to load comment ' + id));
     
-    req.task = task;
+    req.comment = comment;
     
     next();    
   });
@@ -48,25 +48,25 @@ exports.taskByID = function(req, res, next, id){
 };
 
 exports.update = function(req, res, next){
-  Task.findByIdAndUpdate(req.task.id, req.body, function(err, task){
+  Comment.findByIdAndUpdate(req.comment.id, req.body, function(err, comment){
     if(err){
          return res.status(400).send({
            message: errorHandler.getErrorMessage(err)
          }); 
     }else{
-      res.json(task);
+      res.json(comment);
     }
   });
 };
 
 exports.delete = function(req, res, next){
-  req.task.remove(function(err){
+  req.comment.remove(function(err){
     if(err){
          return res.status(400).send({
            message: errorHandler.getErrorMessage(err)
          }); 
     }else{
-      res.json(req.task);
+      res.json(req.comment);
     }
   });
 };

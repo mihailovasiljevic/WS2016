@@ -8,3 +8,13 @@ exports.render = function(req, res) {
         userFullName: req.user? req.user.fullName : ''
     });
 };
+
+exports.getErrorMessage = function(err){
+    if(err.errors){
+        for(var errName in err.errors){
+            if(err.errors[errName].message) return err.errors[errName].message;
+        }
+    } else {
+        return 'Uknown server error';
+    }
+};

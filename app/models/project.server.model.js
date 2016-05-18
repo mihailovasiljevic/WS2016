@@ -5,8 +5,9 @@ var projectSchema = new Schema({
 
   title: {
     type: String,
-    required: true,
+    required: 'Title cannot be blank.',
 	  unique: true,
+    trim: true
   },
   teamMembers: {
     type: [Schema.Types.ObjectId],
@@ -14,6 +15,18 @@ var projectSchema = new Schema({
     //require:true
   },
   taskNumber: Number,
+  created: {
+    type: Date,
+    default: Date.now
+  },
+  creator: {
+    type: Schema.ObjectId,
+    ref: 'User'
+  },
+  tasks: {
+    type: [Schema.ObjectId],
+    ref: 'Task'
+  }
 
 });
 
