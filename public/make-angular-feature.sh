@@ -1,0 +1,16 @@
+mkdir $1
+cd $1
+mkdir services
+cd services
+touch $1.client.services.js
+cd ..
+mkdir controllers
+cd controllers
+touch $1.client.controllers.js
+cd ..
+mkdir config
+cd config
+touch $1.client.routes.js
+cd ..
+mkdir views
+touch $1.client.module.js

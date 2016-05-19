@@ -1,0 +1,11 @@
+{
+  "name" : "ticketing-system",
+  "version" : "1.0.0",
+
+  "dependencies" : {
+
+    "angular" : "^1.2",
+    "angular-route" : "^1.2",
+    "angular-resource" : "^1.2"
+  }
+}
