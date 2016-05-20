@@ -2,20 +2,25 @@
 	<head>
 	</head>
 	<body>
+
+
 		HELLO WORLD!
 		<div data-ng-show="!authentication.user">
-			<a href="/#!/signup">Signup</a>
-			<a href="/#!/signin">Signin</a>
+			<a href="/#!/login">Signin</a>
 		</div>
 		<section ng-view></section>
 		<script type="text/javascript"src="/lib/angular/angular.js"></script>
+		<script type="text/javascript" src="/lib/angular-jwt/dist/angular-jwt.js"></script>		
 		<script type="text/javascript" src="/lib/angular-route/angular-route.js"></script>
 		<script type="text/javascript" src="/lib/angular-resource/angular-resource.js"></script>
+		<script type="text/javascript" src="/lib/angular-cookies/angular-cookies.js"></script>		
+
 		
-		<script type="text/javascript" src="/login/login.client.module.js"></script>
-		<script type="text/javascript" src="/login/controllers/login.client.controller.js"></script>
-		<script type="text/javascript" src="/login/config/login.client.routes.js"></script>
-		<script type="text/javascript" src="/users/users.client.module.js"></script>
+		
+		
+		<script type="text/javascript" src="/users/users.client.module.js"></script>		
+		<script type="text/javascript" src="/users/controllers/users.client.controllers.js"></script>
+		<script type="text/javascript" src="/users/config/users.client.routes.js"></script>
 		<script type="text/javascript" src="/users/services/authentication.client.service.js"></script>
 		<script type="text/javascript" src="/application.js"></script>
 		

@@ -1,5 +1,5 @@
-angular.module('users').factory('User', ['$rootScope', '$http', '$location', '$stateParams', '$cookies', '$q', '$timeout', '$cookieStore',
-  function($rootScope, $http, $location, $stateParams, $cookies, $q, $timeout, $cookieStore){
+angular.module('users').factory('User', ['$rootScope', '$http', '$location', '$cookies', '$q', '$timeout', '$cookieStore','$log',
+  function($rootScope, $http, $location, $cookies, $q, $timeout, $cookieStore,$log){
     var self;
     
     function escape(html) {
@@ -18,7 +18,7 @@ angular.module('users').factory('User', ['$rootScope', '$http', '$location', '$s
     function UserClass(){
       this.name = 'users';
       this.user = {};
-      thsi.loggedin = false;
+      this.loggedin = false;
       this.isAdmin = false;
       this.loginError = 0;
       this.usernameError = null;
@@ -34,13 +34,10 @@ angular.module('users').factory('User', ['$rootScope', '$http', '$location', '$s
         this.user = {};
         this.loggedin = false;
         this.isAdmin = false;
-      } else if (angular.isDefined(response.token)){
-        localStorage.setItem('JWT', response.token);
-        var encodedProfile = decodeURI(b64_to_utf8(response.token.split('.')[1]));
-        var payload = JSON.parse(encodedProfile);
-        this.user = payload;
+      } else {
+        this.user = response;
         var destination = $cookies.redirect;
-      if (this.user.roles.indexOf('admin') !== -1) this.isAdmin = true;
+        if (this.user.role === 'admin') this.isAdmin = true;
         $rootScope.$emit('loggedin');
         if (destination) {
           $location.path(destination.replace(/^"|"$/g, ''));
@@ -48,11 +45,9 @@ angular.module('users').factory('User', ['$rootScope', '$http', '$location', '$s
         } else {
           $location.url('/');
         }
-      } else {
+
         this.user = response;
         this.loggedin = true;
-        if (this.user.roles.indexOf('admin') !== -1) this.isAdmin = true;
-        $rootScope.$emit('loggedin');
       }
     };
     
@@ -66,8 +61,8 @@ angular.module('users').factory('User', ['$rootScope', '$http', '$location', '$s
     
     UserClass.prototype.login = function(user){
       var destination = $location.path().indexOf('/login') === -1 ? $location.absUrl() : false;
-      $hhtp.post('/api/login', {
-        email: user.email.
+      $http.post('/api/login', {
+        username: user.username,
         password: user.password,
         redirect: destination
       })
@@ -81,7 +76,6 @@ angular.module('users').factory('User', ['$rootScope', '$http', '$location', '$s
       this.isAdmin = false;
       
       $http.get('/api/logout').success(function(data){
-        localStorage.removeItem('JWT');
         $rootScope.$emit('logout');
       });
     };
@@ -107,11 +101,12 @@ angular.module('users').factory('User', ['$rootScope', '$http', '$location', '$s
       
       $http.get('/api/loggedin').success(function(user){
         if(user !== '0'){
+          $log.log("WRF");
           $timeout(deferred.reject);
           $location.url('/');
-        }
-        
+        }   
         else $timeout(deferred.resolve);
+          $log.log("WdsadaRF");  
       });
       
       return deferred.promise;
@@ -131,6 +126,7 @@ angular.module('users').factory('User', ['$rootScope', '$http', '$location', '$s
       return deferred.promise;
     }
     
+    console.log(User);
     return User;
   }
 ]);

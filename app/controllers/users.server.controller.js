@@ -1,7 +1,8 @@
 var User = require('mongoose').model('User'),
     passport = require('passport'),
       _ = require('lodash'),
-    jwt = require('jsonwebtoken'); ; // use mongoose to call module method to get User model
+    jwt = require('jsonwebtoken'),
+    config = require('../../config/config'); // use mongoose to call module method to get User model
 
 var getErrorMessage = function(err){
   var message = '';
@@ -109,19 +110,14 @@ exports.me = function(req, res){
     var id = req.user._id;
     
     delete dbUser._id;
-    delete rq.user._id;
+    delete req.user._id;
     
     var eq = _.isEqual(dbUser, req.user);
     if(eq){
       req.user._id = id;
       return res.json(req.user);
     }
-    
-    var payload = user;
-    var escaped = JSON.stringify(payload);
-    escaped = encodeURI(escaped);
-    var token = jwt.sign(escaped, config.secret, { expiresInMinutes: 60*5 });
-                res.json({ token: token });
+
   });
   
 };

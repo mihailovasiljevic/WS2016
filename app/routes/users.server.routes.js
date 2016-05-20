@@ -18,11 +18,11 @@ module.exports = function(app){
       .post(users.signup);
  */    
       
-    app.route('/api/signin')
+    app.route('/api/login')
       .get(users.renderSignIn)
       .post(passport.authenticate('local', {
-        successRedirect: '/',
-        failureRedirect: '/api/signin',
+        successRedirect: '/api/sendMe',
+        failureRedirect: '/#!/login',
         failureFlash: true
       }));
       app.route('/api/logout')
@@ -33,7 +33,10 @@ module.exports = function(app){
         .get(function(req, res){
           res.end(req.isAuthenticated() ? req.user : '0');
         });
-        
+     app.route('/api/sendMe')
+      .get(function(req, res){
+          res.json(req.user);
+        });   
      app.route('/api/users/me')
         .get(users.me);
 }
