@@ -3,6 +3,7 @@ var users = require('../../app/controllers/users.server.controller'),
 
 module.exports = function(app){
 
+/*
     app.route('/users')
     .post(users.create)
     .get(users.list);
@@ -15,13 +16,24 @@ module.exports = function(app){
     app.route('/signup')
       .get(users.renderSignUp)
       .post(users.signup);
-    app.route('/signin')
+ */    
+      
+    app.route('/api/signin')
       .get(users.renderSignIn)
       .post(passport.authenticate('local', {
         successRedirect: '/',
-        failureRedirect: '/signin',
+        failureRedirect: '/api/signin',
         failureFlash: true
       }));
-
-      app.get('/signout', users.signout);
+      app.route('/api/logout')
+        .get(users.signout);
+      
+      //is already logged in?
+      app.route('/loggedin')
+        .get(function(req, res){
+          res.end(req.isAuthenticated() ? req.user : '0');
+        });
+        
+     app.route('/api/users/me')
+        .get(users.me);
 }

@@ -1,5 +1,7 @@
 var User = require('mongoose').model('User'),
-    passport = require('passport'); // use mongoose to call module method to get User model
+    passport = require('passport'),
+      _ = require('lodash'),
+    jwt = require('jsonwebtoken'); ; // use mongoose to call module method to get User model
 
 var getErrorMessage = function(err){
   var message = '';
@@ -69,10 +71,60 @@ exports.signup = function(req, res, next){
   }
 };
 
+/**
+ * Show login form
+ */
+exports.signin = function(req, res){
+  if(req.isAuthenticated()){
+    return res.redirect('/');
+  }
+  res.redirect('/login');
+}
+
+/**
+ * Logout
+ */
 exports.signout = function(req, res){
   req.logout();
   res.redirect('/');
 }
+
+/**
+ * Session
+ */
+
+exports.session = function(req, res){
+  res.redirect('/');
+}
+
+exports.me = function(req, res){
+  if(!req.user || req.user.hasOwnProperty('_id')) return res.send(null);
+  
+  User.findOne({
+    _id: req.user._id
+  }).exec(function(err, user){
+    if(err || !user) return res.send(null);
+    
+    var dbUser= user.toJSON();
+    var id = req.user._id;
+    
+    delete dbUser._id;
+    delete rq.user._id;
+    
+    var eq = _.isEqual(dbUser, req.user);
+    if(eq){
+      req.user._id = id;
+      return res.json(req.user);
+    }
+    
+    var payload = user;
+    var escaped = JSON.stringify(payload);
+    escaped = encodeURI(escaped);
+    var token = jwt.sign(escaped, config.secret, { expiresInMinutes: 60*5 });
+                res.json({ token: token });
+  });
+  
+};
 
 exports.create = function(req, res, next){
     var user = new User(req.body);

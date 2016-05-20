@@ -1,27 +1,24 @@
-<script src="http://mymaplist.com/js/vendor/TweenLite.min.js"></script>
-<!-- This is a very simple parallax effect achieved by simple CSS 3 multiple backgrounds, made by http://twitter.com/msurguy -->
-<link rel="stylesheet" href="css/login.css">
-
-
-<div class="container">
-    <div class="row">
-            <div class="wrap">
-    	  <div class="modal-dialog">
-				<div class="loginmodal-container">
-					<h1>Login to Your Account</h1><br>
-				  <form>
-					<input type="text" name="user" placeholder="Username">
-					<input type="password" name="pass" placeholder="Password">
-					<input type="submit" name="login" class="login loginmodal-submit" value="Login">
-				  </form>
-					
-				  <div class="login-help">
-					<a href="#">Register</a> - <a href="#">Forgot Password</a>
-				  </div>
-				</div>
-			</div>
-            </div>
-        </div>
-    </div>
-</div>
+<html>
+	<head>
+	</head>
+	<body>
+		HELLO WORLD!
+		<div data-ng-show="!authentication.user">
+			<a href="/#!/signup">Signup</a>
+			<a href="/#!/signin">Signin</a>
+		</div>
+		<section ng-view></section>
+		<script type="text/javascript"src="/lib/angular/angular.js"></script>
+		<script type="text/javascript" src="/lib/angular-route/angular-route.js"></script>
+		<script type="text/javascript" src="/lib/angular-resource/angular-resource.js"></script>
+		
+		<script type="text/javascript" src="/login/login.client.module.js"></script>
+		<script type="text/javascript" src="/login/controllers/login.client.controller.js"></script>
+		<script type="text/javascript" src="/login/config/login.client.routes.js"></script>
+		<script type="text/javascript" src="/users/users.client.module.js"></script>
+		<script type="text/javascript" src="/users/services/authentication.client.service.js"></script>
+		<script type="text/javascript" src="/application.js"></script>
+		
+	</body>	
+</html>
 
