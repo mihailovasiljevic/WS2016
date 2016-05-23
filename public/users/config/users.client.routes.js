@@ -1,21 +1,10 @@
-
-//Setting up route
-angular.module('users').config(['$routeProvider','$httpProvider','jwtInterceptorProvider',
-  function($routeProvider,$httpProvider, jwtInterceptorProvider) {    
+angular.module('users').config(['$urlRouterProvider','$stateProvider',
+  function($urlRouterProvider,$stateProvider) {    
    
-    jwtInterceptorProvider.tokenGetter = function() {
-      return localStorage.getItem('JWT');
-    };
-
-    $httpProvider.interceptors.push('jwtInterceptor');
-        
-    $routeProvider.
-    when('/login', {
-      templateUrl: 'users/views/login.html'
-    }).
-    otherwise({
-      redirectTo:'/'
-    });   
-    
+    $stateProvider
+      .state('login', {
+        url: '/login',
+        templateUrl: 'users/views/login.html',
+      });
   }
 ]);

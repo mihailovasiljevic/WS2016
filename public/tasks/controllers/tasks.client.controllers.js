@@ -1,7 +1,5 @@
-(function(angular) {
-
-	var listOfTasksCtrll = function($scope, $resource, $location) {
-		
+angular.module('main').controller('listOfTasksCtrl', ['$scope', '$rootScope', '$location',
+    function($scope,$rootScope,$location) {
 		var list = [
 		{
 			"id": "u32h4jjhj3245",
@@ -89,37 +87,6 @@
 		};
 		$scope.pregled = pregled;
 
-	};
-
-	/*var filterCtrll = function($rootScope,$scope) {
-
-		$scope.cToDo = true;
-		$scope.cInProgress = true;
-		$scope.cVerify = true;
-		$scope.cDone = true;
-
-		$scope.cBlocker = true;
-		$scope.cCritical = true;
-		$scope.cMajor = true;
-		$scope.cMinor = true;
-		$scope.cTrivial = true;
-
-		var doFilter = function(model) {
-			alert($rootScope.allTasks.length);
-			/*var newList = [];
-			var allTasks = $scope.allTasks;
-			for(var i = 0; i < allTasks.length; i++) {
-				if(allTasks[i].status == mainStatus) {
-					newList.push(allTasks[i]);
-				}
-			}
-			alert(newList.length);
-			$scope.listOfTasks = newList;
-		}
-
-	}*/
-
-
-  	application.controller('listOfTasksCtrl', listOfTasksCtrll);
-
-})(angular);
+        
+}]);
+   

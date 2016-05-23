@@ -3,26 +3,34 @@
 	</head>
 	<body>
 
-
-		HELLO WORLD!
-		<div data-ng-show="!authentication.user">
-			<a href="/#!/login">Signin</a>
-		</div>
-		<section ng-view></section>
-		<script type="text/javascript"src="/lib/angular/angular.js"></script>
+		<section ui-view></section>
+		<script type="text/javascript" src="/lib/angular/angular.js"></script>
 		<script type="text/javascript" src="/lib/angular-jwt/dist/angular-jwt.js"></script>		
-		<script type="text/javascript" src="/lib/angular-route/angular-route.js"></script>
+		<script type="text/javascript" src="/lib/angular-ui-router/release/angular-ui-router.js"></script>
 		<script type="text/javascript" src="/lib/angular-resource/angular-resource.js"></script>
 		<script type="text/javascript" src="/lib/angular-cookies/angular-cookies.js"></script>		
 
 		
 		
-		
-		<script type="text/javascript" src="/users/users.client.module.js"></script>		
+		<script type="text/javascript" src="/users/users.client.module.js"></script>
+		<script type="text/javascript" src="/main/main.client.module.js"></script>
+		<script type="text/javascript" src="/tasks/tasks.client.module.js"></script>
+
 		<script type="text/javascript" src="/users/controllers/users.client.controllers.js"></script>
+		<script type="text/javascript" src="/main/controllers/main.client.controllers.js"></script>
+		<script type="text/javascript" src="/tasks/controllers/tasks.client.controllers.js"></script>
+
 		<script type="text/javascript" src="/users/config/users.client.routes.js"></script>
+		<script type="text/javascript" src="/main/config/main.client.routes.js"></script>
+		<script type="text/javascript" src="/tasks/config/tasks.client.routes.js"></script>
+
 		<script type="text/javascript" src="/users/services/authentication.client.service.js"></script>
+		
 		<script type="text/javascript" src="/application.js"></script>
+
+		<!-- css files -->
+		<link rel="stylesheet" href="/main/views/dashBoard.css">
+		<link rel="stylesheet" href="/tasks/views/listOfTasks.css">
 		
 	</body>	
 </html>

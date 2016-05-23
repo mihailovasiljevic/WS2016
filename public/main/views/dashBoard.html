@@ -1,0 +1,19 @@
+<div>
+<div class="top">
+   
+</div>
+
+
+<div class="left" ng-controller="myCtrl">
+<div ng-class="{option: $index != selectedIndex, option1: $index == selectedIndex, option2: $index == nodeSelected}" ng-repeat = "treeElement in treeElements" ng-mouseleave="nodeLeave($index)" ng-mouseover="nodeOver($index)" ng-mouseup="nodeClick($index,treeElements[$index])"><p style="margin-left:18px;">{{treeElement}}</p></div>
+</div>
+
+
+<div class="right">
+<section ui-view>
+
+</section>
+
+</div>
+</div>
+
