@@ -12,6 +12,11 @@ angular.module('main').config(['$urlRouterProvider','$stateProvider',
         url: '/tasks',
         templateUrl: 'tasks/views/listOfTasks.html',
         controller: 'listOfTasksCtrl'
+      })
+       .state('dashBoard.addTask', {
+        url: '/addTask',
+        templateUrl: 'tasks/views/addTask.html',
+        controller: 'addTaskCtrl'
       });
   }
 ]);

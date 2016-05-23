@@ -87,6 +87,23 @@ angular.module('main').controller('listOfTasksCtrl', ['$scope', '$rootScope', '$
 		};
 		$scope.pregled = pregled;
 
+
+		
+		$scope.showAddTaskForm = function()
+		{
+			$location.path('/dashBoard/addTask');
+			//console.log('ffdfdfdffd');
+
+		}
+
+        
+}]);
+
+
+angular.module('main').controller('addTaskCtrl', ['$scope', '$rootScope', '$location',
+    function($scope,$rootScope,$location) {
+		
+console.log('dfddfdffdfd3344334');
         
 }]);
    
