@@ -16,7 +16,8 @@ module.exports = function(app){
     app.route('/signup')
       .get(users.renderSignUp)
       .post(users.signup);
- */    
+     
+*/
       
     app.route('/api/login')
       .get(users.renderSignIn)
