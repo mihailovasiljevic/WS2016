@@ -22,53 +22,6 @@ table#t01 th {
 }
 
 
-td#tdSubmitTask {
-    height: 3em;
-    text-align: center;
-
-}
-
-td#tdSubmitTask button{
-    height: 3em;
-    text-align: center;
-
-}
-
-table#tAddTask{
-    width:30em;
-}
-
-table#tAddTask input{
-    width:14em;
-    height:2em;
-} 
-
-table#tAddTask select{
-    width:14em;
-    height:2em;
-} 
-
-table#tAddTask textarea{
-    width:22em;
-    height:12em;
-} 
-
-table#tAddTask tr{
-    height:3em;
-} 
-
-span.validationText {
-    color:red;
-    padding-left: 2em;
-}
-col#cAddTask1{
-    width:7em;
-}
-
-col#cAddTask2{
-    width:23em;
-}
-
 div#divTask{
     padding-top: 100px;
 }

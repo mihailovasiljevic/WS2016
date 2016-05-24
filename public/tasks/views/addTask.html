@@ -1,6 +1,9 @@
-<div ng-controller="addTaskCtrl">
-<br><hr><br>
-<div id="divTask">
+<head>
+  <link rel="stylesheet" href="/tasks/views/addTask.css">
+</head>
+
+<br><br><br>
+<div id="divTask" ng-controller="addTaskCtrl">
 <form name="addTaskForm">
 <table  id="tAddTask">
 <col id="cAddTask1"> <col id="cAddTask2">
@@ -27,7 +30,6 @@
 </select></td></tr>
 <tr><td><label> Description:</label></td><td><textarea name="description" ng-model="task.description"></textarea></td></tr>
 <tr><td id="tdSubmitTask" colspan=2><button ng-click="addTask()">Submit</button></td></tr>
-</div>
 </table>
 </form>
 </div>
