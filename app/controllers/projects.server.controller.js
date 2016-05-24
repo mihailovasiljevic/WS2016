@@ -4,9 +4,10 @@ var mongoose = require('mongoose'),
     
     
 exports.create = function(req, res, next){
-    var project = new Project(req.body);
-    project.creator = req.user;
-    
+    console.log('presave');
+	var project = new Project(req.body);
+    //project.creator = req.user;
+    console.log('save');
     project.save(function(err) {
         if (err) {
          return res.status(400).send({

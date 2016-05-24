@@ -1,0 +1,29 @@
+div.taskDetails
+{
+	width: 70%;
+	background-color: rgba(180,215,40,0.4);
+	margin-top:0.1%;
+}
+
+u.taskTitle
+{
+	margin-left: 50px;
+	font-size: 24px;
+}
+
+p.taskP1
+{
+	margin-left: 30px;
+	font-size: 18px;
+}
+
+p.taskP2
+{
+	margin-left: 10px;
+	font-size: 18px;
+}
+
+table.taskT
+{
+	margin-left: 10px;
+}
