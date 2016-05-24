@@ -59,9 +59,15 @@ table#tAddTask tr{
 
 span.validationText {
     color:red;
-    padding-left: 3em;
+    padding-left: 2em;
+}
+col#cAddTask1{
+    width:7em;
 }
 
+col#cAddTask2{
+    width:23em;
+}
 
 div#divTask{
     padding-top: 100px;
