@@ -73,12 +73,16 @@ angular.module('users').factory('Authentication', ['$rootScope', '$http', '$loca
       $rootScope.$emit('loginfailed');
     }
     
-    if(Object.keys($cookieStore.get("user")).length == 0)
-      var User = new UserClass();
-     else{
-      var User = new UserClass();
-      User.onIdentity(new Object({message: 'Success', user: $cookieStore.get("user")}));
-     }
+    if($cookieStore.get("user") != undefined){
+      if(Object.keys($cookieStore.get("user")).length == 0)
+        var User = new UserClass();
+      else{
+        var User = new UserClass();
+        User.onIdentity(new Object({message: 'Success', user: $cookieStore.get("user")}));
+      }
+    }
+     else
+        var User = new UserClass();
     UserClass.prototype.login = function(user){
       var destination = $location.path().indexOf('/login') === -1 ? $location.absUrl() : false;
       $http.post('/api/login', {
