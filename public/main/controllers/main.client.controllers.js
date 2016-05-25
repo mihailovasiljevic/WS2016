@@ -29,7 +29,7 @@ angular.module('main').controller('myCtrl', ['$scope', '$rootScope', '$location'
         selectedNode = index;
         $scope.nodeSelected = index;
         var path = path.toLowerCase();
-        $location.path('/dashBoard/'+path);
+        $location.path('/'+path);
       };
         
 }]);

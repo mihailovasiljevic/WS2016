@@ -1,7 +1,7 @@
 angular.module('main').config(['$urlRouterProvider','$stateProvider',
   function($urlRouterProvider,$stateProvider) {    
    
-   $urlRouterProvider.otherwise('other');
+   $urlRouterProvider.otherwise('/');
     $stateProvider
       .state('dashBoard', {
         url: '/',
@@ -32,10 +32,6 @@ angular.module('main').config(['$urlRouterProvider','$stateProvider',
         url: '/task/:id',
         templateUrl: 'tasks/views/taskDetails.html',
         controller: 'listOfTasksCtrl'
-      }).      
-       state('dashBoard.users', {
-        url: '/users',
-        templateUrl: 'users/views/list-users.html'
       });
   }
 ]);

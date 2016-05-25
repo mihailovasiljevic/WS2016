@@ -94,7 +94,7 @@ angular.module('users').factory('Authentication', ['$rootScope', '$http', '$loca
       this.user = {};
       this.loggedin = false;
       this.isAdmin = false;
-      
+      $cookieStore.remove("user");
       $http.get('/api/logout').success(function(data){
         $rootScope.$emit('logout');
       });
