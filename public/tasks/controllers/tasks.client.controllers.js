@@ -1,5 +1,7 @@
-angular.module('tasks').controller('listOfTasksCtrl', ['$scope', '$rootScope', '$location',
-    function($scope,$rootScope,$location) {
+angular.module('tasks').controller('listOfTasksCtrl', ['$scope', '$rootScope', '$location','Tasks',
+    function($scope,$rootScope,$location,Tasks) {
+		
+    	
 		var list = [
 		{
 			"id": "u32h4jjhj3245",

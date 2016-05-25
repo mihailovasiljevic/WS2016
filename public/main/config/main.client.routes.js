@@ -1,10 +1,10 @@
 angular.module('main').config(['$urlRouterProvider','$stateProvider',
   function($urlRouterProvider,$stateProvider) {    
    
-   $urlRouterProvider.otherwise('/');
+   $urlRouterProvider.otherwise('other');
     $stateProvider
       .state('dashBoard', {
-        url: '/',
+        url: '/dashBoard',
         templateUrl: 'main/views/dashBoard.html',
         controller: 'myCtrl',
       })
