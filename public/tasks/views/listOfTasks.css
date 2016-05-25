@@ -66,3 +66,13 @@ span.validationText {
 div#divTask{
     padding-top: 100px;
 }
+
+p.tover 
+{
+    color: red;
+}
+
+p.tleave
+{
+    color: blue;
+}

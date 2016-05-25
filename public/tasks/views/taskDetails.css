@@ -2,7 +2,7 @@ div.taskDetails
 {
 	width: 70%;
 	background-color: rgba(180,215,40,0.4);
-	margin-top:0.1%;
+	margin-top:0.2%;
 }
 
 u.taskTitle
@@ -17,10 +17,17 @@ p.taskP1
 	font-size: 18px;
 }
 
+p.ptDesc
+{
+	margin-left: 10px;
+	font-size: 22px;
+}
+
 p.taskP2
 {
 	margin-left: 10px;
 	font-size: 18px;
+	margin-top: 1.5%;
 }
 
 table.taskT

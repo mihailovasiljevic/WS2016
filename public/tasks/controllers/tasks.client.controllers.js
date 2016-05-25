@@ -96,6 +96,20 @@ angular.module('tasks').controller('listOfTasksCtrl', ['$scope', '$rootScope', '
 
 		}
 
+		$scope.selectedIndex = -1;
+		var tleave = function(index) {
+			$scope.selectedIndex = -1;
+        	document.body.style.cursor = "auto";
+		}
+
+		var tover = function(index) {
+        	$scope.selectedIndex = index;
+        	document.body.style.cursor = "hand";
+		}
+
+		$scope.tover = tover;
+		$scope.tleave = tleave;
+
         
 }]);
 
@@ -115,7 +129,7 @@ angular.module('tasks').controller('taskModel', ['$scope', '$rootScope', '$locat
 		task.status = "To Do";
 		task.priority = "Minor";
 		task.assignedFor = "Rale Ilic";
-
+		task.description = "Potrebno je napraviti konekciju za bazu podataka Mark Logic";
 
 		$scope.task = task;
 
