@@ -22,6 +22,7 @@ angular.module('users').factory('Authentication', ['$rootScope', '$http', '$loca
       this.isAdmin = false;
       this.loginError = 0;
       this.usernameError = null;
+      this.passwordError = null;
       $http.get('/api/users/me').success(this.onIdentity.bind(this));
       self = this;   
     }
@@ -48,9 +49,19 @@ angular.module('users').factory('Authentication', ['$rootScope', '$http', '$loca
           }
           
           this.loggedin = true;
+          this.loginError = 0;
+          this.usernameError = null;
+          this.passwordError = null;
         }else {
-          console.log(response.information);
-          console.log(response.error);
+          if(response.information.message == 'Uknown user'){
+            this.usernameError = response.information.message;
+            this.loginError++;
+          }
+          else if (response.information.message == 'Invalid password'){
+            this.loginError++;
+            this.passwordError = response.information.message;
+          }
+            
         }
       }
     };
