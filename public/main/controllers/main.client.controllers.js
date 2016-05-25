@@ -7,7 +7,9 @@ angular.module('main').controller('myCtrl', ['$scope', '$rootScope', '$location'
       var treeElements = [];
       treeElements.push('Projects');
       treeElements.push('Tasks');
-
+      if($scope.authentication.user.role === 'admin')
+        treeElements.push('Users');
+      
       $scope.treeElements = treeElements;
       
       $scope.selectedIndex = -1;
