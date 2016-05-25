@@ -124,9 +124,13 @@ exports.me = function(req, res){
 
 exports.create = function(req, res, next){
     var user = new User(req.body);
+    user.provider = 'local';
+    
     user.save(function(err) {
         if (err) {
-         return next(err);
+         return res.status(400).send({
+           message: errorHandler.getErrorMessage(err)
+         });
         } else {
             res.json(user);
         }
@@ -134,12 +138,15 @@ exports.create = function(req, res, next){
 };
 
 exports.list = function(req, res, next){
-  User.find({}, function(err, users){
+  
+  User.find().sort('-role').exec(function(err, users){
     if(err){
-      return next(err);
+         return res.status(400).send({
+           message: errorHandler.getErrorMessage(err)
+         }); 
     }else {
       res.json(users);
-    }
+    }    
   });
 };
 
@@ -148,22 +155,24 @@ exports.read = function(req, res){
 };
 
 exports.userByID = function(req, res, next, id){
-  User.findOne({
-    _id: id
-  }, function(err, user){
-    if(err){
-      return next(err);
-    }else {
-      req.user = user;
-      next();
-    }
+  
+  User.findById(id).exec(function(err, user){
+    if (err) return next(err);
+    if(!user) return next(new Error('Failed to load user ' + id));
+    
+    req.user = user;
+    
+    next();    
   });
+ 
 };
 
 exports.update = function(req, res, next){
   User.findByIdAndUpdate(req.user.id, req.body, function(err, user){
     if(err){
-      return next(err);
+         return res.status(400).send({
+           message: errorHandler.getErrorMessage(err)
+         }); 
     }else{
       res.json(user);
     }
@@ -173,7 +182,9 @@ exports.update = function(req, res, next){
 exports.delete = function(req, res, next){
   req.user.remove(function(err){
     if(err){
-      return next(err);
+         return res.status(400).send({
+           message: errorHandler.getErrorMessage(err)
+         }); 
     }else{
       res.json(req.user);
     }

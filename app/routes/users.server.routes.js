@@ -22,7 +22,7 @@ module.exports = function(app){
       .get(users.renderSignIn)
       .post(passport.authenticate('local', {
         successRedirect: '/api/sendMe',
-        failureRedirect: '/#!/login',
+        failureRedirect: '/api/failure',
         failureFlash: true
       }));
       app.route('/api/logout')
@@ -37,6 +37,19 @@ module.exports = function(app){
       .get(function(req, res){
           res.json(req.user);
         });   
+     app.route('/api/failure')
+      .get(function(req, res){
+          res.json(req.flash('error'));
+        });  
      app.route('/api/users/me')
         .get(users.me);
+        
+    app.route('/api/users')
+    .post(users.create)
+    .get(users.list);
+    app.route('/api/users/:userId')
+      .get(users.read)
+      .put(users.update)
+      .delete(users.delete);
+    app.param('userId', users.userByID);
 }

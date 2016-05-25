@@ -1,4 +1,4 @@
-angular.module('users').factory('User', ['$rootScope', '$http', '$location', '$cookies', '$q', '$timeout', '$cookieStore','$log',
+angular.module('users').factory('Authentication', ['$rootScope', '$http', '$location', '$cookies', '$q', '$timeout', '$cookieStore','$log',
   function($rootScope, $http, $location, $cookies, $q, $timeout, $cookieStore,$log){
     var self;
     
