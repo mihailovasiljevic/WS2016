@@ -35,19 +35,23 @@ angular.module('users').factory('Authentication', ['$rootScope', '$http', '$loca
         this.loggedin = false;
         this.isAdmin = false;
       } else {
-        this.user = response;
-        var destination = $cookies.redirect;
-        if (this.user.role === 'admin') this.isAdmin = true;
-        $rootScope.$emit('loggedin');
-        if (destination) {
-          $location.path(destination.replace(/^"|"$/g, ''));
-          $cookieStore.remove('redirect');
-        } else {
-          $location.url('/');
+        if(response.message == 'Success'){
+          this.user = response.user;
+          var destination = $cookies.redirect;
+          if (this.user.role === 'admin') this.isAdmin = true;
+          $rootScope.$emit('loggedin');
+          if (destination) {
+            $location.path(destination.replace(/^"|"$/g, ''));
+            $cookieStore.remove('redirect');
+          } else {
+            $location.url('/');
+          }
+          
+          this.loggedin = true;
+        }else {
+          console.log(response.information);
+          console.log(response.error);
         }
-
-        this.user = response;
-        this.loggedin = true;
       }
     };
     

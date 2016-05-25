@@ -19,14 +19,30 @@ module.exports = function(app){
      
 */
       
-    app.route('/api/login')
-      .get(users.renderSignIn)
-      .post(passport.authenticate('local', {
-        successRedirect: '/api/sendMe',
-        failureRedirect: '/api/failure',
-        failureFlash: true
-      }));
-      app.route('/api/logout')
+app.post('/api/login',function(req, res, next) {
+  passport.authenticate('local', function(err, user, info) {
+    if (err) {
+      return next(err); // will generate a 500 error
+    }
+    // Generate a JSON response reflecting authentication status
+    if (! user) {
+      return res.send({ message : 'authentication failed', information : info, error : err });
+    }
+    // ***********************************************************************
+    // "Note that when using a custom callback, it becomes the application's
+    // responsibility to establish a session (by calling req.login()) and send
+    // a response."
+    // Source: http://passportjs.org/docs
+    // ***********************************************************************
+    req.login(user, loginErr => {
+      if (loginErr) {
+        return next(loginErr);
+      }
+      return res.send({ message : 'Success', user : req.user });
+    });      
+  })(req, res, next);
+  });
+    app.route('/api/logout')
         .get(users.signout);
       
       //is already logged in?
