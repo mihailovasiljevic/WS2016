@@ -52,6 +52,7 @@ angular.module('users').factory('Authentication', ['$rootScope', '$http', '$loca
           this.loginError = 0;
           this.usernameError = null;
           this.passwordError = null;
+          $cookieStore.put("user", this.user);      
         }else {
           if(response.information.message == 'Uknown user'){
             this.usernameError = response.information.message;
@@ -72,8 +73,12 @@ angular.module('users').factory('Authentication', ['$rootScope', '$http', '$loca
       $rootScope.$emit('loginfailed');
     }
     
-    var User = new UserClass();
-    
+    if(Object.keys($cookieStore.get("user")).length == 0)
+      var User = new UserClass();
+     else{
+      var User = new UserClass();
+      User.onIdentity(new Object({message: 'Success', user: $cookieStore.get("user")}));
+     }
     UserClass.prototype.login = function(user){
       var destination = $location.path().indexOf('/login') === -1 ? $location.absUrl() : false;
       $http.post('/api/login', {

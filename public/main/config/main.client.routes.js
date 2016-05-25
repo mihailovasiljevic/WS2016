@@ -4,7 +4,7 @@ angular.module('main').config(['$urlRouterProvider','$stateProvider',
    $urlRouterProvider.otherwise('other');
     $stateProvider
       .state('dashBoard', {
-        url: '/dashBoard',
+        url: '/',
         templateUrl: 'main/views/dashBoard.html',
         controller: 'myCtrl',
       })
