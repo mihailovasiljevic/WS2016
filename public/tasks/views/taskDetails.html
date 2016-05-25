@@ -1,3 +1,21 @@
-<div>
-hallo
+<head>
+	<link rel="stylesheet" href="/tasks/views/taskDetails.css">
+</head>
+
+<div align="center" ng-controller="taskModel"><br>
+<div align="left" class="taskDetails">
+<u class="taskTitle">{{task.title}}&nbsp;&nbsp;({{task.mark}})</u><br><br>
+<p class="taskP1">Added <b>{{task.name}} {{task.surname}}</b> at <b>{{task.createdAt}}</b>. Last update at <b>{{task.updatedAt}}</b>.<p><br>
+<table class="taskT">
+<tr><td>Status: </td><td><b>{{task.status}}</b></td></tr>
+<tr><td>Priority: </td><td><b>{{task.priority}}</b></td></tr>
+<tr><td>Assigned for: &nbsp;</td><td><b>{{task.assignedFor}}</b></td></tr>
+</table>
+<br><br>
+</div>
+
+<div align="left" class="taskDetails">
+<p class="ptDesc"><u>Description:</u></p>
+<p class="taskP2"><b>{{task.description}}</b></p>
+</div>
 </div>

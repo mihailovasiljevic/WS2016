@@ -1,4 +1,4 @@
-angular.module('main').controller('listOfTasksCtrl', ['$scope', '$rootScope', '$location',
+angular.module('tasks').controller('listOfTasksCtrl', ['$scope', '$rootScope', '$location',
     function($scope,$rootScope,$location) {
 		var list = [
 		{
@@ -75,14 +75,14 @@ angular.module('main').controller('listOfTasksCtrl', ['$scope', '$rootScope', '$
 					newList.push(allTasks[i]);
 				}
 			}
-			alert(newList.length);
+			
 			$scope.listOfTasks = newList ;
 		}
 		$scope.doFilter = doFilter;
 
 		var pregled = function(id) {
-			alert('usao');
-			$location.path('/task/'+id);
+			
+			$location.path('/dashBoard/task/'+id);
 
 		};
 		$scope.pregled = pregled;
@@ -96,11 +96,46 @@ angular.module('main').controller('listOfTasksCtrl', ['$scope', '$rootScope', '$
 
 		}
 
+		$scope.selectedIndex = -1;
+		var tleave = function(index) {
+			$scope.selectedIndex = -1;
+        	document.body.style.cursor = "auto";
+		}
+
+		var tover = function(index) {
+        	$scope.selectedIndex = index;
+        	document.body.style.cursor = "hand";
+		}
+
+		$scope.tover = tover;
+		$scope.tleave = tleave;
+
         
 }]);
 
+angular.module('tasks').controller('taskModel', ['$scope', '$rootScope', '$location',
+	function($scope,$rootScope,$location) {
 
-angular.module('main').controller('addTaskCtrl', ['$scope', '$rootScope', '$location',
+		var task = {};
+
+		var id = $location.url().split("/dashBoard/task/")[1];
+		
+		task.mark = "xws2";
+		task.title = "Instanciranje Mark Logic baze podataka";
+		task.name = "Nemanja";
+		task.surname = "Starcev";
+		task.createdAt = "13.02.2016";
+		task.updatedAt = "28.03.2016";
+		task.status = "To Do";
+		task.priority = "Minor";
+		task.assignedFor = "Rale Ilic";
+		task.description = "Potrebno je napraviti konekciju za bazu podataka Mark Logic";
+
+		$scope.task = task;
+
+}]);
+
+angular.module('tasks').controller('addTaskCtrl', ['$scope', '$rootScope', '$location',
     function($scope,$rootScope,$location) {
 		
 console.log('dfddfdffdfd3344334');
