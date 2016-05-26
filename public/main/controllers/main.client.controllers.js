@@ -4,6 +4,7 @@ angular.module('main').controller('myCtrl', ['$scope', '$rootScope', '$location'
       var treeElements = [];
       treeElements.push('Projects');
       treeElements.push('Tasks');
+      treeElements.push("Reports");
 
       $scope.treeElements = treeElements;
 

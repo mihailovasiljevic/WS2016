@@ -30,6 +30,10 @@ angular.module('tasks').controller('listOfTasksCtrl', ['$scope', '$rootScope', '
 		$scope.listOfTasks = list;
 		$scope.allTasks = list;
 
+		$scope.listOfTasks = Tasks.query(function(data) {
+			
+		});
+
 		$scope.cToDo = true;
 		$scope.cInProgress = true;
 		$scope.cVerify = true;
