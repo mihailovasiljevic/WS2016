@@ -9,11 +9,11 @@ var projectSchema = new Schema({
 	  unique: true,
     trim: true
   },
-  teamMembers: {
-    type: [Schema.Types.ObjectId],
+  teamMembers: [{
+    type: Schema.Types.ObjectId,
     ref: 'User'//,
     //require:true
-  },
+  }],
   taskNumber: Number,
   created: {
     type: Date,
@@ -23,10 +23,10 @@ var projectSchema = new Schema({
     type: Schema.ObjectId,
     ref: 'User'
   },
-  tasks: {
-    type: [Schema.ObjectId],
+  tasks: [{
+    type: Schema.ObjectId,
     ref: 'Task'
-  }
+  }]
 
 });
 
