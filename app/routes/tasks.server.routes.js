@@ -1,13 +1,14 @@
-var tasks = require('../../app/controllers/tasks.server.controller');
-
+var users = projects = require('../../app/controllers/users.server.controller'),
+    tasks = require('../../app/controllers/tasks.server.controller');
+//TODO: implement hasAuthorization function in taskSchema!
 module.exports = function(app){
 
-    app.route('/tasks')
-    .post(tasks.create)
-    .get(tasks.list);
-    app.route('/tasks/:taskId')
-      .get(tasks.read)
-      .put(tasks.update)
-      .delete(tasks.delete);
+    app.route('/api/tasks')
+    .post(users.requiresLogin,tasks.create)
+    .get(users.requiresLogin,tasks.list);
+    app.route('/api/tasks/:taskId')
+      .get(users.requiresLogin,tasks.read)
+      .put(users.requiresLogin,tasks.update)
+      .delete(users.requiresLogin,tasks.delete);
     app.param('taskId', tasks.taskByID);
 }

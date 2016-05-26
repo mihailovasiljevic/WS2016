@@ -5,6 +5,16 @@ exports.render = function(req, res) {
     req.session.lastVisit = new Date();
     res.render('index', { //first paramtere name of ejs template without .ejs
         title: 'Hello World', //list of parameters used in ejs template
-        user: JSON.stringify(req.user)
+        userFullName: req.user? req.user.fullName : ''
     });
+};
+
+exports.getErrorMessage = function(err){
+    if(err.errors){
+        for(var errName in err.errors){
+            if(err.errors[errName].message) return err.errors[errName].message;
+        }
+    } else {
+        return 'Uknown server error';
+    }
 };

@@ -27,8 +27,9 @@ module.exports = function() {
      secret: config.sessionSecret
  }));
 
- app.set('views', './app/views/');
- app.set('view engine', 'ejs');
+ //app.set('views', './public/');
+// app.set('view engine', 'ejs');
+app.use(express.static( './public'));
 
  app.use(flash());
 
@@ -39,7 +40,7 @@ module.exports = function() {
  require('../app/routes/users.server.routes.js')(app);
  require('../app/routes/projects.server.routes.js')(app);
  require('../app/routes/tasks.server.routes.js')(app);
-
+ 
  app.use(express.static('./public')); //middleware for serving static files
 
  return app;

@@ -1,0 +1,18 @@
+<head>
+  <link rel="stylesheet" href="/projects/views/listOfProjects.css">
+</head>
+
+<div ng-controller="addProjectCtrl">
+<br><hr><br>
+<form ng-submit="addProjectForm">
+	<table align="center">
+		<th colspan="2">Add Project</th>
+		<tr><td>Title:</td><td><input type="text" /></td></tr>
+		<tr><td>Team members:</td><td><input type="text" /></td></tr>
+		<tr><td>Creator:</td><td><input type="text" /></td></tr>
+		
+		<tr><td id="tdSubmitProject" colspan=2><button ng-click="addProject()">Submit</button></td></tr>
+	</table>
+    
+  </form>
+</div>

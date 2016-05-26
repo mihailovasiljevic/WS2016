@@ -1,24 +1,17 @@
-var Project = require('mongoose').model('Project'); // use mongoose to call module method to get project model
-
-var getErrorMessage = function(err) {
-  if (err.errors) {
-    for (var errName in err.errors) {
-      if (err.errors[errName].message) return
-        err.errors[errName].message;
-    }
-  } else {
-    return 'Unknown server error';
-  }
-};
-
+var mongoose = require('mongoose'),
+    Project = mongoose.model('Project'), // use mongoose to call module method to get project model
+    errorHandler = require('../controllers/index.server.controller');
+    
+    
 exports.create = function(req, res, next){
-    var project = new Project(req.body);
-    project.creator = req.user;
-
+    console.log('presave');
+	var project = new Project(req.body);
+    //project.creator = req.user;
+    console.log('save');
     project.save(function(err) {
         if (err) {
          return res.status(400).send({
-           message: getErrorMessage(err);
+           message: errorHandler.getErrorMessage(err)
          });
         } else {
             res.json(project);
@@ -27,17 +20,21 @@ exports.create = function(req, res, next){
 };
 
 exports.list = function(req, res, next){
-  Project.find().populate('-created').populate('creator', 'fullName').exec(
-    function(err, projects){
-      if (err) {
-       return res.status(400).send({
-         message: getErrorMessage(err);
-       });
-     } else {
-       res.json(projects);
-     }
+  
+  Project.find().sort('-created')
+  .populate('creator')
+  .populate('teamMembers')
+  .populate('tasks')
+  .exec(function(err, projects){
+    if(err){
+         return res.status(400).send({
+           message: errorHandler.getErrorMessage(err)
+         });      
+    } else {
+      res.json(projects);
     }
-  )
+  });
+
 };
 
 exports.read = function(req, res){
@@ -45,22 +42,26 @@ exports.read = function(req, res){
 };
 
 exports.projectByID = function(req, res, next, id){
-  Project.findOne({
-    _id: id
-  }, function(err, project){
-    if(err){
-      return next(err);
-    }else {
-      req.project = project;
-      next();
-    }
+  Project.findById(id)
+  .populate('creator')
+  .populate('teamMembers')
+  .populate('tasks')
+  .exec(function(err, project){
+    if (err) return next(err);
+    if(!project) return next(new Error('Failed to load project ' + id));
+    
+    req.project = project;
+    
+    next();
   });
 };
 
 exports.update = function(req, res, next){
   Project.findByIdAndUpdate(req.project.id, req.body, function(err, project){
     if(err){
-      return next(err);
+         return res.status(400).send({
+           message: errorHandler.getErrorMessage(err)
+         }); 
     }else{
       res.json(project);
     }
@@ -70,9 +71,21 @@ exports.update = function(req, res, next){
 exports.delete = function(req, res, next){
   req.project.remove(function(err){
     if(err){
-      return next(err);
+         return res.status(400).send({
+           message: errorHandler.getErrorMessage(err)
+         }); 
     }else{
       res.json(req.project);
     }
   });
 };
+
+exports.hasAuthorization = function(req, res, next){
+  if(req.project.creator.id !== req.user.id){
+    return res.status(403).send({
+      message: 'User is not authorized'
+    });
+  }
+  
+  next();
+}

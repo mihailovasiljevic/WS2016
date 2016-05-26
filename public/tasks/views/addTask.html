@@ -1,0 +1,35 @@
+<head>
+  <link rel="stylesheet" href="/tasks/views/addTask.css">
+</head>
+
+<br><br><br>
+<div id="divTask" ng-controller="addTaskCtrl">
+<form name="addTaskForm">
+<table  id="tAddTask">
+<col id="cAddTask1"> <col id="cAddTask2">
+<tr><td><label>Status:</label></td><td> <select id="selStatus">
+  <option value="noStatus"></option>
+  <option value="todo">To do</option>
+  <option value="progress">In progress</option>
+  <option value="verify">Verify</option>
+  <option value="done">Done</option>
+</select> </td></tr>
+<tr><td><label>Priority:</label></td><td> <select id="selPriority">
+  <option value ="noPriority"></option>
+  <option value="blocker">Blocker</option>
+  <option value="critical">Critical</option>
+  <option value="major">Major</option>
+  <option value="minor">Minor</option>
+  <option value="trivial">Trivial</option>
+</select></td></tr>
+<tr><td><label>Title:</label></td><td><input type="text" name="title" ng-model="task.title" ng-blur="visitedTitle = true" required><span class="validationText" ng-show="addTaskForm.title.$error.required && visitedTitle">Title is required</span></td></tr>
+
+<tr><td><label> Assigned for:</label></td><td><select id="selPriority">
+  <option value="........">...............</option>
+  
+</select></td></tr>
+<tr><td><label> Description:</label></td><td><textarea name="description" ng-model="task.description"></textarea></td></tr>
+<tr><td id="tdSubmitTask" colspan=2><button ng-click="addTask()">Submit</button></td></tr>
+</table>
+</form>
+</div>

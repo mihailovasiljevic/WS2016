@@ -1,7 +1,7 @@
 var mainApplicationModuleName = 'ticketing_system';
 
 var mainApplicationModule = angular.module(mainApplicationModuleName,
-  ['ngRoute','users', 'example']);
+  ['ngResource','ui.router','ngCookies','angular-jwt', 'users','main','tasks']);
 
 //tell search engine crawlers that this is single page application
 //in order to wait rendering to be done Hashbangs.Hashbangs routing scheme
@@ -15,3 +15,4 @@ if (window.location.hash === '#_=_') window.location.hash = '#!'; //oauth links
 angular.element(document).ready(function(){
   angular.bootstrap(document, [mainApplicationModuleName]); //initiate a nwe angularjs application using the main application module
 });
+
