@@ -7,6 +7,9 @@
 <form name="addTaskForm">
 <table  id="tAddTask">
 <col id="cAddTask1"> <col id="cAddTask2">
+<tr><td><label>Project:</label></td><td><select id="selProject">
+  <option ng-repeat="project in projects" value="{{ project.id }}">{{ project.title }}</option>
+</select> </td></tr>
 <tr><td><label>Status:</label></td><td> <select id="selStatus">
   <option value="noStatus"></option>
   <option value="todo">To do</option>

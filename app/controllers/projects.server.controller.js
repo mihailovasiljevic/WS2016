@@ -4,10 +4,10 @@ var mongoose = require('mongoose'),
     
     
 exports.create = function(req, res, next){
-    console.log('presave');
+
+	console.log(req.body);
 	var project = new Project(req.body);
     //project.creator = req.user;
-    console.log('save');
     project.save(function(err) {
         if (err) {
          return res.status(400).send({
@@ -20,7 +20,7 @@ exports.create = function(req, res, next){
 };
 
 exports.list = function(req, res, next){
-  
+ 
   Project.find().sort('-created')
   .populate('creator')
   .populate('teamMembers')

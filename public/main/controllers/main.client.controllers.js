@@ -1,17 +1,13 @@
-angular.module('main').controller('myCtrl', ['$scope', '$rootScope', '$location','Authentication',
-    function($scope,$rootScope,$location, Authentication){
+angular.module('main').controller('myCtrl', ['$scope', '$rootScope', '$location',
+    function($scope,$rootScope,$location){
         
-      $scope.authentication = Authentication;
-      console.log(Authentication.user);
-      console.log($scope.authentication.loggedin)    
       var treeElements = [];
       treeElements.push('Projects');
       treeElements.push('Tasks');
-      if($scope.authentication.user.role === 'admin')
-        treeElements.push('Users');
-      
+      treeElements.push("Reports");
+
       $scope.treeElements = treeElements;
-      
+
       $scope.selectedIndex = -1;
       $scope.nodeSelected = -1;
       var selectedNode = -1;
@@ -29,7 +25,7 @@ angular.module('main').controller('myCtrl', ['$scope', '$rootScope', '$location'
         selectedNode = index;
         $scope.nodeSelected = index;
         var path = path.toLowerCase();
-        $location.path('/'+path);
+        $location.path('/dashBoard/'+path);
       };
         
 }]);

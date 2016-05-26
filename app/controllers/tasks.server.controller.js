@@ -4,7 +4,7 @@ var mongoose = require('mongoose'),
 
 exports.create = function(req, res, next){
     var task = new Task(req.body);
-    task.creator = req.user;
+    task.author = req.user;  // stavio sam author umesto creator
     
     task.save(function(err) {
         if (err) {
