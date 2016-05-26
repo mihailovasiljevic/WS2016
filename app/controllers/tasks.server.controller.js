@@ -79,15 +79,13 @@ exports.taskByID = function(req, res, next, id){
 };
 
 exports.update = function(req, res, next){
-  var taskBody = new Task(req.body);
-  var taskForUpdate = req.task;
+
+  req.task.currentState.updatedAt = new Date();
+  var currentState = req.task.currentState;
   
-  var currentState = taskForUpdate.currentState;
+  req.task.history.push(currentState);
   
-  taskForUpdate.history.push(currentState);
-  taskForUpdate.currentState = taskBody;
-  
-  Task.findByIdAndUpdate(req.task.id, taskForUpdate, function(err, task){
+  Task.findByIdAndUpdate(req.task.id, req.task, function(err, task){
     if(err){
          return res.status(400).send({
            message: errorHandler.getErrorMessage(err)
