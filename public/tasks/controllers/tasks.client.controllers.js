@@ -28,11 +28,12 @@ angular.module('tasks').controller('listOfTasksCtrl', ['$scope', '$rootScope', '
 		]
 
 		$scope.listOfTasks = list;
-		$scope.allTasks = list;
+		
 
-		$scope.listOfTasks = Tasks.query(function(data) {
-			
-		});
+		$scope.listOfTasks = Tasks.query();
+		$scope.allTasks = Tasks.query();
+
+		alert($scope.listOfTasks[0].status);
 
 		$scope.cToDo = true;
 		$scope.cInProgress = true;

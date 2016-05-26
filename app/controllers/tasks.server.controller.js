@@ -6,13 +6,13 @@ var mongoose = require('mongoose'),
 exports.create = function(req, res, next){
     var task = new Task(req.body);
     task.author = req.user;  // stavio sam author umesto creator
-    
-    Project.findById(task.currentTask.project._id)
+
+    Project.findById(task.currentState.project._id)
     .exec(function(err, project){
       if (err) return next(err);
       if(!project) return next(new Error('Failed to load project ' + id));
       
-      task.currentTask.mark = project.title + project.taskNumber;
+      task.currentState.mark = project.title + project.taskNumber;
       //do saving if project is found
       task.save(function(err) {
           if (err) {
