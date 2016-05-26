@@ -24,10 +24,6 @@ var taskSchema = new Schema({
       ref: 'User',
       required: 'You have to insert who is task assigned for.'
     },
-    ordinalNumber: {
-      type: Number,
-      default: 0
-    },
     createdAt: {
       type: Date,
       default: Date.now,
@@ -64,10 +60,6 @@ var taskSchema = new Schema({
     status: {
       type: String,
       enum: ['todo', 'progress', 'verify', 'done']
-    },
-    commentCounter: {
-      type: Number,
-      default: 0
     }
   },
   history:[{
@@ -91,10 +83,6 @@ var taskSchema = new Schema({
       ref: 'User',
       required: 'You have to insert who is task assigned for.'
     },
-    ordinalNumber: {
-      type: Number,
-      default: 0
-    },
     createdAt: {
       type: Date,
       default: Date.now,
@@ -127,14 +115,9 @@ var taskSchema = new Schema({
       type: String,
       enum: ['blocker', 'critical', 'major', 'minor', 'trivial']
     },
-
     status: {
       type: String,
       enum: ['todo', 'progress', 'verify', 'done']
-    },
-    commentCounter: {
-      type: Number,
-      default: 0
     }
   }]
 
