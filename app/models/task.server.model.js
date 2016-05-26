@@ -24,6 +24,11 @@ var taskSchema = new Schema({
       ref: 'User',
       required: 'You have to insert who is task assigned for.'
     },
+    project: {
+      type: Schema.Types.ObjectId,
+      ref: 'Project',
+      required: 'You have pick project for which task belongs to.'
+    },
     createdAt: {
       type: Date,
       default: Date.now,
@@ -82,6 +87,11 @@ var taskSchema = new Schema({
       type: Schema.Types.ObjectId,
       ref: 'User',
       required: 'You have to insert who is task assigned for.'
+    },
+    project: {
+      type: Schema.Types.ObjectId,
+      ref: 'Project',
+      required: 'You have pick project for which task belongs to.'
     },
     createdAt: {
       type: Date,

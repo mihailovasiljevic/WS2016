@@ -1,10 +1,49 @@
 var mongoose = require('mongoose'),
-    Task = mongoose.model('Task'), // use mongoose to call module method to get project model
+    Task = mongoose.model('Task'),
+    Project = mongoose.model('Project'), // use mongoose to call module method to get project model
     errorHandler = require('../controllers/index.server.controller');
 
 exports.create = function(req, res, next){
     var task = new Task(req.body);
     task.author = req.user;  // stavio sam author umesto creator
+    
+    Project.findById(task.currentTask.project._id)
+    .exec(function(err, project){
+      if (err) return next(err);
+      if(!project) return next(new Error('Failed to load project ' + id));
+      
+      task.currentTask.mark = project.title + project.taskNumber;
+      //do saving if project is found
+      task.save(function(err) {
+          if (err) {
+          return res.status(400).send({
+            message: errorHandler.getErrorMessage(err)
+          });
+          } else {
+            
+              //increase number of tasks if save completed well
+              project.taskNumber++;
+              
+              //update project
+              Project.findByIdAndUpdate(project.id, project, function(err, project){
+                if(err){
+                    return res.status(400).send({
+                      message: errorHandler.getErrorMessage(err)
+                    }); 
+                }else{
+                  res.json(task);
+                }
+              });              
+            
+              //res.json(task);
+          }
+      });     
+      
+      next();
+    });    
+    
+    
+    
     
     task.save(function(err) {
         if (err) {
