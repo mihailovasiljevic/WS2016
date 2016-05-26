@@ -5,25 +5,28 @@ var mongoose = require('mongoose'),
 
 exports.create = function(req, res, next){
     var task = new Task(req.body);
-    task.author = req.user;  // stavio sam author umesto creator
     
-    Project.findById(task.currentTask.project._id)
+    //task.author = req.user;  // stavio sam author umesto creator
+    
+    var projectId = req.body.currentState.project._id;
+    
+    Project.findById(projectId)
     .exec(function(err, project){
       if (err) return next(err);
-      if(!project) return next(new Error('Failed to load project ' + id));
+      if(!project) return next(new Error('Failed to load project ' + task.currentState.project._id));
       
-      task.currentTask.mark = project.title + project.taskNumber;
+      task.currentState.mark = project.title + project.taskNumber;
       //do saving if project is found
       task.save(function(err) {
           if (err) {
-          return res.status(400).send({
-            message: errorHandler.getErrorMessage(err)
-          });
+            return res.status(400).send({
+              message: errorHandler.getErrorMessage(err)
+            });
           } else {
             
               //increase number of tasks if save completed well
               project.taskNumber++;
-              
+              project.tasks.push(task);
               //update project
               Project.findByIdAndUpdate(project.id, project, function(err, project){
                 if(err){
@@ -35,25 +38,14 @@ exports.create = function(req, res, next){
                 }
               });              
             
-              //res.json(task);
+
           }
       });     
       
-      next();
+     // next();
     });    
     
-    
-    
-    
-    task.save(function(err) {
-        if (err) {
-         return res.status(400).send({
-           message: errorHandler.getErrorMessage(err)
-         });
-        } else {
-            res.json(task);
-        }
-    });
+   
 };
 
 exports.list = function(req, res, next){
@@ -87,7 +79,15 @@ exports.taskByID = function(req, res, next, id){
 };
 
 exports.update = function(req, res, next){
-  Task.findByIdAndUpdate(req.task.id, req.body, function(err, task){
+  var taskBody = new Task(req.body);
+  var taskForUpdate = req.task;
+  
+  var currentState = taskForUpdate.currentState;
+  
+  taskForUpdate.history.push(currentState);
+  taskForUpdate.currentState = taskBody;
+  
+  Task.findByIdAndUpdate(req.task.id, taskForUpdate, function(err, task){
     if(err){
          return res.status(400).send({
            message: errorHandler.getErrorMessage(err)

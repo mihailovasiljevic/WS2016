@@ -6,7 +6,6 @@ var taskSchema = new Schema({
   currentState: { 
     mark: {
       type: String,
-      required: 'You have to insert mark',
       trim: true
     },
     title: {
@@ -70,7 +69,6 @@ var taskSchema = new Schema({
   history:[{
     mark: {
       type: String,
-      required: 'You have to insert mark',
       trim: true
     },
     title: {
