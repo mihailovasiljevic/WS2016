@@ -1,5 +1,5 @@
 //var users = projects = require('../../app/controllers/users.server.controller'),
-     projects = require('../../app/controllers/projects.server.controller');
+var projects = require('../../app/controllers/projects.server.controller');
 
 module.exports = function(app){
 

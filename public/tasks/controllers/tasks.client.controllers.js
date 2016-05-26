@@ -141,10 +141,26 @@ angular.module('tasks').controller('taskModel', ['$scope', '$rootScope', '$locat
 
 }]);
 
-angular.module('tasks').controller('addTaskCtrl', ['$scope', '$rootScope', '$location',
-    function($scope,$rootScope,$location) {
+angular.module('tasks').controller('addTaskCtrl', ['$scope', '$rootScope', '$location','Projects',
+    function($scope,$rootScope,$location,Projects) {
 		
 console.log('dfddfdffdfd3344334');
+
+var loadEntries = function () {
+			//$scope.projects = Projects.query();	
+			$scope.project = new Projects();
+			var prjs = Projects.query(function(response) {
+    			for(var i=0; i<prjs.length;i++)
+    			{
+    				console.log(prjs.length)
+    			}
+    		});
+    		$scope.projects=prjs;
+		}
+		loadEntries();
+
+
         
 }]);
+   
    
