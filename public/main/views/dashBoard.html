@@ -1,25 +1,24 @@
-<head>
-	 <link rel="stylesheet" href="/main/views/dashBoard.css">
-</head>
 
-<div>
-<div class="top">
-   
-</div>
-
-<div data-ng-show="authentication.loggedin">
-	<div class="left" ng-controller="myCtrl">
-	<div ng-class="{option: $index != selectedIndex, option1: $index == selectedIndex, option2: $index == nodeSelected}" ng-repeat = "treeElement in treeElements" ng-mouseleave="nodeLeave($index)" ng-mouseover="nodeOver($index)" ng-mouseup="nodeClick($index,treeElements[$index])"><p style="margin-left:18px;">{{treeElement}}</p></div>
+<section ng-controller="myCtrl as ctrl">
+	<div id="menu-wrapper" ng-show="authentication.loggedin">
+		
+		<div id="logo-info">
+			<div id="logo-image">
+				<img src="img/logo.png" alt="ticketing system logo">
+			</div> 
+		</div>
+		
+		<div id="logged-user">
+			<span class="logged_as">Logged as:</span><br>
+			<span class="user" ng-bind="authentication.user.fullName"></span><span class="role" ng-bind="authentication.user.role"></span>
+			<a href="#" id="logout" ng-click="logout()"><span>logout</span></a>
+		</div>
+		
 	</div>
-</div>
-<div data-ng-show="!authentication.loggedin">
-	<a href="/#!/login"> login </a>
-</div>
-<div class="right">
-<section ui-view>
 
+	<div id="content-wrapper" ng-show="authentication.loggedin">
+		
+		dsdssd
+
+	</div>
 </section>
-
-</div>
-</div>
-

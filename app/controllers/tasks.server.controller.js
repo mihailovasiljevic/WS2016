@@ -50,7 +50,7 @@ exports.create = function(req, res, next){
 
 exports.list = function(req, res, next){
   
-  Task.find().sort('-createdAt').exec(function(err, tasks){
+  Task.find().sort('-currentState.createdAt').exec(function(err, tasks){
     if(err){
          return res.status(400).send({
            message: errorHandler.getErrorMessage(err)

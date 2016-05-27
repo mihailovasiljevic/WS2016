@@ -1,9 +1,16 @@
-angular.module('main').controller('myCtrl', ['$scope', '$rootScope', '$location','Authentication',
-    function($scope,$rootScope,$location, Authentication){
+angular.module('main').controller('myCtrl', ['$scope', '$rootScope', '$location','Authentication','$timeout','$window',
+    function($scope,$rootScope,$location, Authentication, $timeout, $window){
         
       $scope.authentication = Authentication;
-      console.log(Authentication.user);
-      console.log($scope.authentication.loggedin)    
+      
+
+      if(!$scope.authentication.loggedin){
+         $timeout(function(){
+            $location.path('/login');
+         });
+      }
+      
+      
       var treeElements = [];
       treeElements.push('Projects');
       treeElements.push('Tasks');
@@ -31,6 +38,15 @@ angular.module('main').controller('myCtrl', ['$scope', '$rootScope', '$location'
         var path = path.toLowerCase();
         $location.path('/'+path);
       };
-        
+      
+      $scope.logout = function(){
+        $scope.authentication.logout(function(data){
+          if(data == true){
+           $timeout(function(){
+            $window.location.reload();
+           });          
+          }
+        });
+      }
 }]);
    

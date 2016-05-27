@@ -1,12 +1,22 @@
 angular.module('users')
-  .controller('LoginCtrl', ['$scope', '$rootScope', 'Authentication', 
-    function($scope,$rootScope, Authentication){
+  .controller('LoginCtrl', ['$scope', '$rootScope', 'Authentication', '$timeout',
+    function($scope,$rootScope, Authentication, $timeout){
         
       var vm = this;
+
+
+
 
       // This object will be filled by the form
       vm.user = {};
       $scope.auth = true;
+      
+      if(Authentication.loggedin){
+         $timeout(function(){
+            $location.path('/login');
+         });
+      }
+      
       if(angular.equals({}, Authentication.user)){
           $scope.auth = false;
       }
@@ -29,9 +39,13 @@ angular.module('users')
       $rootScope.$on('loginfailed', function(){
         vm.loginError = Authentication.loginError;
       });
+      $scope.username = null;
+      $scope.password = null;
 
       // Register the login() function
       vm.login = function() {
+        this.user.username = $scope.username;
+        this.user.password = $scope.password;
         Authentication.login(this.user);
       };
         

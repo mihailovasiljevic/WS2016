@@ -1,0 +1,243 @@
+@font-face {
+    font-family: 'Roboto';
+    src: url('../fonts/roboto_regular_macroman/Roboto-Regular-webfont.eot');
+    src: url('../fonts/roboto_regular_macroman/Roboto-Regular-webfont.eot?#iefix') format('embedded-opentype'),
+         url('../fonts/roboto_regular_macroman/Roboto-Regular-webfont.woff') format('woff'),
+         url('../fonts/roboto_regular_macroman/Roboto-Regular-webfont.ttf') format('truetype'),
+         url('../fonts/roboto_regular_macroman/Roboto-Regular-webfont.svg#RobotoRegular') format('svg');
+    font-weight: normal;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'Roboto';
+    src: url('../fonts/roboto_bold_macroman/Roboto-Bold-webfont.eot');
+    src: url('../fonts/roboto_bold_macroman/Roboto-Bold-webfont.eot?#iefix') format('embedded-opentype'),
+         url('../fonts/roboto_bold_macroman/Roboto-Bold-webfont.woff') format('woff'),
+         url('../fonts/roboto_bold_macroman/Roboto-Bold-webfont.ttf') format('truetype'),
+         url('../fonts/roboto_bold_macroman/Roboto-Bold-webfont.svg#RobotoBold') format('svg');
+    font-weight: bold;
+    font-style: normal;
+}
+ 
+ 
+@font-face {
+    font-family: 'Roboto';
+    src: url('../fonts/roboto_thin_macroman/Roboto-Thin-webfont.eot');
+    src: url('../fonts/roboto_thin_macroman/Roboto-Thin-webfont.eot?#iefix') format('embedded-opentype'),
+         url('../fonts/roboto_thin_macroman/Roboto-Thin-webfont.woff') format('woff'),
+         url('../fonts/roboto_thin_macroman/Roboto-Thin-webfont.ttf') format('truetype'),
+         url('../fonts/roboto_thin_macroman/Roboto-Thin-webfont.svg#RobotoThin') format('svg');
+    font-weight: 200;
+    font-style: normal;
+}
+ 
+ 
+@font-face {
+    font-family: 'Roboto';
+    src: url('../fonts/roboto_medium_macroman/Roboto-Medium-webfont.eot');
+    src: url('../fonts/roboto_medium_macroman/Roboto-Medium-webfont.eot?#iefix') format('embedded-opentype'),
+         url('../fonts/roboto_medium_macroman/Roboto-Medium-webfont.woff') format('woff'),
+         url('../fonts/roboto_medium_macroman/Roboto-Medium-webfont.ttf') format('truetype'),
+         url('../fonts/roboto_medium_macroman/Roboto-Medium-webfont.svg#RobotoMedium') format('svg');
+    font-weight: 300;
+    font-style: normal;
+}
+ 
+
+html, body{
+    height: 100%;
+}
+body{
+    background-color: #070723;
+    display: table; 
+    margin: 0 auto;
+    z-index: 0;
+}
+div#container{
+    background-color: #070723;
+    height: 100%;
+    display: table-cell;   
+    vertical-align: middle;   
+    width:960px;
+    z-index: 1;
+}
+div#menu-wrapper{ 
+    position: absolute;
+    top:0px;
+    vertical-align: middle;   
+    width: 240px;       
+    height: 100%;
+    z-index: 2;
+}
+div#content-wrapper{
+    background-color: #070723;
+    position: relative;
+    top:0px;
+    left:240px;
+    vertical-align: middle;   
+    width: 720px;       
+    height: 100%;    
+    z-index: 2;
+}
+div#logo-info{
+    background-color: #3f3f58;
+    position: relative;
+    top:0px;
+    height: 80px;
+    width: 100%;
+    z-index: 3;    
+}
+div#logo-image{
+    position: relative;
+    top:20px;
+    left:40px;
+    width:162px;    
+}
+div#logged-user{
+    position: relative;
+    top:20px;
+    left:43px;
+    width:162px; 
+    font-family: 'Roboto', Arial, sans-serif;
+    font-size: 12px;
+    font-weight: 300;
+    color: white;
+}
+div#logged-user .logged_as{
+    color: #838390;
+}
+div#logged-user .user{
+    position: relative;
+    top:5px;
+    font-size: 14px;
+}
+div#logged-user .role{
+    position: relative;
+    top:5px;
+    left: 8px;
+    color: #0084ff;
+}
+div#logged-user a#logout{
+    display: inline-block;
+    border-radius: 5px;
+    background-color: rgb( 255, 45, 85 );
+    border: 0px;
+    width: 153px;
+    height: 37px;
+    text-align: center;
+    vertical-align: middle;
+    position: relative;
+    top:20px;
+    left:0px;
+    text-decoration: none;
+    color: white;
+}
+div#logged-user a#logout span{
+    position: relative;
+    top:8px;
+    font-family: 'Roboto', Arial, sans-serif;
+    font-size: 13px;
+     font-weight: 600;
+    color:white;
+}
+div#logged-user a#logout:hover{
+    opacity: 0.9;
+}
+
+div#container div#login-form{
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    margin-top: -251px;
+    margin-left: -321px;
+    width: 643px;
+    height: 403px;   
+
+}
+div#container div#login-form-background{
+    position: relative;
+    width: 643px;
+    height: 303px;      
+    border-radius: 2px;
+    background-color: #0f0f2a;
+
+}
+div#container div#login-form-logo{
+    position: relative;
+    top:40px;
+    left:240px;
+    width: 163px;
+    height: 41px;  
+    background-image: url('../img/logo.png');
+}
+
+div#container div#login-form-background span.login-form-login{
+    color:white;
+    font-family: 'Roboto', Arial, sans-serif;
+    font-size: 36px;
+    font-weight:360;    
+    z-index: 20;
+    opacity:1;
+    position: relative;
+    top: 10px;
+    left: 30px;
+}
+div#container div#login-form-background span.login-form-login-text{
+    color:white;
+    font-family: 'Roboto', Arial, sans-serif;
+    font-size: 15px;
+    font-weight:3600;    
+    z-index: 20;
+    opacity:0.4;
+    position: relative;
+    top: 12px;
+    left: 30px;
+}
+div#container div#login-form-background div{
+    position:relative;
+    width:90%;
+    top:20px;
+    left:30px
+}
+div#container div#login-form-background input{
+    width:100%;
+    padding: 12px 20px;
+    margin: 8px 0;
+    box-sizing: border-box;
+    border: 0px;
+    border-radius: 2px;   
+}
+div#container div#login-form-background input[type=Submit]{
+    width:100%;
+    padding: 12px 20px;
+    margin: 8px 0;
+    box-sizing: border-box;
+    border: 0px;
+    border-radius: 2px;   
+    background-color: #00abec;
+    color:white;
+    font-family: 'Roboto', Arial, sans-serif;
+    font-size: 14px;
+    font-weight:360;  
+}
+
+div#container div#login-form-background input[type=button]:hover{
+    cursor:hand;
+    opacity:0.9;
+}
+div#container div#login-form-background a{
+    color:white;
+    font-family: 'Roboto', Arial, sans-serif;
+    font-size: 15px;
+    font-weight:3600;    
+    z-index: 20;
+    opacity:0.4;
+    position: relative;
+    top: 30px;
+    left: 30px;
+    text-decoration: none;
+}
+div#container div#login-form-background a:hover{
+    color: #00abec;
+}
