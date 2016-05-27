@@ -24,7 +24,8 @@ angular.module('main').controller('listOfProjectsCtrl', ['$scope', '$rootScope',
 			"updatedAt": "23-02-2016",
 		}
 		]
-
+		
+		
 		$scope.listOfTasks = list;
 		$scope.allTasks = list;
 
@@ -92,6 +93,13 @@ angular.module('main').controller('listOfProjectsCtrl', ['$scope', '$rootScope',
 		$scope.showAddProjectForm = function()
 		{
 			$location.path('/dashBoard/addProject');
+			//console.log('ffdfdfdffd');
+
+		}
+
+		$scope.addProject = function()
+		{
+			$location.path('/dashBoard/projects');
 			//console.log('ffdfdfdffd');
 
 		}

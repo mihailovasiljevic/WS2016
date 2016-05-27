@@ -1,5 +1,5 @@
-angular.module('tasks').controller('listOfTasksCtrl', ['$scope', '$rootScope', '$location','Tasks',
-    function($scope,$rootScope,$location,Tasks) {
+angular.module('main').controller('listOfTasksCtrl', ['$scope', '$rootScope', '$location','Tasks',
+    function($scope,$rootScope,$location) {
 		
     	
 		var list = [
@@ -28,12 +28,8 @@ angular.module('tasks').controller('listOfTasksCtrl', ['$scope', '$rootScope', '
 		]
 
 		$scope.listOfTasks = list;
-		
+		$scope.allTasks = list;
 
-		$scope.listOfTasks = Tasks.query();
-		$scope.allTasks = Tasks.query();
-
-		alert($scope.listOfTasks[0].status);
 
 		$scope.cToDo = true;
 		$scope.cInProgress = true;
@@ -103,7 +99,7 @@ angular.module('tasks').controller('listOfTasksCtrl', ['$scope', '$rootScope', '
 
 		}
 
-		$scope.selectedIndex = -1;
+		/*$scope.selectedIndex = -1;
 		var tleave = function(index) {
 			$scope.selectedIndex = -1;
         	document.body.style.cursor = "auto";
@@ -116,11 +112,19 @@ angular.module('tasks').controller('listOfTasksCtrl', ['$scope', '$rootScope', '
 
 		$scope.tover = tover;
 		$scope.tleave = tleave;
-
+*/
         
 }]);
 
-angular.module('tasks').controller('taskModel', ['$scope', '$rootScope', '$location',
+
+angular.module('main').controller('addTaskCtrl', ['$scope', '$rootScope', '$location',
+    function($scope,$rootScope,$location) {
+		
+console.log('dfddfdffdfd3344334');
+        
+}]);
+
+/*angular.module('tasks').controller('taskModel', ['$scope', '$rootScope', '$location',
 	function($scope,$rootScope,$location) {
 
 		var task = {};
@@ -162,6 +166,6 @@ var loadEntries = function () {
 
 
         
-}]);
+}]);*/
    
    
