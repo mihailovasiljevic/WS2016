@@ -46,7 +46,7 @@ angular.module('main').controller('listOfProjectsCtrl', ['$scope', '$rootScope',
 		}
 		$scope.edit = function (listProject) {
 			$scope.listProject = listProject;
-			$location.path('/dashBoard/addProject');
+			$location.path('/dashBoard/editProject');
 		} 
 		
 		
@@ -120,7 +120,6 @@ angular.module('main').controller('listOfProjectsCtrl', ['$scope', '$rootScope',
 		$scope.showAddProjectForm = function()
 		{
 			$location.path('/dashBoard/addProject');
-			//console.log('ffdfdfdffd');
 
 		}
 

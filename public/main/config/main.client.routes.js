@@ -23,6 +23,11 @@ angular.module('main').config(['$urlRouterProvider','$stateProvider',
         templateUrl: 'projects/views/addProject.html',
         /*controller: 'addProjectCtrl'*/
       })
+    .state('dashBoard.editProject', {
+        url: '/editProject',
+        templateUrl: 'projects/views/editProject.html',
+        /*controller: 'addProjectCtrl'*/
+      })
        .state('dashBoard.addTask', {
         url: '/addTask',
         templateUrl: 'tasks/views/addTask.html',

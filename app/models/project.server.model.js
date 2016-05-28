@@ -9,6 +9,12 @@ var projectSchema = new Schema({
 	  unique: true,
     trim: true
   },
+  member:{
+    type: String,
+    required: 'Member cannot be blank.',
+    unique: true,
+    trim: true
+  },
   teamMembers: [{
     type: Schema.Types.ObjectId,
     ref: 'User'//,
