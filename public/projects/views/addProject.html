@@ -4,17 +4,25 @@
 
 <div ng-controller="listOfProjectsCtrl">
 <br><hr><br>
-<form ng-submit="listProjects()">
 	<table align="center">
 		<th colspan="2">Add Project</th>
-		<tr><td>Title:</td><td><input type="text" ng-model="addProject.title"/></td></tr>
+		<tr><td>Title:</td><td><input type="text" ng-model="listProject.title"/></td></tr>
 		<tr><td>Team members:</td><td><input type="text" /></td></tr>
 		<tr><td>Creator:</td><td><input type="text" /></td></tr>
 		
-		<tr><td id="tdSubmitProject" colspan=2><button ng-click="addProject()">Submit</button></td></tr>
+		<tr><td id="tdSubmitProject" colspan=2><button ng-click="save()">Submit</button></td></tr>
 	</table>
     
-  </form>
+  <br><hr><br>
   
+  <div ng-repeat="listProject in listProjects">
+				<div>
+					{{ listProject.title }}
+				</div>
+				<div>
+					<button ng-click="delete(listProject)">delete</button>
+					<button ng-click="edit(listProject)">edit</button>
+				</div>
+			</div>
   
 </div>

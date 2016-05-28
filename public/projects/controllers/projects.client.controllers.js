@@ -24,6 +24,29 @@ angular.module('main').controller('listOfProjectsCtrl', ['$scope', '$rootScope',
 			"updatedAt": "23-02-2016",
 		}
 		]
+
+		/*var Project = $resource('/api/projects/:id',
+			{id:'@_id'},
+			{update:{method:'PUT'}});*/
+		var loadEntries = function () {
+			$scope.projects = Project.query();		
+			$scope.project = new Project();
+		}
+		loadEntries();
+		$scope.save = function () {
+			if(!$scope.project._id){
+				$scope.project.$save(loadEntries);
+			}
+			else{
+				$scope.project.$update(loadEntries);				
+			}
+		} 
+		$scope.delete = function (Project) {
+			Project.$delete(loadEntries);
+		}
+		$scope.edit = function (Project) {
+			$scope.project = Project;
+		} 
 		
 		
 		$scope.listOfTasks = list;

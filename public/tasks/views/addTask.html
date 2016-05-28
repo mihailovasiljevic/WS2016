@@ -7,17 +7,17 @@
 <form name="addTaskForm">
 <table  id="tAddTask">
 <col id="cAddTask1"> <col id="cAddTask2">
-<tr><td><label>Project:</label></td><td><select id="selProject">
-  <option ng-repeat="project in projects" value="{{ project.id }}">{{ project.title }}</option>
+<tr><td><label>Project:</label></td><td><select id="selProject" ng-change="showUsers()" ng-model="task.currentState.project._id">
+  <option ng-repeat="project in projects" value="{{ project._id }}" >{{ project.title }}</option>
 </select> </td></tr>
-<tr><td><label>Status:</label></td><td> <select id="selStatus">
+<tr><td><label>Status:</label></td><td> <select id="selStatus" ng-model="task.currentState.status" name="selStatus">
   <option value="noStatus"></option>
   <option value="todo">To do</option>
   <option value="progress">In progress</option>
   <option value="verify">Verify</option>
   <option value="done">Done</option>
 </select> </td></tr>
-<tr><td><label>Priority:</label></td><td> <select id="selPriority">
+<tr><td><label>Priority:</label></td><td> <select id="selPriority" value="noPriority" ng-model="task.currentState.priority">
   <option value ="noPriority"></option>
   <option value="blocker">Blocker</option>
   <option value="critical">Critical</option>
@@ -25,14 +25,14 @@
   <option value="minor">Minor</option>
   <option value="trivial">Trivial</option>
 </select></td></tr>
-<tr><td><label>Title:</label></td><td><input type="text" name="title" ng-model="task.title" ng-blur="visitedTitle = true" required><span class="validationText" ng-show="addTaskForm.title.$error.required && visitedTitle">Title is required</span></td></tr>
+<tr><td><label>Title:</label></td><td><input type="text" name="title" ng-model="task.currentState.title" ng-blur="visitedTitle = true" required><span class="validationText" ng-show="addTaskForm.title.$error.required && visitedTitle">Title is required</span></td></tr>
 
-<tr><td><label> Assigned for:</label></td><td><select id="selPriority">
-  <option value="........">...............</option>
+<tr><td><label> Assigned for:</label></td><td><select id="selPriority" ng-model="task.currentState.assignedFor._id">
+  <option ng-repeat="user in teamMembers" value="{{user._id}}">{{ user.username }}</option>
   
 </select></td></tr>
-<tr><td><label> Description:</label></td><td><textarea name="description" ng-model="task.description"></textarea></td></tr>
-<tr><td id="tdSubmitTask" colspan=2><button ng-click="addTask()">Submit</button></td></tr>
+<tr><td><label> Description:</label></td><td><textarea name="description" ng-model="task.currentState.description"></textarea></td></tr>
+<tr><td id="tdSubmitTask" colspan=2><button ng-click="addTaskForm.$valid && addTask()">Submit</button></td></tr>
 </table>
 </form>
 </div>
