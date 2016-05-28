@@ -58,12 +58,12 @@ var taskSchema = new Schema({
     }],
     priority: {
       type: String,
-      enum: ['Blocker', 'Critical', 'Major', 'Minor', 'Trivial']
+      enum: ['No Priority','Blocker', 'Critical', 'Major', 'Minor', 'Trivial']
     },
 
     status: {
       type: String,
-      enum: ['To Do', 'In Progress', 'Verify', 'Done']
+      enum: ['No Status','To Do', 'In Progress', 'Verify', 'Done']
     }
   },
   history:[{

@@ -158,8 +158,8 @@ console.log('dfddfdffdfd3344334');
 var loadEntries = function () {
 			$scope.task = new Tasks();
 			$scope.task.currentState={};
-			$scope.task.currentState.priority="noPriority";
-			$scope.task.currentState.status="noStatus";
+			$scope.task.currentState.priority="No Priority";
+			$scope.task.currentState.status="No Status";
 			$scope.task.currentState.title="";
 			$scope.task.currentState.description="";
 			$scope.task.currentState.project={};

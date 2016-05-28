@@ -14,7 +14,7 @@ exports.create = function(req, res, next){
     .exec(function(err, project){
       if (err) return next(err);
       if(!project) return next(new Error('Failed to load project ' + task.currentState.project._id));
-      
+      console.log(JSON.stringify(req.body));
       task.currentState.mark = project.title + project.taskNumber;
       //do saving if project is found
       task.save(function(err) {
