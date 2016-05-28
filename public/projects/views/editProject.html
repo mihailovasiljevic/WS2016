@@ -1,0 +1,31 @@
+<head>
+  <link rel="stylesheet" href="/projects/views/listOfProjects.css">
+</head>
+
+<div ng-controller="listOfProjectsCtrl">
+
+<br><hr><br>
+	<table align="center">
+		<th colspan="2">Edit Project</th>
+		<tr><td>Title:</td><td><input type="text"  ng-model="listProject.title"/></td></tr>
+		<tr><td>Member:</td><td><input type="text" ng-model="listProject.member"/></td></tr>
+		
+		<tr><td id="tdSubmitProject" colspan=2><button ng-click="save()">Submit</button></td></tr>
+	</table>
+
+    
+  <br><hr><br>
+  
+  <div ng-repeat="listProject in listProjects">
+				<div>
+					{{ listProject.title }}
+					{{ listProject.member }}
+				</div>
+				<div>
+					<button ng-click="delete(listProject)">delete</button>
+					<button ng-click="edit(listProject)">edit</button>
+				</div>
+			</div>
+
+</div>
+  
