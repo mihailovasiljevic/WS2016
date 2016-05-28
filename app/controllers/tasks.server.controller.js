@@ -6,8 +6,8 @@ var mongoose = require('mongoose'),
 exports.create = function(req, res, next){
     var task = new Task(req.body);
     
-    //task.author = req.user;  // stavio sam author umesto creator
-    
+    task.currentState.author = req.user._id;  // stavio sam author umesto creator
+    console.log(task.author);
     var projectId = req.body.currentState.project._id;
     
     Project.findById(projectId)

@@ -1,11 +1,13 @@
 angular.module('tasks').controller('listOfTasksCtrl', ['$scope', '$rootScope', '$location','Tasks','Projects',
     function($scope,$rootScope,$location,Tasks,Projects) {
-		
+
 		$scope.list = function() {
 			Tasks.query(function(response) {
 				var tasks = [];
 				for(var i = 0; i < response.length; i++) {
+
 					var author = response[i].currentState.author.firstName + response[i].currentState.author.lastName;
+					alert(author);
 					var assignedFor = response[i].currentState.assignedFor.firstName + response[i].currentState.assignedFor.lastName;
 					var task = {
 						"id": response[i]._id,
@@ -21,11 +23,8 @@ angular.module('tasks').controller('listOfTasksCtrl', ['$scope', '$rootScope', '
 				}
 				$scope.allTasks = tasks;
 				$scope.listOfTasks = tasks;
-				//alert(JSON.stringify(task));
 			});
 		}
-
-		$scope.list();
 		
 		$scope.initCheckboxs = function() 
 		{
