@@ -150,23 +150,6 @@ angular.module('tasks').controller('taskModel', ['$scope', '$rootScope', '$locat
 
 }]);
 
-<<<<<<< HEAD
-angular.module('tasks').controller('addTaskCtrl', ['$scope', '$rootScope', '$location','Projects',
-    function($scope,$rootScope,$location,Projects) {
-
-	$scope.loadEntries = function () {
-		//$scope.projects = Projects.query();	
-		$scope.project = new Projects();
-		var prjs = Projects.query(function(response) {
-			for(var i=0; i<prjs.length;i++)
-			{
-				console.log(prjs.length)
-			}
-		});
-		$scope.projects=prjs;
-	}
-	$scope.loadEntries();
-=======
 angular.module('tasks').controller('addTaskCtrl', ['$scope', '$rootScope', '$location','Projects','$http','Tasks',
     function($scope,$rootScope,$location,Projects,$http,Tasks) {
 		
@@ -218,7 +201,7 @@ var loadEntries = function () {
     		
 		}
 		loadEntries();
->>>>>>> refs/remotes/origin/mv/frontend
+
 
 $scope.addTask = function(){
 	console.log($scope.task.currentState.description);
