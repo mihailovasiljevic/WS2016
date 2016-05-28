@@ -1,5 +1,5 @@
-angular.module('main').controller('listOfProjectsCtrl', ['$scope', '$rootScope', '$location',
-    function($scope,$rootScope,$location) {
+angular.module('main').controller('listOfProjectsCtrl', ['$scope', '$rootScope', '$location','Projects',
+    function($scope,$rootScope,$location,Projects) {
 		var list = [
 		{
 			"id": "u32h4jjhj3245",
@@ -25,8 +25,36 @@ angular.module('main').controller('listOfProjectsCtrl', ['$scope', '$rootScope',
 		}
 		]
 
+		
+		var loadEntries = function () {
+			$scope.listProjects = Projects.query();		
+			$scope.listProject = new Projects();
+		}
+		loadEntries();
+		$scope.save = function () {
+			if(!$scope.listProject._id){
+				$scope.listProject.$save(loadEntries);
+				$location.path('/dashBoard/projects');
+			}
+			else{
+				$scope.listProject.$update(loadEntries);
+				$location.path('/dashBoard/projects');				
+			}
+		} 
+		$scope.delete = function (listProject) {
+			listProject.$delete(loadEntries);
+		}
+		$scope.edit = function (listProject) {
+			$scope.listProject = listProject;
+			$location.path('/dashBoard/editProject');
+		} 
+		
+		
 		$scope.listOfTasks = list;
 		$scope.allTasks = list;
+
+		$scope.listOfTasks = Projects.query();
+		$scope.allTasks = Projects.query();
 
 		$scope.cToDo = true;
 		$scope.cInProgress = true;
@@ -92,9 +120,13 @@ angular.module('main').controller('listOfProjectsCtrl', ['$scope', '$rootScope',
 		$scope.showAddProjectForm = function()
 		{
 			$location.path('/dashBoard/addProject');
-			//console.log('ffdfdfdffd');
 
 		}
+
+		
+
+
+
 
         
 }]);

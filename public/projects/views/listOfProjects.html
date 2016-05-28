@@ -4,8 +4,6 @@
 
 <div  ng-controller="listOfProjectsCtrl">
 <br><hr><br>
-<div style="float:left; margin-left:20px;"><input type="button" value="Add Project"
- ng-click="showAddProjectForm()"></div>
 <div align="center">
 <div align="left" style="display:inline-block; width:150px;margin-left:-20px;">
 Status:<br>
@@ -27,9 +25,11 @@ Priority:<br>
 <select ng-options="item for item in priorities" ng-model="selected2" ng-change="selected_status(selected2)"> -->
 
 </div>
+
+
 <br><hr><br>
 
-<table id="t01" align="center" width="75%;">
+<!-- <table id="t01" align="center" width="75%;">
   <tr>
     <th>&nbsp;</th>
     <th>Mark</th>  
@@ -51,5 +51,28 @@ Priority:<br>
     <td style="width:12%;">{{element.updatedAt}}</td>
   </tr>
 
-</table>
+</table> -->
+
+
+ <table id="t01" align="left" width="25%;">
+          <tr>
+            <th>Title</th>
+            <th>Member</th> 
+            <th>&nbsp;</th> 
+            <th>&nbsp;</th> 
+          </tr>
+          <tr ng-repeat="listProject in listProjects">
+            <td>{{ listProject.title }}</td>
+            <td>{{ listProject.member }}</td> 
+            <td><button ng-click="edit(listProject)">edit</button></td> 
+            <td><button ng-click="delete(listProject)">delete</button></td>
+          </tr>
+  </table>   
+
+  <div style="float:left; margin-left:20px;"><input type="button" value="Add Project"
+ ng-click="showAddProjectForm()"></div>    
+
+
+
+
 </div>

@@ -10,8 +10,8 @@ angular.module('main').config(['$urlRouterProvider','$stateProvider',
       })
 	  .state('dashBoard.projects', {
         url: '/projects',
-        templateUrl: 'projects/views/listOfTasks.html',
-        /*controller: 'listOfProjectsCtrl'*/
+        templateUrl: 'projects/views/listOfProjects.html',
+        controller: 'listOfProjectsCtrl'
       })
       .state('dashBoard.tasks', {
         url: '/tasks',
@@ -21,6 +21,11 @@ angular.module('main').config(['$urlRouterProvider','$stateProvider',
 	  .state('dashBoard.addProject', {
         url: '/addProject',
         templateUrl: 'projects/views/addProject.html',
+        /*controller: 'addProjectCtrl'*/
+      })
+    .state('dashBoard.editProject', {
+        url: '/editProject',
+        templateUrl: 'projects/views/editProject.html',
         /*controller: 'addProjectCtrl'*/
       })
        .state('dashBoard.addTask', {
