@@ -30,9 +30,9 @@
 <tr><td><label> Assigned for:</label></td><td><select id="selPriority" ng-model="task.currentState.assignedFor._id">
   <option ng-repeat="user in teamMembers" value="{{user._id}}">{{ user.username }}</option>
   
-</select></td></tr>
+</select><span class="validationText" ng-show="teamMembers.length==0">Your project doesn't have any members </span></td></tr></td></tr>
 <tr><td><label> Description:</label></td><td><textarea name="description" ng-model="task.currentState.description"></textarea></td></tr>
-<tr><td id="tdSubmitTask" colspan=2><button ng-click="addTaskForm.$valid && addTask()">Submit</button></td></tr>
+<tr><td id="tdSubmitTask" colspan=2><button ng-click="teamMembers!=0 && addTaskForm.$valid && addTask()">Submit</button></td></tr>
 </table>
 </form>
 </div>
