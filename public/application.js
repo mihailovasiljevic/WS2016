@@ -1,7 +1,8 @@
 var mainApplicationModuleName = 'ticketing_system';
 
 var mainApplicationModule = angular.module(mainApplicationModuleName,
-  ['ngResource','ui.router','ngCookies','angular-jwt', 'users','main','tasks','projects']);
+  ['ngResource','ui.router','ngCookies','angular-jwt','ui.bootstrap', 'users','main','tasks','projects']);
+  
 
 //tell search engine crawlers that this is single page application
 //in order to wait rendering to be done Hashbangs.Hashbangs routing scheme

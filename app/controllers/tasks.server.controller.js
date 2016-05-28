@@ -50,12 +50,19 @@ exports.create = function(req, res, next){
 
 exports.list = function(req, res, next){
   
-  Task.find().sort('-createdAt').exec(function(err, tasks){
+  Task.find().sort('-createdAt')
+	.populate('currentState.author')
+	.populate('currentState.assignedFor')
+	.populate('currentState.project')
+	.exec(function(err, tasks){
     if(err){
          return res.status(400).send({
            message: errorHandler.getErrorMessage(err)
          }); 
     }else {
+		for(var i = 0; i < tasks.length; i++) {
+			console.log(tasks[i].currentState.author);
+		}
       res.json(tasks);
     }    
   });
@@ -67,7 +74,7 @@ exports.read = function(req, res){
 
 exports.taskByID = function(req, res, next, id){
   
-  Task.findById(id).exec(function(err, task){
+  Task.findById(id).populate('currentState.assignedFor').exec(function(err, task){
     if (err) return next(err);
     if(!task) return next(new Error('Failed to load task ' + id));
     
@@ -79,7 +86,7 @@ exports.taskByID = function(req, res, next, id){
 };
 
 exports.update = function(req, res, next){
-
+	console.log(req.body);
   req.task.currentState.updatedAt = new Date();
   var currentState = req.task.currentState;
   

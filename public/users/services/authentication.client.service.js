@@ -150,7 +150,7 @@ angular.module('users').factory('Authentication', ['$rootScope', '$http', '$loca
       return deferred.promise;
     }
     
-    console.log(User);
+    //console.log(User);
     return User;
   }
 ]);

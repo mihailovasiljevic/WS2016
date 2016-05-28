@@ -1,56 +1,53 @@
-angular.module('tasks').controller('listOfTasksCtrl', ['$scope', '$rootScope', '$location','Tasks',
-    function($scope,$rootScope,$location,Tasks) {
+angular.module('tasks').controller('listOfTasksCtrl', ['$scope', '$rootScope', '$location','Tasks','Projects',
+    function($scope,$rootScope,$location,Tasks,Projects) {
 		
-    	
-		var list = [
-		{
-			"id": "u32h4jjhj3245",
-			"mark": "xws1",
-			"title": "zadatak broj 1",
-			"description": "opisujemo",
-			"author": "Nemanja Starcev",
-			"assignedFor": "Milos Savic",
-			"status":"To Do",
-			"priority": "Major",
-			"updatedAt": "23-04-2016",
-		},
-		{
-			"id": "joij34jk3232",
-			"mark": "xws2",
-			"title": "zadatak broj 2",
-			"description": "opisujemo",
-			"author": "Nemanja Starcev",
-			"assignedFor": "Rale Ilic",
-			"status":"To Do",
-			"priority": "Major",
-			"updatedAt": "23-02-2016",
+		$scope.list = function() {
+			Tasks.query(function(response) {
+				var tasks = [];
+				for(var i = 0; i < response.length; i++) {
+					var author = response[i].currentState.author.firstName + response[i].currentState.author.lastName;
+					var assignedFor = response[i].currentState.assignedFor.firstName + response[i].currentState.assignedFor.lastName;
+					var task = {
+						"id": response[i]._id,
+						"mark": response[i].currentState.mark,
+						"title": response[i].currentState.title,
+						"author": author,
+						"assignedFor": assignedFor,
+						"status":response[i].currentState.status,
+						"priority": response[i].currentState.priority,
+						"updatedAt": "23-04-2016",
+					}
+					tasks.push(task);
+				}
+				$scope.allTasks = tasks;
+				$scope.listOfTasks = tasks;
+				//alert(JSON.stringify(task));
+			});
 		}
-		]
 
-		$scope.listOfTasks = list;
+		$scope.list();
 		
+		$scope.initCheckboxs = function() 
+		{
+			$scope.cToDo = true;
+			$scope.cInProgress = true;
+			$scope.cVerify = true;
+			$scope.cDone = true;
 
-		$scope.listOfTasks = Tasks.query();
-		$scope.allTasks = Tasks.query();
+			$scope.cBlocker = true;
+			$scope.cCritical = true;
+			$scope.cMajor = true;
+			$scope.cMinor = true;
+			$scope.cTrivial = true;
+		}
 
-		alert($scope.listOfTasks[0].status);
 
-		$scope.cToDo = true;
-		$scope.cInProgress = true;
-		$scope.cVerify = true;
-		$scope.cDone = true;
-
-		$scope.cBlocker = true;
-		$scope.cCritical = true;
-		$scope.cMajor = true;
-		$scope.cMinor = true;
-		$scope.cTrivial = true;
-
-		var doFilter = function(model) {
+		$scope.doFilter = function(model) {
 			var newList = [];
 			var allTasks = $scope.allTasks;
-			var ok = 0;
+
 			for(var i = 0; i < allTasks.length; i++) {
+				var ok = 0;
 				if(allTasks[i].status == 'To Do' && $scope.cToDo == true) {
 					ok = ok + 1;
 				}
@@ -78,87 +75,97 @@ angular.module('tasks').controller('listOfTasksCtrl', ['$scope', '$rootScope', '
 				if(allTasks[i].priority == 'Trivial' && $scope.cTrivial == true) {
 					ok = ok + 1;
 				}
-				if(ok > 0) {
+				if(ok > 1) {
 					newList.push(allTasks[i]);
 				}
 			}
 			
 			$scope.listOfTasks = newList ;
 		}
-		$scope.doFilter = doFilter;
 
-		var pregled = function(id) {
-			
+		$scope.pregled = function(id) 
+		{
 			$location.path('/dashBoard/task/'+id);
-
-		};
-		$scope.pregled = pregled;
-
+			document.body.style.cursor = "auto";
+		}
 
 		
 		$scope.showAddTaskForm = function()
 		{
 			$location.path('/dashBoard/addTask');
-			//console.log('ffdfdfdffd');
-
 		}
 
 		$scope.selectedIndex = -1;
-		var tleave = function(index) {
+		$scope.tleave = function(index) {
 			$scope.selectedIndex = -1;
         	document.body.style.cursor = "auto";
 		}
 
-		var tover = function(index) {
+		$scope.tover = function(index) {
         	$scope.selectedIndex = index;
         	document.body.style.cursor = "hand";
 		}
 
-		$scope.tover = tover;
-		$scope.tleave = tleave;
+		$scope.list();
+		$scope.initCheckboxs();
 
         
 }]);
 
-angular.module('tasks').controller('taskModel', ['$scope', '$rootScope', '$location',
-	function($scope,$rootScope,$location) {
-
-		var task = {};
-
-		var id = $location.url().split("/dashBoard/task/")[1];
+angular.module('tasks').controller('taskModel', ['$scope', '$rootScope', '$location','$stateParams', 'Tasks',
+	function($scope,$rootScope,$location,$stateParams,Tasks) {
 		
-		task.mark = "xws2";
-		task.title = "Instanciranje Mark Logic baze podataka";
-		task.name = "Nemanja";
-		task.surname = "Starcev";
-		task.createdAt = "13.02.2016";
-		task.updatedAt = "28.03.2016";
-		task.status = "To Do";
-		task.priority = "Minor";
-		task.assignedFor = "Rale Ilic";
-		task.description = "Potrebno je napraviti konekciju za bazu podataka Mark Logic";
+		$scope.list = function() {
 
-		$scope.task = task;
+			Tasks.get({taskId: $stateParams.taskId},function(response) {
+
+				var assignedFor = response.currentState.assignedFor.firstName + " " + response.currentState.assignedFor.lastName;
+
+				var date = new Date(response.currentState.createdAt);
+				var createdAt = (date.getMonth() + 1).toString() + "/" + date.getDate().toString() + "/" + date.getFullYear().toString();
+				if(response.currentState.updatedAt != undefined) {
+					var date = new Date(response.currentState.updatedAt);
+					var updatedAt = (date.getMonth() + 1).toString() + "/" + date.getDate().toString() + "/" + date.getFullYear().toString();
+					$scope.lastUpdate = true;
+				} else {
+					$scope.lastUpdate = false;
+				}
+
+				var task = {};
+				task.mark = response.currentState.mark;
+				task.title = response.currentState.title;
+				task.name = response.currentState.firstName;
+				task.surname = response.currentState.lastName;
+				task.createdAt = createdAt;
+				task.updatedAt = updatedAt;
+				task.status = response.currentState.status;
+				task.priority = response.currentState.priority;
+				task.assignedFor = assignedFor;
+				task.description = response.currentState.description;
+
+				$scope.task = task;
+		});
+
+	}
+	$scope.list();
 
 }]);
 
 angular.module('tasks').controller('addTaskCtrl', ['$scope', '$rootScope', '$location','Projects',
     function($scope,$rootScope,$location,Projects) {
-		
-console.log('dfddfdffdfd3344334');
 
-var loadEntries = function () {
-			//$scope.projects = Projects.query();	
-			$scope.project = new Projects();
-			var prjs = Projects.query(function(response) {
-    			for(var i=0; i<prjs.length;i++)
-    			{
-    				console.log(prjs.length)
-    			}
-    		});
-    		$scope.projects=prjs;
-		}
-		loadEntries();
+	$scope.loadEntries = function () {
+		//$scope.projects = Projects.query();	
+		$scope.project = new Projects();
+		var prjs = Projects.query(function(response) {
+			for(var i=0; i<prjs.length;i++)
+			{
+				console.log(prjs.length)
+			}
+		});
+		$scope.projects=prjs;
+	}
+	$scope.loadEntries();
 
 
         
