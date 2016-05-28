@@ -42,13 +42,13 @@ Priority:<br>
   </tr>
   <tr ng-repeat="element in listOfTasks">
     <td style="width:4%;">{{$index+1}}&nbsp;</td>
-    <td style="width:11%;">{{element.mark}}</td>  
-    <td style="width:9%;">{{element.status}}</td>
-    <td style="width:9%;">{{element.priority}}</td>
-    <td style="width:21%;"><p ng-class="{tleave: $index != selectedIndex, tover: $index == selectedIndex}" ng-click="pregled(element.id)" ng-mouseover="tover($index)" ng-mouseleave="tleave($index)"><u>{{element.title}}</u></p></td>
-    <td style="width:15%;">{{element.author}}</td>
-    <td style="width:15%;">{{element.assignedFor}}</td>
-    <td style="width:12%;">{{element.updatedAt}}</td>
+    <td style="width:11%;">{{element.currentState.mark}}</td>  
+    <td style="width:9%;">{{element.currentState.status}}</td>
+    <td style="width:9%;">{{element.currentState.priority}}</td>
+    <td style="width:21%;"><p ng-class="{tleave: $index != selectedIndex, tover: $index == selectedIndex}" ng-click="pregled(element.id)" ng-mouseover="tover($index)" ng-mouseleave="tleave($index)"><u>{{element.currentState.title}}</u></p></td>
+    <td style="width:15%;">{{element.currentState.author}}</td>
+    <td style="width:15%;">{{element.currentState.assignedFor}}</td>
+    <td style="width:12%;">{{element.currentState.updatedAt}}</td>
   </tr>
 
 </table>

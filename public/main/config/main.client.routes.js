@@ -10,8 +10,8 @@ angular.module('main').config(['$urlRouterProvider','$stateProvider',
       })
 	  .state('dashBoard.projects', {
         url: '/projects',
-        templateUrl: 'projects/views/listOfTasks.html',
-        /*controller: 'listOfProjectsCtrl'*/
+        templateUrl: 'projects/views/listOfProjects.html',
+        controller: 'listOfProjectsCtrl'
       })
       .state('dashBoard.tasks', {
         url: '/tasks',

@@ -1,5 +1,5 @@
-angular.module('main').controller('listOfProjectsCtrl', ['$scope', '$rootScope', '$location',
-    function($scope,$rootScope,$location) {
+angular.module('main').controller('listOfProjectsCtrl', ['$scope', '$rootScope', '$location','Projects',
+    function($scope,$rootScope,$location,Projects) {
 		var list = [
 		{
 			"id": "u32h4jjhj3245",
@@ -25,32 +25,36 @@ angular.module('main').controller('listOfProjectsCtrl', ['$scope', '$rootScope',
 		}
 		]
 
-		/*var Project = $resource('/api/projects/:id',
-			{id:'@_id'},
-			{update:{method:'PUT'}});*/
+		
 		var loadEntries = function () {
-			$scope.projects = Project.query();		
-			$scope.project = new Project();
+			$scope.listProjects = Projects.query();		
+			$scope.listProject = new Projects();
 		}
 		loadEntries();
 		$scope.save = function () {
-			if(!$scope.project._id){
-				$scope.project.$save(loadEntries);
+			if(!$scope.listProject._id){
+				$scope.listProject.$save(loadEntries);
+				$location.path('/dashBoard/projects');
 			}
 			else{
-				$scope.project.$update(loadEntries);				
+				$scope.listProject.$update(loadEntries);
+				$location.path('/dashBoard/projects');				
 			}
 		} 
-		$scope.delete = function (Project) {
-			Project.$delete(loadEntries);
+		$scope.delete = function (listProject) {
+			listProject.$delete(loadEntries);
 		}
-		$scope.edit = function (Project) {
-			$scope.project = Project;
+		$scope.edit = function (listProject) {
+			$scope.listProject = listProject;
+			$location.path('/dashBoard/addProject');
 		} 
 		
 		
 		$scope.listOfTasks = list;
 		$scope.allTasks = list;
+
+		$scope.listOfTasks = Projects.query();
+		$scope.allTasks = Projects.query();
 
 		$scope.cToDo = true;
 		$scope.cInProgress = true;
@@ -120,12 +124,10 @@ angular.module('main').controller('listOfProjectsCtrl', ['$scope', '$rootScope',
 
 		}
 
-		$scope.addProject = function()
-		{
-			$location.path('/dashBoard/projects');
-			//console.log('ffdfdfdffd');
+		
 
-		}
+
+
 
         
 }]);
