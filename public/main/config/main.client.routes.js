@@ -28,6 +28,11 @@ angular.module('main').config(['$urlRouterProvider','$stateProvider',
         templateUrl: 'projects/views/editProject.html',
         /*controller: 'addProjectCtrl'*/
       })
+    .state('dashBoard.teamMembers', {
+        url: '/teamMembers',
+        templateUrl: 'projects/views/addMember.html',
+        /*controller: 'addProjectCtrl'*/
+      })
        .state('dashBoard.addTask', {
         url: '/addTask',
         templateUrl: 'tasks/views/addTask.html',

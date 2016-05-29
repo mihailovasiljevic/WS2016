@@ -5,8 +5,7 @@
 <div ng-controller="listOfProjectsCtrl">
 <br><hr><br>
 	<table align="center">
-		<th colspan="2">Add Project</th>
-		<tr><td>Title:</td><td><input  id="selProject" type="text" ng-model="listProject.title"/></td></tr>
+		<th colspan="2">Add Members</th>
 		<tr><td>Team members:</td>
 			<td>
 			<select ng-change="Users()" ng-model="listProject.teamMembers">
@@ -21,15 +20,14 @@
     
   <br><hr><br>
   
-  <div ng-repeat="listProject in listProjects">
+  <div ng-repeat="user in listProjects">
 				
-					{{ listProject.title }}
-				<div ng-repeat="user in teamMembers" value="{{user._id}}">
-					{{ user.username }}
+					
+				<div >
+					{{ user.teamMembers[0].username }}
 				</div>
 				<div>
 					<button ng-click="delete(listProject)">delete</button>
-					<button ng-click="edit(listProject)">edit</button>
 				</div>
 			</div>
 

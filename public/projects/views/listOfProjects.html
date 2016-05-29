@@ -57,15 +57,15 @@ Priority:<br>
  <table id="t01" align="left" width="25%;">
           <tr>
             <th>Title</th>
-            <th>Member</th> 
+            <th>&nbsp;</th> 
             <th>&nbsp;</th> 
             <th>&nbsp;</th> 
           </tr>
           <tr ng-repeat="listProject in listProjects">
             <td>{{ listProject.title }}</td>
-            <td>{{ listProject.member }}</td> 
             <td><button ng-click="edit(listProject)">edit</button></td> 
             <td><button ng-click="delete(listProject)">delete</button></td>
+            <td><button ng-click="showUsers(listProject)">users</button></td>
           </tr>
   </table>   
 
