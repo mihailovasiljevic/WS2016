@@ -106,11 +106,12 @@ exports.taskByID = function(req, res, next, id){
 
 exports.update = function(req, res, next){
 
-  req.task.currentState.updatedAt = new Date();
+
   var currentState = req.task.currentState;
   req.task.history.push(currentState);
   req.task.currentState = req.body.currentState;
-  
+   req.task.currentState.updatedAt = new Date();
+    
   Task.findByIdAndUpdate(req.task.id, req.task, function(err, task){
     if(err){
          return res.status(400).send({
