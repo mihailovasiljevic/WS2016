@@ -96,7 +96,7 @@ exports.delete = function(req, res, next){
       if (err) return next(err);
       if(!task) return next(new Error('Failed to load task ' + taskId));
       
-
+      var index = task.currentState.comments.indexOf(req.comment._id);
       
       req.comment.remove(function(err){
         if(err){
@@ -104,7 +104,7 @@ exports.delete = function(req, res, next){
               message: errorHandler.getErrorMessage(err)
             }); 
         }else{
-              var index = task.currentState.comments.indexOf(req.comment);
+              
       
               task.currentState.comments.splice(index,1);
               Task.findByIdAndUpdate(task.id, task, function(err, task){

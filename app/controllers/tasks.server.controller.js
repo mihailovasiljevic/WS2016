@@ -104,13 +104,40 @@ exports.update = function(req, res, next){
 };
 
 exports.delete = function(req, res, next){
-  req.task.remove(function(err){
-    if(err){
-         return res.status(400).send({
-           message: errorHandler.getErrorMessage(err)
-         }); 
-    }else{
-      res.json(req.task);
-    }
-  });
+  
+    console.log(req.task);
+    projectId = req.task.currentState.project;
+    
+     Project.findById(projectId)
+    .exec(function(err, project){
+      if (err) return next(err);
+      if(!project) return next(new Error('Failed to load project ' + projectId));
+      
+      var index = project.tasks.indexOf(req.task._id);
+      
+      console.log(index);
+             
+      
+      req.task.remove(function(err){
+        if(err){
+            return res.status(400).send({
+              message: errorHandler.getErrorMessage(err)
+            }); 
+        }else{
+              project.tasks.splice(index,1);
+              Project.findByIdAndUpdate(project.id, project, function(err, project){
+                if(err){
+                    return res.status(400).send({
+                      message: errorHandler.getErrorMessage(err)
+                    }); 
+                }else{
+                  res.json(req.task);
+                }
+              });    
+        }
+      });  
+      
+     // next();
+    });   
+  
 };
