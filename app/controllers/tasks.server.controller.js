@@ -6,8 +6,7 @@ var mongoose = require('mongoose'),
 exports.create = function(req, res, next){
     var task = new Task(req.body);
     
-    //task.author = req.user;  // stavio sam author umesto creator
-    
+    task.currentState.author = req.user._id;  // stavio sam author umesto creator
     var projectId = req.body.currentState.project._id;
     
     Project.findById(projectId)
@@ -49,7 +48,7 @@ exports.create = function(req, res, next){
 };
 
 exports.list = function(req, res, next){
-  
+
   Task.find().sort('-createdAt')
 	.populate('currentState.author')
 	.populate('currentState.assignedFor')
@@ -61,9 +60,6 @@ exports.list = function(req, res, next){
            message: errorHandler.getErrorMessage(err)
          }); 
     }else {
-		for(var i = 0; i < tasks.length; i++) {
-			console.log(tasks[i].currentState.author);
-		}
       res.json(tasks);
     }    
   });
@@ -74,8 +70,11 @@ exports.read = function(req, res){
 };
 
 exports.taskByID = function(req, res, next, id){
-  
-  Task.findById(id).populate('currentState.assignedFor').exec(function(err, task){
+
+  Task.findById(id).populate('currentState.assignedFor')
+  .populate('currentState.author')
+  .populate('history.assignedFor')
+  .exec(function(err, task){
     if (err) return next(err);
     if(!task) return next(new Error('Failed to load task ' + id));
     
@@ -87,7 +86,7 @@ exports.taskByID = function(req, res, next, id){
 };
 
 exports.update = function(req, res, next){
-	console.log(req.body);
+
   req.task.currentState.updatedAt = new Date();
   var currentState = req.task.currentState;
   

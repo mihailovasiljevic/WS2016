@@ -11,7 +11,7 @@ angular.module('main').config(['$urlRouterProvider','$stateProvider',
 	  .state('dashBoard.projects', {
         url: '/projects',
         templateUrl: 'projects/views/listOfProjects.html',
-        controller: 'listOfProjectsCtrl'
+        /*controller: 'listOfProjectsCtrl'*/
       })
       .state('dashBoard.tasks', {
         url: '/tasks',
@@ -42,6 +42,10 @@ angular.module('main').config(['$urlRouterProvider','$stateProvider',
         url: '/task/:taskId',
         templateUrl: 'tasks/views/taskDetails.html',
         /*controller: 'listOfTasksCtrl'*/
-      });
+      })
+       .state('dashBoard.history', {
+          url: '/task_history/:taskId',
+          templateUrl: 'tasks/views/taskHisotry.html',
+       });
   }
 ]);
