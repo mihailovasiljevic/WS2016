@@ -177,6 +177,7 @@ var loadEntries = function () {
 					if(prjs.length>0){
 					$scope.teamMembers = prjs[0].teamMembers;
 					$scope.task.currentState.project._id = prjs[0]._id;
+					if(prjs[0].teamMembers.length>0)
 					$scope.task.currentState.assignedFor._id=prjs[0].teamMembers[0]._id;
 				}
     			/*for(var i=0; i<prjs.length;i++)
@@ -228,7 +229,10 @@ var task = new Tasks({
       
       task.$save();
       */
-	$scope.task.$save(loadEntries);
+	$scope.task.$save(function(response){
+		$location.path('/dashBoard/task/'+$scope.task._id);
+	});
+	
 
 }
 
@@ -236,6 +240,9 @@ $scope.showUsers = function(){
 	console.log($scope.task.currentState.project);
 	var prj = Projects.get({projectId:$scope.task.currentState.project._id},function(response) {
 		$scope.teamMembers = prj.teamMembers;
+		if(prj.teamMembers.length>0){
+		$scope.task.currentState.assignedFor._id = prj.teamMembers[0]._id;
+		}
 		console.log(prj.teamMembers.length)
 	});
 
