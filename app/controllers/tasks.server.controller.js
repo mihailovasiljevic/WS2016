@@ -191,7 +191,32 @@ exports.delete = function(req, res, next){
                       message: errorHandler.getErrorMessage(err)
                     }); 
                 }else{
-                  res.json(req.task);
+                    userId = req.task.currentState.assignedFor;
+                      User.findById(userId)
+                      .exec(function(err, user){
+                        if (err) return next(err);
+                        if(!user) return next(new Error('Failed to load project ' + userId));
+                        
+                        var index = user.tasks.indexOf(req.task._id);
+                        
+                        console.log(index);
+
+                        user.tasks.splice(index,1);
+                        User.findByIdAndUpdate(user.id, user, function(err, user){
+                          if(err){
+                              return res.status(400).send({
+                                message: errorHandler.getErrorMessage(err)
+                              }); 
+                          }else{      
+                            console.log("obrisan i user");      
+                            res.json(req.task);
+                          }
+                        });    
+    
+                        
+                      // next();
+                      });                 
+
                 }
               });    
         }
