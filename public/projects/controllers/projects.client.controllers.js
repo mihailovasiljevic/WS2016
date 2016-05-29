@@ -1,4 +1,4 @@
-angular.module('main').controller('listOfProjectsCtrl', ['$scope', '$rootScope', '$location','Projects','Users',
+angular.module('projects').controller('listOfProjectsCtrl', ['$scope', '$rootScope', '$location','Projects','Users',
     function($scope,$rootScope,$location,Projects,Users) {
 		var list = [
 		{
@@ -56,6 +56,7 @@ angular.module('main').controller('listOfProjectsCtrl', ['$scope', '$rootScope',
 
 		}
 
+
 		var loadEntriesUsers = function () {
 			
 			$scope.user = new Users();
@@ -87,6 +88,23 @@ angular.module('main').controller('listOfProjectsCtrl', ['$scope', '$rootScope',
 	
 			});
 		}
+
+
+		var load =function(){
+
+			var project=Projects.get({projectId:$stateParams.projectId},function(response){
+
+
+				
+			}
+
+
+
+		}
+
+
+
+
 		
 		$scope.listOfTasks = list;
 		$scope.allTasks = list;
@@ -148,7 +166,10 @@ angular.module('main').controller('listOfProjectsCtrl', ['$scope', '$rootScope',
 
 		var pregled = function(id) {
 			alert('usao');
-			$location.path('/project/'+id);
+			console.log(id);
+			$scope.listProject._id = id;
+			$location.path('/dashBoard/project/'+id);
+
 
 		};
 		$scope.pregled = pregled;
@@ -160,14 +181,63 @@ angular.module('main').controller('listOfProjectsCtrl', ['$scope', '$rootScope',
 			$location.path('/dashBoard/addProject');
 
 		}
-
-		
-
-		
-
-
-
-
         
-}]);
+}])
+
+ .controller('ProjectsController', ['$scope', '$location','$stateParams', 'Authentication', 'Projects', 
+  function($scope, $location,$stateParams , Authentication, Projects){
+    $scope.authentication = Authentication;
+    
+    $scope.create = function(){
+      var project = new Projects({
+        username: this.username,
+        password: this.password,
+        email: this.email,
+        firstName: this.firstName,
+        lastName: this.lastName,
+        role: this.role
+      })
+      
+      project.$save(function(response){
+        $location.path('projects/'+response._id);
+      }, function(errorResponse){
+        $scope.error = errorResponse.data.message;
+      });
+    };
+    
+    $scope.find = function(){
+      $scope.Projects = Projects.query();
+    };
+    
+    $scope.findOne = function(){
+      $scope.project = Projects.get({
+        projectId: $stateParams.projectId
+      });
+    };
+    
+    $scope.update = function(){
+      $scope.project.$update(function(){
+        $location.path('projects/' + $scope.project._id);
+      }, function(errorResponse){
+        $scope.error = errorResponse.data.message;
+      });
+    };
+    
+    $scope.delete = function(project){
+      if(project){
+        project.$remove(function(){
+          for(var i in $scope.projects){
+            if($scope.projects[i] === project){
+               $scope.projects.splice(i,1);
+            }
+          }
+        });
+      } else {
+        $scope.project.$remove(function(){
+          $location.path('projects');
+        });
+      }
+    };
+    
+  }]);
 

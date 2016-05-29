@@ -8,7 +8,7 @@ angular.module('main').config(['$urlRouterProvider','$stateProvider',
         templateUrl: 'main/views/dashBoard.html',
         /*controller: 'myCtrl',*/
       })
-	  .state('dashBoard.projects', {
+    .state('dashBoard.projects', {
         url: '/projects',
         templateUrl: 'projects/views/listOfProjects.html',
         /*controller: 'listOfProjectsCtrl'*/
@@ -18,7 +18,7 @@ angular.module('main').config(['$urlRouterProvider','$stateProvider',
         templateUrl: 'tasks/views/listOfTasks.html',
         /*controller: 'listOfTasksCtrl'*/
       })
-	  .state('dashBoard.addProject', {
+    .state('dashBoard.addProject', {
         url: '/addProject',
         templateUrl: 'projects/views/addProject.html',
         /*controller: 'addProjectCtrl'*/
@@ -46,6 +46,10 @@ angular.module('main').config(['$urlRouterProvider','$stateProvider',
        .state('dashBoard.history', {
           url: '/task_history/:taskId',
           templateUrl: 'tasks/views/taskHisotry.html',
+       })
+       .state('dashBoard.editTask',{
+          url: '/edit_task/:taskId',
+           templateUrl: 'tasks/views/addTask.html'
        });
   }
 ]);
