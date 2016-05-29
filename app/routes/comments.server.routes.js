@@ -4,11 +4,11 @@ var users = projects = require('../../app/controllers/users.server.controller'),
 module.exports = function(app){
 
     app.route('/api/comments')
-    .post(users.requiresLogin,comments.create)
+    .post(comments.create)
     .get(comments.list);
     app.route('/api/comments/:commentId')
-      .get(users.requiresLogin,comments.read)
-      .put(users.requiresLogin,comments.update)
-      .delete(users.requiresLogin,comments.delete);
+      .get(comments.read)
+      .put(comments.update)
+      .delete(comments.delete);
     app.param('commentId', comments.commentByID);
 }

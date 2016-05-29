@@ -39,22 +39,8 @@ var taskSchema = new Schema({
       type: Date,
     },
     comments: [{
-          author: {
-            type: Schema.Types.ObjectId,
-              ref: 'User',
-              required:true
-          },
-          text: {
-            type: String,
-            required: 'You have to insert comment text.'
-          },
-          createdAt: {
-              type: Date,
-              default: Date.now,
-          },
-          updatedAt: {
-            type: Date,
-          }
+      type: Schema.Types.ObjectId,
+      ref: 'Comment'//,
     }],
     priority: {
       type: String,
@@ -102,22 +88,8 @@ var taskSchema = new Schema({
       type: Date,
     },
     comments: [{
-          author: {
-            type: Schema.Types.ObjectId,
-              ref: 'User',
-              required:true
-          },
-          text: {
-            type: String,
-            required: 'You have to insert comment text.'
-          },
-          createdAt: {
-              type: Date,
-              default: Date.now,
-          },
-          updatedAt: {
-            type: Date,
-          }
+      type: Schema.Types.ObjectId,
+      ref: 'Comment'//,
     }],
     priority: {
       type: String,

@@ -13,7 +13,7 @@ exports.create = function(req, res, next){
     Project.findById(projectId)
     .exec(function(err, project){
       if (err) return next(err);
-      if(!project) return next(new Error('Failed to load project ' + task.currentState.project._id));
+      if(!project) return next(new Error('Failed to load project ' + projectId));
       console.log(JSON.stringify(req.body));
       task.currentState.mark = project.title + project.taskNumber;
       //do saving if project is found
@@ -54,6 +54,7 @@ exports.list = function(req, res, next){
 	.populate('currentState.author')
 	.populate('currentState.assignedFor')
 	.populate('currentState.project')
+  .populate('currentState.comments')
 	.exec(function(err, tasks){
     if(err){
          return res.status(400).send({
