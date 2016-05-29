@@ -7,14 +7,12 @@ exports.create = function(req, res, next){
     var task = new Task(req.body);
     
     task.currentState.author = req.user._id;  // stavio sam author umesto creator
-    console.log(task.author);
     var projectId = req.body.currentState.project._id;
     
     Project.findById(projectId)
     .exec(function(err, project){
       if (err) return next(err);
       if(!project) return next(new Error('Failed to load project ' + task.currentState.project._id));
-      console.log(JSON.stringify(req.body));
       task.currentState.mark = project.title + project.taskNumber;
       //do saving if project is found
       task.save(function(err) {
@@ -49,7 +47,7 @@ exports.create = function(req, res, next){
 };
 
 exports.list = function(req, res, next){
-  
+
   Task.find().sort('-createdAt')
 	.populate('currentState.author')
 	.populate('currentState.assignedFor')
@@ -60,9 +58,6 @@ exports.list = function(req, res, next){
            message: errorHandler.getErrorMessage(err)
          }); 
     }else {
-		for(var i = 0; i < tasks.length; i++) {
-			console.log(tasks[i].currentState.author);
-		}
       res.json(tasks);
     }    
   });
@@ -73,8 +68,11 @@ exports.read = function(req, res){
 };
 
 exports.taskByID = function(req, res, next, id){
-  
-  Task.findById(id).populate('currentState.assignedFor').exec(function(err, task){
+
+  Task.findById(id).populate('currentState.assignedFor')
+  .populate('currentState.author')
+  .populate('history.assignedFor')
+  .exec(function(err, task){
     if (err) return next(err);
     if(!task) return next(new Error('Failed to load task ' + id));
     
@@ -86,7 +84,7 @@ exports.taskByID = function(req, res, next, id){
 };
 
 exports.update = function(req, res, next){
-	console.log(req.body);
+
   req.task.currentState.updatedAt = new Date();
   var currentState = req.task.currentState;
   

@@ -7,7 +7,6 @@ angular.module('tasks').controller('listOfTasksCtrl', ['$scope', '$rootScope', '
 				for(var i = 0; i < response.length; i++) {
 
 					var author = response[i].currentState.author.firstName + response[i].currentState.author.lastName;
-					alert(author);
 					var assignedFor = response[i].currentState.assignedFor.firstName + response[i].currentState.assignedFor.lastName;
 					var task = {
 						"id": response[i]._id,
@@ -130,6 +129,7 @@ angular.module('tasks').controller('taskModel', ['$scope', '$rootScope', '$locat
 				}
 
 				var task = {};
+				task.id = response._id;
 				task.mark = response.currentState.mark;
 				task.title = response.currentState.title;
 				task.name = response.currentState.firstName;
@@ -146,6 +146,10 @@ angular.module('tasks').controller('taskModel', ['$scope', '$rootScope', '$locat
 
 	}
 	$scope.list();
+
+	$scope.showHistory = function(id) {
+		$location.path('/dashBoard/task_history/'+id);
+	}
 
 }]);
 
@@ -240,4 +244,51 @@ $scope.showUsers = function(){
 
 
         
+}]);
+
+angular.module('tasks').controller('showHistory', ['$scope', '$rootScope', '$location','Projects','$stateParams','Tasks',
+    function($scope,$rootScope,$location,Projects,$stateParams,Tasks) {
+
+    	Tasks.get({taskId: $stateParams.taskId},function(response) {
+
+    		var histories = [];
+    		for(var i = 0; i < response.history.length; i++) {
+				var assignedFor = response.history[i].assignedFor.firstName + " " + response.history[i].assignedFor.lastName;
+				var date = new Date(response.history[i].createdAt);
+				var createdAt = (date.getMonth() + 1).toString() + "/" + date.getDate().toString() + "/" + date.getFullYear().toString();
+				if(response.history[i].updatedAt != undefined) {
+					var date = new Date(response.history[i].updatedAt);
+					var updatedAt = (date.getMonth() + 1).toString() + "/" + date.getDate().toString() + "/" + date.getFullYear().toString() 
+						+ " " + date.getHours() + ":" + date.getMinutes();
+					$scope.lastUpdate = true;
+				} else {
+					$scope.lastUpdate = false;
+				}
+
+				var task = {};
+				task.id = response._id;
+				task.mark = response.history[i].mark;
+				task.title = response.history[i].title;
+				task.name = response.history[i].firstName;
+				task.surname = response.history[i].lastName;
+				task.createdAt = createdAt;
+				task.updatedAt = updatedAt;
+				task.status = response.history[i].status;
+				task.priority = response.history[i].priority;
+				task.assignedFor = assignedFor;
+				task.description = response.history[i].description;
+
+				histories.push(task);
+    		}
+    		task = {};
+    		task.title = response.currentState.title;
+    		task.mark = response.currentState.mark;
+    		task.author = response.currentState.author.firstName + " " + response.currentState.author.lastName 
+    		+ " (  "+ response.currentState.author.username + " )"; 
+    		$scope.task = task;
+    		$scope.histories = histories;
+
+    	});
+
+
 }]);
