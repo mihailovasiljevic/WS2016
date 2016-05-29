@@ -1,5 +1,5 @@
-angular.module('main').controller('listOfProjectsCtrl', ['$scope', '$rootScope', '$location','Projects',
-    function($scope,$rootScope,$location,Projects) {
+angular.module('main').controller('listOfProjectsCtrl', ['$scope', '$rootScope', '$location','Projects','Users',
+    function($scope,$rootScope,$location,Projects,Users) {
 		var list = [
 		{
 			"id": "u32h4jjhj3245",
@@ -48,7 +48,45 @@ angular.module('main').controller('listOfProjectsCtrl', ['$scope', '$rootScope',
 			$scope.listProject = listProject;
 			$location.path('/dashBoard/editProject');
 		} 
+
+		$scope.showUsers = function(listProject)
+		{
+			$scope.listProject = listProject;
+			$location.path('/dashBoard/teamMembers');
+
+		}
+
+		var loadEntriesUsers = function () {
+			
+			$scope.user = new Users();
+			var users = Users.query(
+
+				function(response) {
+					console.log('duzina users je: '+users.length)
+					if(users.length>0){
+					$scope.user._id = users[0]._id;
+					
+				}
+    			
+    		}
+    		);
+    		$scope.users=users;
+    		
+
+   
+		}
+		loadEntriesUsers();
 		
+
+		$scope.Users = function(){
+			console.log('usao14');
+			console.log($scope.user);
+	
+			var korisnici = Users.get({userId:$scope.user._id},function(response) {
+			$scope.teamMembers = korisnici.teamMembers;
+	
+			});
+		}
 		
 		$scope.listOfTasks = list;
 		$scope.allTasks = list;
@@ -125,17 +163,11 @@ angular.module('main').controller('listOfProjectsCtrl', ['$scope', '$rootScope',
 
 		
 
-
-
-
-        
-}]);
-
-
-angular.module('main').controller('addProjectCtrl', ['$scope', '$rootScope', '$location',
-    function($scope,$rootScope,$location) {
 		
-console.log('dfddfdffdfd3344334');
+
+
+
+
         
 }]);
-   
+

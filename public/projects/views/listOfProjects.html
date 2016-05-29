@@ -59,11 +59,13 @@ Priority:<br>
             <th>Title</th>
             <th>&nbsp;</th> 
             <th>&nbsp;</th> 
+            <th>&nbsp;</th> 
           </tr>
           <tr ng-repeat="listProject in listProjects">
             <td>{{ listProject.title }}</td>
             <td><button ng-click="edit(listProject)">edit</button></td> 
             <td><button ng-click="delete(listProject)">delete</button></td>
+            <td><button ng-click="showUsers(listProject)">users</button></td>
           </tr>
   </table>   
 
