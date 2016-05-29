@@ -6,13 +6,13 @@ angular.module('tasks').controller('listOfTasksCtrl', ['$scope', '$rootScope', '
 				var tasks = [];
 				for(var i = 0; i < response.length; i++) {
 
-					var author = response[i].currentState.author.firstName + response[i].currentState.author.lastName;
+			//		var author = response[i].currentState.author.firstName + response[i].currentState.author.lastName;
 					var assignedFor = response[i].currentState.assignedFor.firstName + response[i].currentState.assignedFor.lastName;
 					var task = {
 						"id": response[i]._id,
 						"mark": response[i].currentState.mark,
 						"title": response[i].currentState.title,
-						"author": author,
+					//	"author": author,
 						"assignedFor": assignedFor,
 						"status":response[i].currentState.status,
 						"priority": response[i].currentState.priority,
@@ -151,10 +151,14 @@ angular.module('tasks').controller('taskModel', ['$scope', '$rootScope', '$locat
 		$location.path('/dashBoard/task_history/'+id);
 	}
 
+	$scope.editTask = function(id){
+		$location.path('/dashBoard/edit_task/'+id);
+	}
+
 }]);
 
-angular.module('tasks').controller('addTaskCtrl', ['$scope', '$rootScope', '$location','Projects','$http','Tasks',
-    function($scope,$rootScope,$location,Projects,$http,Tasks) {
+angular.module('tasks').controller('addTaskCtrl', ['$scope', '$rootScope', '$location','Projects','$http','Tasks','$stateParams',
+    function($scope,$rootScope,$location,Projects,$http,Tasks,$stateParams) {
 		
 console.log('dfddfdffdfd3344334');
 
@@ -204,7 +208,78 @@ var loadEntries = function () {
     		
     		
 		}
-		loadEntries();
+
+
+var loadForEdit = function () {
+			
+			//$scope.projects = Projects.query();	
+			$scope.project = new Projects();
+			var prjs = Projects.query(
+
+				function(response) {
+					$scope.projects=prjs;
+					/*
+					console.log('duzina prjs je: '+prjs.length)
+					if(prjs.length>0){
+					$scope.teamMembers = prjs[0].teamMembers;
+					$scope.task.currentState.project._id = prjs[0]._id;
+					if(prjs[0].teamMembers.length>0)
+					$scope.task.currentState.assignedFor._id=prjs[0].teamMembers[0]._id;
+				*/}
+    			/*for(var i=0; i<prjs.length;i++)
+    			{
+    				
+    				for(var j=0; j<prjs[i].teamMembers.length; j++){
+    					var idKor = prjs[i].teamMembers[j]._id;
+    					$http.get("./api/sendMe").success(function(user){
+    						
+			    			console.log(user.username)
+			    			$scope.user=user;
+			    			
+			    			if(idKor===user._id){
+								console.log("KORISNIK pronadjen") ;   						
+    					}
+    						} );
+    				}
+    				*/
+    			//}
+    		);
+    		
+    		
+    		var task = Tasks.get({taskId:$stateParams.taskId},function(response){
+
+
+			$scope.task = new Tasks();
+			$scope.task._id = task._id;
+			$scope.task.currentState={};
+			$scope.task.currentState.project={};
+			$scope.task.currentState.assignedFor={};
+
+			$scope.task.currentState.priority=task.currentState.priority;
+			$scope.task.currentState.status=task.currentState.status;
+			$scope.task.currentState.title=task.currentState.title;
+			$scope.task.currentState.description=task.currentState.description;
+			$scope.task.currentState.project._id=task.currentState.project;
+
+			var prj = Projects.get({projectId:task.currentState.project},function(response) {
+				$scope.teamMembers = prj.teamMembers;
+			});
+			$scope.task.currentState.assignedFor._id=task.currentState.assignedFor._id;
+
+
+
+			});
+    		
+    		
+		}
+
+if($stateParams.taskId===undefined){
+loadEntries();
+}
+else{
+	loadForEdit();
+}
+
 
 
 $scope.addTask = function(){
@@ -229,10 +304,17 @@ var task = new Tasks({
       
       task.$save();
       */
-	$scope.task.$save(function(response){
-		$location.path('/dashBoard/task/'+$scope.task._id);
-	});
+    if($stateParams.taskId===undefined){
+		$scope.task.$save(function(response){
+			$location.path('/dashBoard/task/'+$scope.task._id);
+		});
+	}
 	
+	else{
+		$scope.task.$update({taskId:$scope.task._id},function(response){
+			$location.path('/dashBoard/task/'+$scope.task._id);
+		})
+	}
 
 }
 
