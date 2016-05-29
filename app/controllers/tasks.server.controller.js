@@ -66,15 +66,6 @@ exports.create = function(req, res, next){
    
 };
 
-function updateUsers( collection, callback){
-  var usersIds = collection.slice(0);//clone collection;
-  (function updateUsers(){
-         var item = usersIds.splice(0,1)[0];
-         console.log("Pokusaj cuvanja: " + item);
-      
-    })();
-}
-
 exports.list = function(req, res, next){
 
   Task.find().sort('-createdAt')
@@ -120,13 +111,54 @@ exports.update = function(req, res, next){
   
   req.task.history.push(currentState);
   
-  Task.findByIdAndUpdate(req.task.id, req.task, function(err, task){
+  Task.findByIdAndUpdate(req.task.id, req.body, function(err, task){
     if(err){
          return res.status(400).send({
            message: errorHandler.getErrorMessage(err)
          }); 
     }else{
-      res.json(task);
+      console.log("Updating");
+          if(req.body.currentState.assignedFor){
+           console.log(req.body.currentState.assignedFor);
+           console.log(req.task.currentState.assignedFor);
+          if(req.body.currentState.assignedFor != task.assignedFor){
+            User.findById(task.assignedFor)
+            .exec(function(err, user){
+              if (err) return next(err);
+              if(!user) return next(new Error('Failed to load project ' + task.currentState.assignedFor));
+              user.tasks.push(task);
+              User.findByIdAndUpdate(user.id, user, function(err, user){
+                if(err){
+                    return res.status(400).send({
+                      message: errorHandler.getErrorMessage(err)
+                    }); 
+                }else{
+                    User.findById(req.body.currentState.assignedFor)
+                    .exec(function(err, user){
+                      if (err) return next(err);
+                      if(!user) return next(new Error('Failed to load project ' + task.currentState.assignedFor));
+                      var index = user.tasks.indexOf(req.body.currentState.assignedFor);
+                      user.tasks.splice(index,1)
+                      
+                      User.findByIdAndUpdate(user.id, user, function(err, user){
+                        if(err){
+                            return res.status(400).send({
+                              message: errorHandler.getErrorMessage(err)
+                            }); 
+                        }else{
+                          console.log("\nUspesno sacuvan "+task.currentState.assignedFor);
+                          res.json(task);                       
+  
+                        }
+                      });              
+                    });                
+                }
+              });              
+            });            
+          } 
+         } else{
+           res.json(task); 
+         }
     }
   });
 };
