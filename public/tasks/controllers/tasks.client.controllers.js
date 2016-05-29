@@ -6,13 +6,13 @@ angular.module('tasks').controller('listOfTasksCtrl', ['$scope', '$rootScope', '
 				var tasks = [];
 				for(var i = 0; i < response.length; i++) {
 
-			//		var author = response[i].currentState.author.firstName + response[i].currentState.author.lastName;
+					var author = response[i].currentState.author.firstName + response[i].currentState.author.lastName;
 					var assignedFor = response[i].currentState.assignedFor.firstName + response[i].currentState.assignedFor.lastName;
 					var task = {
 						"id": response[i]._id,
 						"mark": response[i].currentState.mark,
 						"title": response[i].currentState.title,
-					//	"author": author,
+						"author": author,
 						"assignedFor": assignedFor,
 						"status":response[i].currentState.status,
 						"priority": response[i].currentState.priority,
@@ -217,7 +217,6 @@ var loadForEdit = function () {
 			var prjs = Projects.query(
 
 				function(response) {
-					$scope.projects=prjs;
 					/*
 					console.log('duzina prjs je: '+prjs.length)
 					if(prjs.length>0){
@@ -244,7 +243,7 @@ var loadForEdit = function () {
     				*/
     			//}
     		);
-    		
+    		$scope.projects=prjs;
     		
     		var task = Tasks.get({taskId:$stateParams.taskId},function(response){
 
