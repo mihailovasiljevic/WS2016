@@ -106,12 +106,13 @@ exports.taskByID = function(req, res, next, id){
 
 exports.update = function(req, res, next){
 
-  req.task.currentState.updatedAt = new Date();
+
   var currentState = req.task.currentState;
-  
   req.task.history.push(currentState);
-  
-  Task.findByIdAndUpdate(req.task.id, req.body, function(err, task){
+  req.task.currentState = req.body.currentState;
+   req.task.currentState.updatedAt = new Date();
+    
+  Task.findByIdAndUpdate(req.task.id, req.task, function(err, task){
     if(err){
          return res.status(400).send({
            message: errorHandler.getErrorMessage(err)
@@ -120,13 +121,18 @@ exports.update = function(req, res, next){
       console.log("Updating");
           if(req.body.currentState.assignedFor){
            console.log(req.body.currentState.assignedFor);
-           console.log(req.task.currentState.assignedFor);
-          if(req.body.currentState.assignedFor != task.assignedFor){
-            User.findById(task.assignedFor)
+           console.log(task.currentState.assignedFor);
+           console.log(req.body.currentState.assignedFor._id != task.currentState.assignedFor);
+          if(req.body.currentState.assignedFor != task.currentState.assignedFor){
+
+            console.log(task.currentState.assignedFor);
+            User.findById(task.currentState.assignedFor)
             .exec(function(err, user){
               if (err) return next(err);
-              if(!user) return next(new Error('Failed to load project ' + task.currentState.assignedFor));
-              user.tasks.push(task);
+              if(!user) return next(new Error('Failed to load user ' + task.currentState.assignedFor));
+              var index = user.tasks.indexOf(req.body.currentState.assignedFor);
+              console.log("index "+index);
+              user.tasks.splice(index,1)
               User.findByIdAndUpdate(user.id, user, function(err, user){
                 if(err){
                     return res.status(400).send({
@@ -137,9 +143,9 @@ exports.update = function(req, res, next){
                     .exec(function(err, user){
                       if (err) return next(err);
                       if(!user) return next(new Error('Failed to load project ' + task.currentState.assignedFor));
-                      var index = user.tasks.indexOf(req.body.currentState.assignedFor);
-                      user.tasks.splice(index,1)
                       
+  
+                      user.tasks.push(task);
                       User.findByIdAndUpdate(user.id, user, function(err, user){
                         if(err){
                             return res.status(400).send({
@@ -148,7 +154,6 @@ exports.update = function(req, res, next){
                         }else{
                           console.log("\nUspesno sacuvan "+task.currentState.assignedFor);
                           res.json(task);                       
-  
                         }
                       });              
                     });                
@@ -191,7 +196,32 @@ exports.delete = function(req, res, next){
                       message: errorHandler.getErrorMessage(err)
                     }); 
                 }else{
-                  res.json(req.task);
+                    userId = req.task.currentState.assignedFor;
+                      User.findById(userId)
+                      .exec(function(err, user){
+                        if (err) return next(err);
+                        if(!user) return next(new Error('Failed to load project ' + userId));
+                        
+                        var index = user.tasks.indexOf(req.task._id);
+                        
+                        console.log(index);
+
+                        user.tasks.splice(index,1);
+                        User.findByIdAndUpdate(user.id, user, function(err, user){
+                          if(err){
+                              return res.status(400).send({
+                                message: errorHandler.getErrorMessage(err)
+                              }); 
+                          }else{      
+                            console.log("obrisan i user");      
+                            res.json(req.task);
+                          }
+                        });    
+    
+                        
+                      // next();
+                      });                 
+
                 }
               });    
         }

@@ -5,7 +5,7 @@
 <div align="center" ng-controller="taskModel">
 	<div class="topLocal" align="left">
 		<div>
-			<input type="button" class="btn btn-default btn-sm topButtons" value="Change Task">
+			<input type="button" class="btn btn-default btn-sm topButtons" value="Change Task" ng-click="editTask(task.id)">
 			<input type="button" class="btn btn-default btn-sm topButtons" value="Show History" ng-click="showHistory(task.id)">
 		</div>
 	</div>
