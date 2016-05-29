@@ -1,12 +1,14 @@
 var mongoose = require('mongoose'),
     Task = mongoose.model('Task'),
-    Project = mongoose.model('Project'), // use mongoose to call module method to get project model
+    Project = mongoose.model('Project'), 
+    User = mongoose.model('User'),// use mongoose to call module method to get project model
     errorHandler = require('../controllers/index.server.controller');
 
 exports.create = function(req, res, next){
     var task = new Task(req.body);
     
-    task.currentState.author = req.user._id;  // stavio sam author umesto creator
+    //task.currentState.author = req.user._id;  // stavio sam author umesto creator
+   
     var projectId = req.body.currentState.project._id;
     
     Project.findById(projectId)
@@ -33,7 +35,24 @@ exports.create = function(req, res, next){
                       message: errorHandler.getErrorMessage(err)
                     }); 
                 }else{
-                  res.json(task);
+                   
+                    User.findById(task.currentState.assignedFor)
+                    .exec(function(err, user){
+                      if (err) return next(err);
+                      if(!user) return next(new Error('Failed to load project ' + task.currentState.assignedFor));
+                      user.tasks.push(task);
+                      User.findByIdAndUpdate(user.id, user, function(err, user){
+                        if(err){
+                            return res.status(400).send({
+                              message: errorHandler.getErrorMessage(err)
+                            }); 
+                        }else{
+                            console.log("\nUspesno sacuvan "+task.currentState.assignedFor);
+                            res.json(task);
+                        }
+                      });              
+                    }); 
+                  
                 }
               });              
             
@@ -46,6 +65,15 @@ exports.create = function(req, res, next){
     
    
 };
+
+function updateUsers( collection, callback){
+  var usersIds = collection.slice(0);//clone collection;
+  (function updateUsers(){
+         var item = usersIds.splice(0,1)[0];
+         console.log("Pokusaj cuvanja: " + item);
+      
+    })();
+}
 
 exports.list = function(req, res, next){
 
