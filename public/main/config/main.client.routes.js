@@ -1,21 +1,21 @@
 angular.module('main').config(['$urlRouterProvider','$stateProvider',
   function($urlRouterProvider,$stateProvider) {    
    
-   $urlRouterProvider.otherwise('other');
+   $urlRouterProvider.otherwise('/');
     $stateProvider
       .state('dashBoard', {
-        url: '/dashBoard',
+        url: '/',
         templateUrl: 'main/views/dashBoard.html',
         /*controller: 'myCtrl',*/
       })
     .state('dashBoard.projects', {
         url: '/projects',
-        templateUrl: 'projects/views/listOfProjects.html',
+        templateUrl: './projects/views/listOfProjects.html',
         /*controller: 'listOfProjectsCtrl'*/
       })
       .state('dashBoard.tasks', {
         url: '/tasks',
-        templateUrl: 'tasks/views/listOfTasks.html',
+        templateUrl: './tasks/views/listOfTasks.html',
         /*controller: 'listOfTasksCtrl'*/
       })
     .state('dashBoard.addProject', {

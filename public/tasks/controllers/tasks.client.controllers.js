@@ -1,5 +1,5 @@
-angular.module('tasks').controller('listOfTasksCtrl', ['$scope', '$rootScope', '$location','Tasks','Projects',
-    function($scope,$rootScope,$location,Tasks,Projects) {
+angular.module('tasks').controller('listOfTasksCtrl', ['$scope', '$rootScope', '$location','Tasks','Projects','$state',
+    function($scope,$rootScope,$location,Tasks,Projects,$state) {
 
 		$scope.list = function() {
 			Tasks.query(function(response) {
@@ -89,7 +89,8 @@ angular.module('tasks').controller('listOfTasksCtrl', ['$scope', '$rootScope', '
 		
 		$scope.showAddTaskForm = function()
 		{
-			$location.path('/dashBoard/addTask');
+			//$location.path('/dashBoard/addTask');
+			$state.go('dashBoard.task');
 		}
 
 		$scope.selectedIndex = -1;
@@ -157,8 +158,8 @@ angular.module('tasks').controller('taskModel', ['$scope', '$rootScope', '$locat
 
 }]);
 
-angular.module('tasks').controller('addTaskCtrl', ['$scope', '$rootScope', '$location','Projects','$http','Tasks','$stateParams',
-    function($scope,$rootScope,$location,Projects,$http,Tasks,$stateParams) {
+angular.module('tasks').controller('addTaskCtrl', ['$scope', '$rootScope', '$location','Projects','$http','Tasks','$stateParams','$state',
+    function($scope,$rootScope,$location,Projects,$http,Tasks,$stateParams,$state) {
 		
 console.log('dfddfdffdfd3344334');
 
