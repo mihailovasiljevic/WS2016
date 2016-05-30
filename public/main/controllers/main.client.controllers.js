@@ -1,5 +1,5 @@
-angular.module('main').controller('myCtrl', ['$scope', '$rootScope', '$location',
-    function($scope,$rootScope,$location){
+angular.module('main').controller('myCtrl', ['$scope', '$rootScope', '$location','$state',
+    function($scope,$rootScope,$location,$state){
         
       var treeElements = [];
       treeElements.push('Projects');
@@ -25,7 +25,8 @@ angular.module('main').controller('myCtrl', ['$scope', '$rootScope', '$location'
         selectedNode = index;
         $scope.nodeSelected = index;
         var path = path.toLowerCase();
-        $location.path('/dashBoard/'+path);
+        $state.go('dashBoard.'+path);
+       // $location.path('/dashBoard/'+path);
       };
         
 }]);

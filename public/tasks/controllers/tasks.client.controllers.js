@@ -1,5 +1,5 @@
-angular.module('tasks').controller('listOfTasksCtrl', ['$scope', '$rootScope', '$location','Tasks','Projects',
-    function($scope,$rootScope,$location,Tasks,Projects) {
+angular.module('tasks').controller('listOfTasksCtrl', ['$scope', '$rootScope', '$location','Tasks','Projects','$state',
+    function($scope,$rootScope,$location,Tasks,Projects,$state) {
 
 		$scope.list = function() {
 			Tasks.query(function(response) {
@@ -82,14 +82,16 @@ angular.module('tasks').controller('listOfTasksCtrl', ['$scope', '$rootScope', '
 
 		$scope.pregled = function(id) 
 		{
-			$location.path('/dashBoard/task/'+id);
+		//	$location.path('/dashBoard/task/'+id);
+			$state.go('dashBoard.task',{taskId:id});
 			document.body.style.cursor = "auto";
 		}
 
 		
 		$scope.showAddTaskForm = function()
 		{
-			$location.path('/dashBoard/addTask');
+			//$location.path('/dashBoard/addTask');
+			$state.go('dashBoard.addTask');
 		}
 
 		$scope.selectedIndex = -1;
@@ -109,8 +111,8 @@ angular.module('tasks').controller('listOfTasksCtrl', ['$scope', '$rootScope', '
         
 }]);
 
-angular.module('tasks').controller('taskModel', ['$scope', '$rootScope', '$location','$stateParams', 'Tasks',
-	function($scope,$rootScope,$location,$stateParams,Tasks) {
+angular.module('tasks').controller('taskModel', ['$scope', '$rootScope', '$location','$stateParams', 'Tasks','$state',
+	function($scope,$rootScope,$location,$stateParams,Tasks,$state) {
 		
 		$scope.list = function() {
 
@@ -148,17 +150,27 @@ angular.module('tasks').controller('taskModel', ['$scope', '$rootScope', '$locat
 	$scope.list();
 
 	$scope.showHistory = function(id) {
-		$location.path('/dashBoard/task_history/'+id);
+		//$location.path('/dashBoard/task_history/'+id);
+		$state.go('dashBoard.history',{taskId:id});
+
 	}
 
 	$scope.editTask = function(id){
-		$location.path('/dashBoard/edit_task/'+id);
+		//$location.path('/dashBoard/edit_task/'+id);
+		$state.go('dashBoard.editTask',{taskId:id});
+
+	}
+
+	$scope.deleteTask = function(id){
+		var task = Tasks.get({taskId:id},function(response){})
+		task.$delete({taskId:id},function(response){console.log("USPESNO BRISANJE");});
+		$state.go('dashBoard.tasks');
 	}
 
 }]);
 
-angular.module('tasks').controller('addTaskCtrl', ['$scope', '$rootScope', '$location','Projects','$http','Tasks','$stateParams',
-    function($scope,$rootScope,$location,Projects,$http,Tasks,$stateParams) {
+angular.module('tasks').controller('addTaskCtrl', ['$scope', '$rootScope', '$location','Projects','$http','Tasks','$stateParams','$state',
+    function($scope,$rootScope,$location,Projects,$http,Tasks,$stateParams,$state) {
 		
 console.log('dfddfdffdfd3344334');
 
@@ -253,7 +265,7 @@ var loadForEdit = function () {
 			$scope.task.currentState={};
 			$scope.task.currentState.project={};
 			$scope.task.currentState.assignedFor={};
-
+			$scope.task.currentState.author = task.currentState.author;
 			$scope.task.currentState.priority=task.currentState.priority;
 			$scope.task.currentState.status=task.currentState.status;
 			$scope.task.currentState.title=task.currentState.title;
@@ -305,13 +317,15 @@ var task = new Tasks({
       */
     if($stateParams.taskId===undefined){
 		$scope.task.$save(function(response){
-			$location.path('/dashBoard/task/'+$scope.task._id);
+			//$location.path('/dashBoard/task/'+$scope.task._id);
+			$state.go('dashBoard.tasks');
 		});
 	}
 	
 	else{
 		$scope.task.$update({taskId:$scope.task._id},function(response){
-			$location.path('/dashBoard/task/'+$scope.task._id);
+			//$location.path('/dashBoard/task/'+$scope.task._id);
+			$state.go('dashBoard.task',{taskId:$scope.task._id});
 		})
 	}
 
