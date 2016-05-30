@@ -4,12 +4,11 @@ var mongoose = require('mongoose'),
     errorHandler = require('../controllers/index.server.controller');
 
 exports.create = function(req, res, next){
-    var comment = new Comment(req.body);
+
+	var comment = new Comment(req.body);
+    comment.author = req.user;  // stavio sam author umesto creator
     
-    //task.author = req.user;  // stavio sam author umesto creator
-    
-    var taskId = req.body.task._id;
-    
+    var taskId = req.body.task;
     Task.findById(taskId)
     .exec(function(err, task){
       if (err) return next(err);
