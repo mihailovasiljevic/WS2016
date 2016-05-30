@@ -8,7 +8,13 @@
 			<input type="button" class="btn btn-default btn-sm topButtons" value="Change Task" ng-click="editTask(task.id)">
 			<input type="button" class="btn btn-default btn-sm topButtons" value="Show History" ng-click="showHistory(task.id)">
 			<input type="button" class ="btn btn-default btn-sm topButtons"
-			value="Delete Task" ng-click="deleteTask(task.id)">
+			value="Delete Task" ng-click="clicked=true">
+			<div ng-show="clicked">
+				<label>Are you sure you want to delete this task?</label>
+				<input type="button" class="btn btn-default btn-sm topButtons"
+				 value="Yes" ng-click="deleteTask(task.id)">
+				 <input type="button" class="btn btn-default btn=sm topButtons" value="No" ng-click="clicked=false">
+			</div>
 		</div>
 	</div>
 	<br>
