@@ -1,5 +1,5 @@
-angular.module('projects').controller('listOfProjectsCtrl', ['$scope', '$rootScope', '$location','Projects','Users','$stateParams','$state',
-    function($scope,$rootScope,$location,Projects,Users,$stateParams,$state) {
+angular.module('projects').controller('listOfProjectsCtrl', ['$scope', '$rootScope', '$location','Projects','Users','$stateParams',
+    function($scope,$rootScope,$location,Projects,Users,$stateParams) {
 		
 		var loadEntries = function () {
 			$scope.listProjects = Projects.query();		
@@ -61,8 +61,8 @@ angular.module('projects').controller('listOfProjectsCtrl', ['$scope', '$rootSco
 
 		$scope.showAddProjectForm = function()
 		{
-			//$location.path('/dashBoard/addProject');
-			$scope.navigateTo('dashBoard.addProject'); 
+			$location.path('/dashBoard/addProject');
+
 		}
 
 
@@ -103,7 +103,6 @@ angular.module('projects').controller('listOfProjectsCtrl', ['$scope', '$rootSco
 		{
 			//$scope.listProject = listProject;
 			$location.path('/dashBoard/teamMembers/'+id);
-			
 
 		}
 
@@ -163,9 +162,7 @@ angular.module('projects').controller('listOfProjectsCtrl', ['$scope', '$rootSco
 		}
 		$scope.doFilter = doFilter;*/
 		
-	  $scope.navigateTo = function(target){
-         $state.go(target);
-      }
+		
 		
         
 }]);
