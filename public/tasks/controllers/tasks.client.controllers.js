@@ -166,8 +166,9 @@ angular.module('tasks').controller('taskModel', ['$scope', '$rootScope', '$locat
 
 	$scope.deleteTask = function(id){
 		var task = Tasks.get({taskId:id},function(response){})
-		task.$delete({taskId:id},function(response){console.log("USPESNO BRISANJE");});
+		task.$delete({taskId:id},function(response){console.log("USPESNO BRISANJE");
 		$state.go('dashBoard.tasks');
+	})
 	}
 
 }]);
