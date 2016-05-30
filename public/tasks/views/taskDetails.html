@@ -29,3 +29,18 @@
 </div>
 
 </div>
+<br><br>
+
+<div ng-controller="addComment" align="center">
+<table align="center">
+<tr>
+<td>Title:</td> <td><input type="text" ng-model="comment.title"></td>
+</tr>
+<tr>
+<td>Comment: &nbsp;</td><td><textarea cols="30" rows="8" ng-model="comment.text"></textarea></td>
+</tr>
+<tr ng-show="hasComment"><td>&nbsp;</td><td>Morate uneti komentar</td></tr>
+<tr><td colspan="2" align="center"><input type="button" value="Submit" ng-click="create()"></td></tr>
+</table>
+
+</div>
