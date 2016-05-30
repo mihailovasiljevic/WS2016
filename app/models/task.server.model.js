@@ -21,7 +21,6 @@ var taskSchema = new Schema({
     assignedFor: {
       type: Schema.Types.ObjectId,
       ref: 'User',
-      required: 'You have to insert who is task assigned for.'
     },
     project: {
       type: Schema.Types.ObjectId,

@@ -6,7 +6,9 @@ angular.module('tasks').controller('listOfTasksCtrl', ['$scope', '$rootScope', '
 				var tasks = [];
 				for(var i = 0; i < response.length; i++) {
 					var author = response[i].currentState.author.firstName + response[i].currentState.author.lastName;
+					if(response[i].currentState.assignedFor!=undefined)
 					var assignedFor = response[i].currentState.assignedFor.firstName + response[i].currentState.assignedFor.lastName;
+					else assignedFor="";
 					var task = {
 						"id": response[i]._id,
 						"mark": response[i].currentState.mark,
@@ -116,8 +118,9 @@ angular.module('tasks').controller('taskModel', ['$scope', '$rootScope', '$locat
 		$scope.list = function() {
 
 			Tasks.get({taskId: $stateParams.taskId},function(response) {
-
+				if(response.currentState.assignedFor!=undefined)
 				var assignedFor = response.currentState.assignedFor.firstName + " " + response.currentState.assignedFor.lastName;
+				else assignedFor="";
 
 				var date = new Date(response.currentState.createdAt);
 				var createdAt = (date.getMonth() + 1).toString() + "/" + date.getDate().toString() + "/" + date.getFullYear().toString();
@@ -156,6 +159,7 @@ angular.module('tasks').controller('taskModel', ['$scope', '$rootScope', '$locat
 
 	$scope.editTask = function(id){
 		//$location.path('/dashBoard/edit_task/'+id);
+		console.log(id);
 		$state.go('dashBoard.editTask',{taskId:id});
 
 	}
@@ -192,8 +196,9 @@ var loadEntries = function () {
 					if(prjs.length>0){
 					$scope.teamMembers = prjs[0].teamMembers;
 					$scope.task.currentState.project._id = prjs[0]._id;
-					if(prjs[0].teamMembers.length>0)
+					if(prjs[0].teamMembers.length>0){
 					$scope.task.currentState.assignedFor._id=prjs[0].teamMembers[0]._id;
+					}
 				}
     			/*for(var i=0; i<prjs.length;i++)
     			{
@@ -274,8 +279,9 @@ var loadForEdit = function () {
 			var prj = Projects.get({projectId:task.currentState.project},function(response) {
 				$scope.teamMembers = prj.teamMembers;
 			});
+			if(task.currentState.assignedFor!=undefined)
 			$scope.task.currentState.assignedFor._id=task.currentState.assignedFor._id;
-
+			else $scope.task.currentState.assignedFor._id = "none";
 
 
 			});
@@ -314,10 +320,12 @@ var task = new Tasks({
       
       task.$save();
       */
+    if($scope.task.currentState.assignedFor._id=="none")
+    	delete $scope.task.currentState.assignedFor;
     if($stateParams.taskId===undefined){
 		$scope.task.$save(function(response){
 			//$location.path('/dashBoard/task/'+$scope.task._id);
-			$state.go('dashBoard.tasks');
+			$state.go('dashBoard.task',{taskId:$scope.task._id});
 		});
 	}
 	

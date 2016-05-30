@@ -28,6 +28,7 @@
 <tr><td><label>Title:</label></td><td><input type="text" name="title" ng-model="task.currentState.title" ng-blur="visitedTitle = true" required><span class="validationText" ng-show="addTaskForm.title.$error.required && visitedTitle">Title is required</span></td></tr>
 
 <tr><td><label> Assigned for:</label></td><td><select id="selPriority" ng-model="task.currentState.assignedFor._id">
+  <option value="none"></option>
   <option ng-repeat="user in teamMembers" value="{{user._id}}">{{ user.username }}</option>
   
 </select><span class="validationText" ng-show="teamMembers.length==0">Your project doesn't have any members </span></td></tr></td></tr>
