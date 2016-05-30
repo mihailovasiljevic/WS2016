@@ -24,12 +24,7 @@ angular.module('projects').controller('listOfProjectsCtrl', ['$scope', '$rootSco
 			$location.path('/dashBoard/editProject');
 		} 
 
-		$scope.showUsers = function(listProject)
-		{
-			$scope.listProject = listProject;
-			$location.path('/dashBoard/teamMembers');
-
-		}
+		
 
 
 		var loadEntriesUsers = function () {
@@ -62,6 +57,53 @@ angular.module('projects').controller('listOfProjectsCtrl', ['$scope', '$rootSco
 			$scope.teamMembers = korisnici.teamMembers;
 	
 			});
+		}
+
+		$scope.showAddProjectForm = function()
+		{
+			$location.path('/dashBoard/addProject');
+
+		}
+
+
+		var loadForEdit = function () {
+			
+			//$scope.projects = Projects.query();	
+			$scope.project = new Projects();
+			
+    		
+    		var listProject = Projects.get({projectId:$stateParams.projectId},function(response){
+
+
+			$scope.listProject = new Projects();
+			$scope.listProject._id = listProject._id;
+			$scope.listProject.teamMembers={};
+			
+
+			$scope.listProject.title=listProject.title;
+			$scope.listProject.teamMembers=listProject.teamMembers;
+			
+			});
+    		
+    		
+		}
+
+		if($stateParams.projectId===undefined){
+		loadEntries();
+		}
+		else{
+			loadForEdit();
+		}
+
+		$scope.editProject = function(id){
+		$location.path('/dashBoard/edit_project/'+id);
+		}
+
+		$scope.showUsers = function(id)
+		{
+			//$scope.listProject = listProject;
+			$location.path('/dashBoard/teamMembers/'+id);
+
 		}
 
 
@@ -121,45 +163,7 @@ angular.module('projects').controller('listOfProjectsCtrl', ['$scope', '$rootSco
 		$scope.doFilter = doFilter;*/
 		
 		
-		$scope.showAddProjectForm = function()
-		{
-			$location.path('/dashBoard/addProject');
-
-		}
-
-
-		var loadForEdit = function () {
-			
-			//$scope.projects = Projects.query();	
-			$scope.project = new Projects();
-			
-    		
-    		var listProject = Projects.get({projectId:$stateParams.projectId},function(response){
-
-
-			$scope.listProject = new Projects();
-			$scope.listProject._id = listProject._id;
-			$scope.listProject.teamMembers={};
-			
-
-			$scope.listProject.title=listProject.title;
-			$scope.listProject.teamMembers=listProject.teamMembers;
-			
-			});
-    		
-    		
-		}
-
-		if($stateParams.projectId===undefined){
-		loadEntries();
-		}
-		else{
-			loadForEdit();
-		}
-
-		$scope.editProject = function(id){
-		$location.path('/dashBoard/edit_project/'+id);
-	}
+		
         
 }]);
 

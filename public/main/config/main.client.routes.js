@@ -24,7 +24,7 @@ angular.module('main').config(['$urlRouterProvider','$stateProvider',
         /*controller: 'addProjectCtrl'*/
       })
     .state('dashBoard.teamMembers', {
-        url: '/teamMembers',
+        url: '/teamMembers/:projectId',
         templateUrl: 'projects/views/addMember.html',
         /*controller: 'addProjectCtrl'*/
       })
