@@ -275,6 +275,7 @@ var loadForEdit = function () {
 			$scope.task.currentState.title=task.currentState.title;
 			$scope.task.currentState.description=task.currentState.description;
 			$scope.task.currentState.project._id=task.currentState.project;
+			$scope.task.currentState.mark = task.currentState.mark;
 
 			var prj = Projects.get({projectId:task.currentState.project},function(response) {
 				$scope.teamMembers = prj.teamMembers;
