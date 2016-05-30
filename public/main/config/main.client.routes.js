@@ -23,11 +23,6 @@ angular.module('main').config(['$urlRouterProvider','$stateProvider',
         templateUrl: 'projects/views/addProject.html',
         /*controller: 'addProjectCtrl'*/
       })
-    .state('dashBoard.editProject', {
-        url: '/editProject',
-        templateUrl: 'projects/views/editProject.html',
-        /*controller: 'addProjectCtrl'*/
-      })
     .state('dashBoard.teamMembers', {
         url: '/teamMembers',
         templateUrl: 'projects/views/addMember.html',
@@ -50,6 +45,10 @@ angular.module('main').config(['$urlRouterProvider','$stateProvider',
        .state('dashBoard.editTask',{
           url: '/edit_task/:taskId',
            templateUrl: 'tasks/views/addTask.html'
+       })
+       .state('dashBoard.editProject',{
+          url: '/edit_project/:projectId',
+           templateUrl: 'projects/views/addProject.html'
        });
   }
 ]);

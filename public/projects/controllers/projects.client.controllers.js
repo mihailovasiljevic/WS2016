@@ -1,30 +1,5 @@
-angular.module('projects').controller('listOfProjectsCtrl', ['$scope', '$rootScope', '$location','Projects','Users',
-    function($scope,$rootScope,$location,Projects,Users) {
-		var list = [
-		{
-			"id": "u32h4jjhj3245",
-			"mark": "xws1",
-			"title": "zadatak broj 1",
-			"description": "opisujemo",
-			"author": "Nemanja Starcev",
-			"assignedFor": "Milos Savic",
-			"status":"To Do",
-			"priority": "Major",
-			"updatedAt": "23-04-2016",
-		},
-		{
-			"id": "joij34jk3232",
-			"mark": "xws2",
-			"title": "zadatak broj 2",
-			"description": "opisujemo",
-			"author": "Nemanja Starcev",
-			"assignedFor": "Rale Ilic",
-			"status":"To Do",
-			"priority": "Major",
-			"updatedAt": "23-02-2016",
-		}
-		]
-
+angular.module('projects').controller('listOfProjectsCtrl', ['$scope', '$rootScope', '$location','Projects','Users','$stateParams',
+    function($scope,$rootScope,$location,Projects,Users,$stateParams) {
 		
 		var loadEntries = function () {
 			$scope.listProjects = Projects.query();		
@@ -90,26 +65,7 @@ angular.module('projects').controller('listOfProjectsCtrl', ['$scope', '$rootSco
 		}
 
 
-		var load =function(){
-
-			var project=Projects.get({projectId:$stateParams.projectId},function(response){
-
-
-				
-			}
-
-
-
-		}
-
-
-
-
-		
-		$scope.listOfTasks = list;
-		$scope.allTasks = list;
-
-		$scope.listOfTasks = Projects.query();
+		/*$scope.listOfTasks = Projects.query();
 		$scope.allTasks = Projects.query();
 
 		$scope.cToDo = true;
@@ -162,82 +118,49 @@ angular.module('projects').controller('listOfProjectsCtrl', ['$scope', '$rootSco
 			alert(newList.length);
 			$scope.listOfTasks = newList ;
 		}
-		$scope.doFilter = doFilter;
-
-		var pregled = function(id) {
-			alert('usao');
-			console.log(id);
-			$scope.listProject._id = id;
-			$location.path('/dashBoard/project/'+id);
-
-
-		};
-		$scope.pregled = pregled;
-
-
+		$scope.doFilter = doFilter;*/
+		
 		
 		$scope.showAddProjectForm = function()
 		{
 			$location.path('/dashBoard/addProject');
 
 		}
+
+
+		var loadForEdit = function () {
+			
+			//$scope.projects = Projects.query();	
+			$scope.project = new Projects();
+			
+    		
+    		var listProject = Projects.get({projectId:$stateParams.projectId},function(response){
+
+
+			$scope.listProject = new Projects();
+			$scope.listProject._id = listProject._id;
+			$scope.listProject.teamMembers={};
+			
+
+			$scope.listProject.title=listProject.title;
+			$scope.listProject.teamMembers=listProject.teamMembers;
+			
+			});
+    		
+    		
+		}
+
+		if($stateParams.projectId===undefined){
+		loadEntries();
+		}
+		else{
+			loadForEdit();
+		}
+
+		$scope.editProject = function(id){
+		$location.path('/dashBoard/edit_project/'+id);
+	}
         
-}])
+}]);
 
- .controller('ProjectsController', ['$scope', '$location','$stateParams', 'Authentication', 'Projects', 
-  function($scope, $location,$stateParams , Authentication, Projects){
-    $scope.authentication = Authentication;
-    
-    $scope.create = function(){
-      var project = new Projects({
-        username: this.username,
-        password: this.password,
-        email: this.email,
-        firstName: this.firstName,
-        lastName: this.lastName,
-        role: this.role
-      })
-      
-      project.$save(function(response){
-        $location.path('projects/'+response._id);
-      }, function(errorResponse){
-        $scope.error = errorResponse.data.message;
-      });
-    };
-    
-    $scope.find = function(){
-      $scope.Projects = Projects.query();
-    };
-    
-    $scope.findOne = function(){
-      $scope.project = Projects.get({
-        projectId: $stateParams.projectId
-      });
-    };
-    
-    $scope.update = function(){
-      $scope.project.$update(function(){
-        $location.path('projects/' + $scope.project._id);
-      }, function(errorResponse){
-        $scope.error = errorResponse.data.message;
-      });
-    };
-    
-    $scope.delete = function(project){
-      if(project){
-        project.$remove(function(){
-          for(var i in $scope.projects){
-            if($scope.projects[i] === project){
-               $scope.projects.splice(i,1);
-            }
-          }
-        });
-      } else {
-        $scope.project.$remove(function(){
-          $location.path('projects');
-        });
-      }
-    };
-    
-  }]);
-
+ 
