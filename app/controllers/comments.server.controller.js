@@ -13,7 +13,6 @@ exports.create = function(req, res, next){
     .exec(function(err, task){
       if (err) return next(err);
       if(!task) return next(new Error('Failed to load task ' + taskId));
-      //console.log(JSON.stringify(req.body));
       //do saving if project is found
       comment.save(function(err) {
           if (err) {
@@ -44,7 +43,9 @@ exports.create = function(req, res, next){
 
 exports.list = function(req, res, next){
   
-  Comment.find().sort('-createdAt').exec(function(err, comments){
+  Comment.find().sort('createdAt')
+  .populate('author')
+  .exec(function(err, comments){
     if(err){
          return res.status(400).send({
            message: errorHandler.getErrorMessage(err)
