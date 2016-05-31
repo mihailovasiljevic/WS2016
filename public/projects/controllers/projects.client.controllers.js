@@ -1,27 +1,102 @@
-angular.module('projects').controller('listOfProjectsCtrl', ['$scope', '$rootScope', '$location','Projects','Users','$stateParams',
-    function($scope,$rootScope,$location,Projects,Users,$stateParams) {
+angular.module('projects').controller('listOfProjectsCtrl', ['$scope', '$rootScope', '$location','Projects','Users','$stateParams','$state',
+    function($scope,$rootScope,$location,Projects,Users,$stateParams,$state) {
 		
 		var loadEntries = function () {
 			$scope.listProjects = Projects.query();		
 			$scope.listProject = new Projects();
+			var pret='1111';
+			var pret1='11s1';
+
+			$scope.ubaci= function(member,project){
+
+
+				var oznaka=false;
+
+				var korisnici = Projects.get({projectId:project},function(response) {
+					$scope.teamMembers = korisnici.teamMembers;
+					console.log($scope.teamMembers[0]);
+
+
+				console.log(member);
+
+				$scope.listProject.teamMembers=[];
+
+				for(var i=0;i<$scope.teamMembers.length;i++){
+					$scope.listProject.teamMembers.push($scope.teamMembers[i]);
+
+					if($scope.teamMembers[i]._id==member){
+						console.log('usaaoo');
+						 oznaka=true;
+					}
+					
+				}
+				/*$scope.listProject.teamMembers=[	
+				   $scope.teamMembers[i]
+				];*/
+				console.log(oznaka);
+				if (oznaka==false) {
+					$scope.listProject.teamMembers.push(member);
+				}
+				
+	
+				});
+				
+				
+			}
+
+			
 		}
 		loadEntries();
+
+
+
+
 		$scope.save = function () {
 			if(!$scope.listProject._id){
+				
+				//$scope.listProject.teamMembers.$push(project.teamMembers);
 				$scope.listProject.$save(loadEntries);
-				$location.path('/dashBoard/projects');
+			//	$scope.listProject.teamMembers.$push
+				$state.go('dashBoard.projects');
 			}
 			else{
 				$scope.listProject.$update(loadEntries);
-				$location.path('/dashBoard/projects');				
+				$state.go('dashBoard.projects');				
 			}
 		} 
 		$scope.delete = function (listProject) {
 			listProject.$delete(loadEntries);
 		}
+
+		$scope.deleteMember = function(index){
+			console.log('he');
+		/*var korisnici = Projects.get({projectId:project},function(response) {
+					$scope.teamMembers = korisnici.teamMembers;
+					console.log(idTask);
+					console.log($scope.teamMembers[0]._id);
+
+					for(var i=0;i<$scope.teamMembers.length;i++){
+					
+					if($scope.teamMembers[i]._id==idTask){
+						console.log('hajd');
+						$scope.teamMembers[i].$delete();
+						 
+					}
+					
+					}
+
+	
+				//	$scope.teamMembers[idTask].$delete({projectId:project},function(response){});
+					$state.go('dashBoard.teamMembers');
+				});*/
+				$scope.listProject.teamMembers.splice(index, 1);
+				
+		
+		}
+
 		$scope.edit = function (listProject) {
 			$scope.listProject = listProject;
-			$location.path('/dashBoard/editProject');
+			$state.go('dashBoard.editProject');
 		} 
 
 		
@@ -59,9 +134,40 @@ angular.module('projects').controller('listOfProjectsCtrl', ['$scope', '$rootSco
 			});
 		}
 
+		$scope.Projects = function(){
+			console.log('usao14');
+			console.log($scope.user);
+	
+			var korisnici = Projects.get({projectId:$scope.project._id},function(response) {
+			$scope.teamMembers = korisnici.teamMembers;
+	
+			});
+		}
+
+		/*$scope.items = function(){
+			console.log('usao14');
+			console.log($scope.user);
+	
+			var korisnici = Users.get({userId:$scope.user._id},function(response) {
+			$scope.teamMembers = korisnici.teamMembers;
+	
+			});
+		}*/
+
+		  $scope.items = [
+	        { text: 'foo' },
+	        { text: 'bar' },
+	        { text: 'baz' }
+    	];
+
+		$scope.toggle = function (item) {
+        item.selected = !item.selected;
+    	};
+
+
 		$scope.showAddProjectForm = function()
 		{
-			$location.path('/dashBoard/addProject');
+			$state.go('dashBoard.addProject');
 
 		}
 
@@ -96,13 +202,17 @@ angular.module('projects').controller('listOfProjectsCtrl', ['$scope', '$rootSco
 		}
 
 		$scope.editProject = function(id){
-		$location.path('/dashBoard/edit_project/'+id);
+		$state.go('dashBoard.editProject',{projectId:id});
+		}
+
+		$scope.addMember = function(id){
+		$state.go('dashBoard.addMember',{projectId:id});
 		}
 
 		$scope.showUsers = function(id)
 		{
 			//$scope.listProject = listProject;
-			$location.path('/dashBoard/teamMembers/'+id);
+			$state.go('dashBoard.teamMembers',{projectId:id});
 
 		}
 

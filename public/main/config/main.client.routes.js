@@ -25,7 +25,7 @@ angular.module('main').config(['$urlRouterProvider','$stateProvider',
       })
     .state('dashBoard.teamMembers', {
         url: '/teamMembers/:projectId',
-        templateUrl: 'projects/views/addMember.html',
+        templateUrl: 'projects/views/showMembers.html'
         /*controller: 'addProjectCtrl'*/
       })
        .state('dashBoard.addTask', {
@@ -48,7 +48,11 @@ angular.module('main').config(['$urlRouterProvider','$stateProvider',
        })
        .state('dashBoard.editProject',{
           url: '/edit_project/:projectId',
-           templateUrl: 'projects/views/addProject.html'
+           templateUrl: 'projects/views/editProject.html'
+       })
+       .state('dashBoard.addMember',{
+          url: '/add_member/:projectId',
+           templateUrl: 'projects/views/addMember.html'
        });
   }
 ]);

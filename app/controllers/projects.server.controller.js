@@ -95,6 +95,7 @@ exports.projectByID = function(req, res, next, id){
 };
 
 exports.update = function(req, res, next){
+ console.log(JSON.stringify(req.body))
   Project.findByIdAndUpdate(req.project.id, req.body, function(err, project){
     if(err){
          return res.status(400).send({

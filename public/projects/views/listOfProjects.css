@@ -61,3 +61,7 @@ table#tAddProject tr{
 div#divProject{
     padding-top: 100px;
 }
+
+li.selected {
+    background-color: yellow;
+}

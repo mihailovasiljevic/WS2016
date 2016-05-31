@@ -4,25 +4,23 @@
 
 <div ng-controller="listOfProjectsCtrl">
 <br><hr><br>
-	<table align="center">
-		<th colspan="2">Add Member</th>
-		
-		 <tr><td>Add member:</td>
+	<!-- <table align="center">
+		<th colspan="2">Add Members</th>
+		 <tr><td>Team members:</td>
 			<td>
-			<select  ng-change="ubaci(listProject.teamMembers,listProject._id)" ng-model="listProject.teamMembers">
+			<select ng-change="Users()" ng-model="listProject.teamMembers">
  			<option ng-repeat="user in users" value="{{ user._id }}" >{{ user.username }}</option> 
  			
 			</select> 
 		</td></tr> 
-	
+
 		
-		<tr><td id="tdSubmitProject" colspan=2><button ng-click="save()" >Submit</button></td></tr>
+		<tr><td id="tdSubmitProject" colspan=2><button ng-click="save()">Submit</button></td></tr>
 	</table>
 
     
-  <br><hr><br>
-
-  <!-- <h1>Members:</h1>
+  <br><hr><br> -->
+  <h1>Members:</h1>
    <div ng-repeat="user in listProject.teamMembers">
 				
 					
@@ -32,10 +30,11 @@
 				<div>
 					<button ng-click="deleteMember($index)">delete</button>
 				</div>
-			</div>  -->
-  
+			</div> 
 
-	
+	<!-- <table align="center">
+		<th colspan="2">Current Members</th>
+		<tr><td>Username:</td><td>{{listProject.teamMembers[0].username}}</td></tr>
+	</table> -->
 
 </div>
-  
