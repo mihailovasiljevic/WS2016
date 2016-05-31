@@ -53,7 +53,7 @@ angular.module('main').config(['$urlRouterProvider','$stateProvider',
        .state('dashBoard.addMember',{
           url: '/add_member/:projectId',
            templateUrl: 'projects/views/addMember.html'
-       });
+       })
       .state('dashBoard.changeComment',{
       url: 'edit_comment/:commentId',
       templateUrl: 'comments/views/changeComment.html'
