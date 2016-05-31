@@ -166,8 +166,9 @@ angular.module('tasks').controller('taskModel', ['$scope', '$rootScope', '$locat
 
 	$scope.deleteTask = function(id){
 		var task = Tasks.get({taskId:id},function(response){})
-		task.$delete({taskId:id},function(response){console.log("USPESNO BRISANJE");});
+		task.$delete({taskId:id},function(response){console.log("USPESNO BRISANJE");
 		$state.go('dashBoard.tasks');
+	})
 	}
 
 }]);
@@ -275,6 +276,7 @@ var loadForEdit = function () {
 			$scope.task.currentState.title=task.currentState.title;
 			$scope.task.currentState.description=task.currentState.description;
 			$scope.task.currentState.project._id=task.currentState.project;
+			$scope.task.currentState.mark = task.currentState.mark;
 
 			var prj = Projects.get({projectId:task.currentState.project},function(response) {
 				$scope.teamMembers = prj.teamMembers;

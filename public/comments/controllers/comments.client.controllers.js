@@ -1,24 +1,80 @@
-angular.module('comments').controller('listOfComments', ['$scope', '$rootScope', '$location', 
-    function($scope,$rootScope,$location) {
-    	alert('usao');
-}])
-
-.controller('addComment', ['$scope', '$rootScope', '$location', '$stateParams', 'Comments',
-    function($scope,$rootScope,$location,$stateParams, Comments) {
+angular.module('comments').controller('listOfComments', ['$scope', '$rootScope', '$location', '$stateParams','$state', 'Comments',
+    function($scope,$rootScope,$location, $stateParams,$state, Comments) {
     	
-    	$scope.comment = new Comments();
     	$scope.hasComment = false;
+    	Comments.query(function(response) {
+    		var taskId = $stateParams.taskId;
+    		var comments = [];
+    		for(var i = 0; i < response.length; i++) {
+    			if(response[i].task === taskId) {
+    				comments.push(response[i]);
+    			}
+    		}
+    		$scope.comments = comments;
+    	});
+    	
     	
     	$scope.create = function() {
+    		$scope.comment = new Comments();
     		$scope.comment.task = $stateParams.taskId;
-    		if($scope.comment.text == "" || $scope.comment.text == undefined) {
+    		if($scope.commentM.text == "" || $scope.commentM.text == undefined) {
     			$scope.hasComment = true;
     			return false;
     		}
+    		$scope.comment.title = $scope.commentM.title;
+    		$scope.comment.text = $scope.commentM.text;
     		$scope.comment.$save(function(response) {
-    			$scope.comment.title = "";
-    			$scope.comment.text = "";
+    			$scope.commentM.title = "";
+    			$scope.commentM.text = "";
     			$scope.hasComment = false;
+    			$scope.comments.push(response);
     		});
     	}
+
+    	$scope.update = function(id) {
+    		$state.go('dashBoard.changeComment',{"commentId":id});
+    	}
+
+    	$scope.delete = function(id) {
+    		$scope.comment = new Comments();
+    		$scope.comment.$delete({"commentId":id},function() {
+    			for(var i = 0; i < $scope.comments.length; i++) {
+    				if($scope.comments[i]._id == id) {
+						$scope.comments.splice(i,1);
+    				}
+    			}
+    		});
+    	}
+
+
+}])
+
+.controller('changeComment', ['$scope', '$rootScope', '$location', '$stateParams','$state', 'Comments',
+    function($scope,$rootScope,$location, $stateParams,$state, Comments) {
+    	
+    	var commentId = $stateParams.commentId;
+    	Comments.get({"commentId":commentId},function(response) {
+			$scope.commentM = new Comments();
+			$scope.commentM._id = response._id;
+    		$scope.commentM.title = response.title;
+    		$scope.commentM.text = response.text;
+    		$scope.commentM.task =  response.task;
+    		$scope.commentM.author =  response.author;
+    		$scope.commentM.createdAt =  response.createdAt;
+
+    		$scope.taskId = response.task;
+    		$scope.commentId = response._id;
+    		
+    	});
+
+
+
+    	$scope.update = function() {
+    		
+    		$scope.commentM.$update({"commentId":$scope.commentId},function(response) {
+
+    			$state.go('dashBoard.task',{"taskId":$scope.taskId});
+    		});
+    	}
+
 }]);

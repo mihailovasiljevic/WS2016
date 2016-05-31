@@ -9,44 +9,50 @@ angular.module('main').config(['$urlRouterProvider','$stateProvider',
         /*controller: 'myCtrl',*/
       })
     .state('dashBoard.projects', {
-        url: '/projects',
+        url: 'projects',
         templateUrl: './projects/views/listOfProjects.html',
         /*controller: 'listOfProjectsCtrl'*/
       })
       .state('dashBoard.tasks', {
-        url: '/tasks',
+        url: 'tasks',
         templateUrl: './tasks/views/listOfTasks.html',
         /*controller: 'listOfTasksCtrl'*/
       })
     .state('dashBoard.addProject', {
-        url: '/addProject',
+        url: 'addProject',
         templateUrl: 'projects/views/addProject.html',
         /*controller: 'addProjectCtrl'*/
       })
     .state('dashBoard.teamMembers', {
+<<<<<<< HEAD
         url: '/teamMembers/:projectId',
         templateUrl: 'projects/views/showMembers.html'
+=======
+        url: 'teamMembers/:projectId',
+        templateUrl: 'projects/views/addMember.html',
+>>>>>>> 5ac5deb242c292249da4dbacd34368ffcc4fba90
         /*controller: 'addProjectCtrl'*/
       })
        .state('dashBoard.addTask', {
-        url: '/addTask',
+        url: 'addTask',
         templateUrl: 'tasks/views/addTask.html',
         /*controller: 'addTaskCtrl'*/
       })
        .state('dashBoard.task', {
-        url: '/task/:taskId',
+        url: 'task/:taskId',
         templateUrl: 'tasks/views/taskDetails.html',
         /*controller: 'listOfTasksCtrl'*/
       })
        .state('dashBoard.history', {
-          url: '/task_history/:taskId',
+          url: 'task_history/:taskId',
           templateUrl: 'tasks/views/taskHisotry.html',
        })
        .state('dashBoard.editTask',{
-          url: '/edit_task/:taskId',
+          url: 'edit_task/:taskId',
            templateUrl: 'tasks/views/addTask.html'
        })
        .state('dashBoard.editProject',{
+<<<<<<< HEAD
           url: '/edit_project/:projectId',
            templateUrl: 'projects/views/editProject.html'
        })
@@ -54,5 +60,14 @@ angular.module('main').config(['$urlRouterProvider','$stateProvider',
           url: '/add_member/:projectId',
            templateUrl: 'projects/views/addMember.html'
        });
+=======
+          url: 'edit_project/:projectId',
+           templateUrl: 'projects/views/addProject.html'
+       })
+	   .state('dashBoard.changeComment',{
+			url: 'edit_comment/:commentId',
+			templateUrl: 'comments/views/changeComment.html'
+	   });
+>>>>>>> 5ac5deb242c292249da4dbacd34368ffcc4fba90
   }
 ]);

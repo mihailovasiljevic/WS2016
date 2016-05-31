@@ -6,10 +6,7 @@ var commentSchema = new Schema({
         ref: 'User',
         required:true
     },
-    title:{
-      type: String,
-      required: 'Please insert title'
-    },
+    title: String,
     text: {
       type: String,
       required: 'You have to insert comment text.'
