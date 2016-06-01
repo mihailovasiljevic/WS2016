@@ -10,5 +10,14 @@ module.exports = function(app) {
 	app.route('/api/report_2/:report2Id') //reportId = projectId
       .get(/*users.requiresLogin,*/reports.report2);
     app.param('report2Id', reports.report2);
+
+    app.route('/api/report_3/:report3Id')
+      .get(/*users.requiresLogin,*/reports.report3);
+    app.param('report3Id', reports.report3);
+
+
+    app.route('/api/report_4/:report4Id')
+      .get(/*users.requiresLogin,*/reports.report4);
+    app.param('report4Id', reports.report4);
 	
 }

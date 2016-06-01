@@ -277,6 +277,7 @@ var loadForEdit = function () {
 			$scope.task.currentState.description=task.currentState.description;
 			$scope.task.currentState.project._id=task.currentState.project;
 			$scope.task.currentState.mark = task.currentState.mark;
+			$scope.task.currentState.createdAt = task.currentState.createdAt;
 
 			var prj = Projects.get({projectId:task.currentState.project},function(response) {
 				$scope.teamMembers = prj.teamMembers;
@@ -307,6 +308,7 @@ $scope.addTask = function(){
 	console.log($scope.task.currentState.priority);
 	console.log($scope.task.currentState.project);
 	console.log($scope.task.currentState.assignedFor);
+	console.log($scope.task.currentState.createdAt);
 
 /*
 var task = new Tasks({

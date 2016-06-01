@@ -20,13 +20,16 @@ exports.report1 = function(req,res,next,id)
 				map[tasks[i].currentState.assignedFor] = map[tasks[i].currentState.assignedFor] + 1;
 			}
 			var report = [];
+
 			for(var key in map) {
+				if(tasks[indexies[key]].currentState.assignedFor){
 				var user = {};
 				user.firstName = tasks[indexies[key]].currentState.assignedFor.firstName;
 				user.lastName = tasks[indexies[key]].currentState.assignedFor.lastName;
 				user.username = tasks[indexies[key]].currentState.assignedFor.username;
 				user.percantage = Math.round(((map[key] / tasks.length)*100) * 100) / 100;
 				report.push(user);
+			}
 			}
 			res.send(report);
 		});
@@ -58,6 +61,84 @@ exports.report2 = function(req,res,next,id)
 				user.username = tasks[indexies[key]].currentState.assignedFor.username;
 				user.percantage = Math.round(((map[key] / tasks.length)*100) * 100) / 100;
 				report.push(user);
+			}
+			res.send(report);
+		});
+	});
+
+}
+
+exports.report3 = function(req,res,next,id){
+
+	Project.findById(id)
+	.exec(function(err, project){
+		Task.find({"currentState.project":id})
+		.populate('currentState.assignedFor')
+		.exec(function(err,tasks) {
+			
+			report={}
+			for(var i=0; i<tasks.length; i++)
+			{
+				var date = new Date(tasks[i].currentState.createdAt);
+				var normalDate=date.getFullYear().toString()+"/"+(date.getMonth() + 1).toString() + "/" + date.getDate().toString();
+				if(!report[normalDate])
+				{
+					report[normalDate] = 1;
+
+				}
+
+				else report[normalDate]++;
+
+				console.log(JSON.stringify(report));
+			}
+			res.send(report);
+		});
+	});
+}
+
+exports.report4 = function(req,res,next,id){
+
+	Project.findById(id)
+	.exec(function(err, project){
+		Task.find({"currentState.project":id,"currentState.status" : "Done"})
+		.populate('currentState.assignedFor')
+		.exec(function(err,tasks) {
+			
+			report={}
+			for(var i=0; i<tasks.length; i++)
+			{	
+				date = new Date(tasks[i].currentState.createdAt);
+				//Looking for the exact date when the task was done
+				for(var j=tasks[i].history.length-1; j>=0; j--)
+				{
+					if(tasks[i].history[j].status!="Done")
+					{
+						console.log(j);
+						if(j==tasks[i].history.length-1)
+						{
+							date=new Date(tasks[i].currentState.updatedAt);
+						}
+						else{
+							date = new Date(tasks[i].history[j+1].updatedAt);
+							console.log(date);
+						}
+						break;
+					}
+
+				}
+
+
+				
+				var normalDate=date.getFullYear().toString()+"/"+(date.getMonth() + 1).toString() + "/" + date.getDate().toString();
+				if(!report[normalDate])
+				{
+					report[normalDate] = 1;
+
+				}
+
+				else report[normalDate]++;
+
+				console.log(JSON.stringify(report));
 			}
 			res.send(report);
 		});
