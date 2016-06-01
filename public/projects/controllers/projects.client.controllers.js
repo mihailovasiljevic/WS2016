@@ -4,8 +4,6 @@ angular.module('projects').controller('listOfProjectsCtrl', ['$scope', '$rootSco
 		var loadEntries = function () {
 			$scope.listProjects = Projects.query();		
 			$scope.listProject = new Projects();
-			var pret='1111';
-			var pret1='11s1';
 
 			$scope.ubaci= function(member,project){
 
@@ -14,10 +12,7 @@ angular.module('projects').controller('listOfProjectsCtrl', ['$scope', '$rootSco
 
 				var korisnici = Projects.get({projectId:project},function(response) {
 					$scope.teamMembers = korisnici.teamMembers;
-					console.log($scope.teamMembers[0]);
 
-
-				console.log(member);
 
 				$scope.listProject.teamMembers=[];
 
@@ -25,15 +20,11 @@ angular.module('projects').controller('listOfProjectsCtrl', ['$scope', '$rootSco
 					$scope.listProject.teamMembers.push($scope.teamMembers[i]);
 
 					if($scope.teamMembers[i]._id==member){
-						console.log('usaaoo');
 						 oznaka=true;
 					}
 					
 				}
-				/*$scope.listProject.teamMembers=[	
-				   $scope.teamMembers[i]
-				];*/
-				console.log(oznaka);
+				
 				if (oznaka==false) {
 					$scope.listProject.teamMembers.push(member);
 				}
@@ -53,10 +44,8 @@ angular.module('projects').controller('listOfProjectsCtrl', ['$scope', '$rootSco
 
 		$scope.save = function () {
 			if(!$scope.listProject._id){
-				
-				//$scope.listProject.teamMembers.$push(project.teamMembers);
+
 				$scope.listProject.$save(loadEntries);
-			//	$scope.listProject.teamMembers.$push
 				$state.go('dashBoard.projects');
 			}
 			else{
@@ -69,7 +58,6 @@ angular.module('projects').controller('listOfProjectsCtrl', ['$scope', '$rootSco
 		}
 
 		$scope.deleteMember = function(index){
-			console.log('he');
 		/*var korisnici = Projects.get({projectId:project},function(response) {
 					$scope.teamMembers = korisnici.teamMembers;
 					console.log(idTask);
@@ -90,6 +78,8 @@ angular.module('projects').controller('listOfProjectsCtrl', ['$scope', '$rootSco
 					$state.go('dashBoard.teamMembers');
 				});*/
 				$scope.listProject.teamMembers.splice(index, 1);
+				$scope.listProject.$update(loadEntries);
+				$state.go('dashBoard.teamMembers', {}, {reload: true});
 				
 		
 		}
