@@ -55,12 +55,14 @@ exports.report2 = function(req,res,next,id)
 			}
 			var report = [];
 			for(var key in map) {
+				if(tasks[indexies[key]].currentState.assignedFor){
 				var user = {};
 				user.firstName = tasks[indexies[key]].currentState.assignedFor.firstName;
 				user.lastName = tasks[indexies[key]].currentState.assignedFor.lastName;
 				user.username = tasks[indexies[key]].currentState.assignedFor.username;
 				user.percantage = Math.round(((map[key] / tasks.length)*100) * 100) / 100;
 				report.push(user);
+			}
 			}
 			res.send(report);
 		});
@@ -113,14 +115,12 @@ exports.report4 = function(req,res,next,id){
 				{
 					if(tasks[i].history[j].status!="Done")
 					{
-						console.log(j);
 						if(j==tasks[i].history.length-1)
 						{
 							date=new Date(tasks[i].currentState.updatedAt);
 						}
 						else{
 							date = new Date(tasks[i].history[j+1].updatedAt);
-							console.log(date);
 						}
 						break;
 					}
