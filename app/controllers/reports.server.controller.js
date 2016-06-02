@@ -155,9 +155,10 @@ exports.report5 = function(req,res,next,id){
 		.populate('currentState.assignedFor')
 		.exec(function(err,tasks) {
 
-			var map = {};  //says how many taks users did
-			var indexies = {};
-			niz=[];
+			var niz=[];
+			var brisanje=[];
+			var brisanje1=[];
+
 			report={};
 			
 
@@ -165,11 +166,6 @@ exports.report5 = function(req,res,next,id){
 			{	
 				date = new Date(tasks[i].currentState.createdAt);
 				
-				if(map[tasks[i].currentState.assignedFor] == undefined) {
-					map[tasks[i].currentState.assignedFor] = 0;
-					indexies[tasks[i].currentState.assignedFor] = i;
-				}
-				map[tasks[i].currentState.assignedFor] = map[tasks[i].currentState.assignedFor] + 1;
 				//Looking for the exact date when the task was done
 				for(var j=tasks[i].history.length-1; j>=0; j--)
 				{
@@ -190,11 +186,10 @@ exports.report5 = function(req,res,next,id){
 
 				
 				var normalDate=date.getFullYear().toString()+"/"+(date.getMonth() + 1).toString() + "/" + date.getDate().toString();
-				var provera=0;
-				
-							for(var key in map) {
 
-								var korisnik= tasks[indexies[key]].currentState.assignedFor.firstName;
+								var korisnik= tasks[i].currentState.assignedFor.firstName;
+
+							
 								
 									if(!report[normalDate,korisnik])
 									{
@@ -202,25 +197,74 @@ exports.report5 = function(req,res,next,id){
 
 									}else {
 
+						
 										report[normalDate,korisnik]++;
+										
+
+										for(var i=0;i<niz.length;i++){
+											var name=niz[i].firstName;
+											var index={};
+											if(name==korisnik){
+												index.vrednost=i;
+												
+												brisanje.push(index);
+												brisanje1.push(index);
+
+												
+											}
+										}
+
 									}
-
-							}
-
-
-							if (report[normalDate,korisnik]>1) {
-									niz.splice(niz.length-1,1)
-							};
 							
 							var user = {};
 							user.firstName=korisnik;
 							user.date=normalDate;
 							user.number=report[normalDate,korisnik];
 							niz.push(user);
-
-							provera++;
 								
 				}
+
+				
+
+				var broj=0;
+
+				for(var i=0;i<brisanje1.length;i++){
+					var vred=brisanje1[i].vrednost;
+					var ind=i+1;
+
+					for(var j=ind;j<brisanje1.length;j++){
+						var vred1=brisanje1[j].vrednost;
+						console.log(vred);
+						console.log(vred1);
+						if(vred==vred1){
+					
+							brisanje.splice(broj,1);
+							broj--;
+							break;
+						
+						}
+					}
+					broj++;
+				}
+				
+				brisanje.sort(function(a, b){
+				 	return a.vrednost-b.vrednost
+				})
+
+				var br=0;
+
+				for(var i=0;i<brisanje.length;i++){
+					
+					var vred=brisanje[i].vrednost;
+					if(i!=0){
+						br++;
+						vred=vred-br;
+					}
+					
+					niz.splice(vred,1);
+					
+				}
+
 
 
 			res.send(niz);
