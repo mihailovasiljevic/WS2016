@@ -1,4 +1,4 @@
-angular.module('reports').controller('listOfProjectsCtrl', ['$scope', '$rootScope', '$location','Projects','$http','Tasks','$stateParams','$state',
+angular.module('reports').controller('listProjectsCtrl', ['$scope', '$rootScope', '$location','Projects','$http','Tasks','$stateParams','$state',
     function($scope,$rootScope,$location,Projects,$http,Tasks,$stateParams,$state) {
 
     	$scope.projects = Projects.query(function(response){
