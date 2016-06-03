@@ -1,12 +1,23 @@
-angular.module('comments').controller('listOfComments', ['$scope', '$rootScope', '$location', '$stateParams','$state', 'Comments',
-    function($scope,$rootScope,$location, $stateParams,$state, Comments) {
+angular.module('comments').controller('listOfComments', ['$scope', '$rootScope', '$location', '$stateParams','$state', 'Comments', 'Authentication',
+    function($scope,$rootScope,$location, $stateParams,$state, Comments, Authentication) {
     	
+
     	$scope.hasComment = false;
     	Comments.query(function(response) {
     		var taskId = $stateParams.taskId;
     		var comments = [];
     		for(var i = 0; i < response.length; i++) {
     			if(response[i].task === taskId) {
+    				if(Authentication.isAdmin == true) {
+    					response[i].show = true;
+    				} else {
+    					var id = Authentication.user._id;
+    					if(id == response[i].author._id) {
+							response[i].show = true;
+    					} else {
+							response[i].show = false;
+    					}
+    				}
     				comments.push(response[i]);
     			}
     		}
@@ -27,6 +38,7 @@ angular.module('comments').controller('listOfComments', ['$scope', '$rootScope',
     			$scope.commentM.title = "";
     			$scope.commentM.text = "";
     			$scope.hasComment = false;
+    			response.show = true;
     			$scope.comments.push(response);
     		});
     	}

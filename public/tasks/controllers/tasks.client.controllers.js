@@ -8,7 +8,7 @@ angular.module('tasks').controller('listOfTasksCtrl', ['$scope', '$rootScope', '
 					var author = response[i].currentState.author.firstName + response[i].currentState.author.lastName;
 					if(response[i].currentState.assignedFor!=undefined)
 					var assignedFor = response[i].currentState.assignedFor.firstName + response[i].currentState.assignedFor.lastName;
-					else assignedFor="";
+					else assignedFor="--";
 					var task = {
 						"id": response[i]._id,
 						"mark": response[i].currentState.mark,

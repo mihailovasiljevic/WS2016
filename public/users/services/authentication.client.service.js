@@ -58,7 +58,7 @@ angular.module('users').factory('Authentication', ['$rootScope', '$http', '$loca
             this.usernameError = response.information.message;
             this.loginError++;
           }
-          else if (response.information.message == 'Invalid password'){
+          else if (response.information.message == 'Invalid password' || response.information.message == 'Authentication failed' ){
             this.loginError++;
             this.passwordError = response.information.message;
           }
@@ -94,13 +94,15 @@ angular.module('users').factory('Authentication', ['$rootScope', '$http', '$loca
       .error(this.onIdFail.bind(this));
     };
     
-    UserClass.prototype.logout = function(){
+    UserClass.prototype.logout = function(callback){
       this.user = {};
       this.loggedin = false;
       this.isAdmin = false;
       $cookieStore.remove("user");
       $http.get('/api/logout').success(function(data){
+        $cookieStore.remove("user");
         $rootScope.$emit('logout');
+        callback(true);
       });
     };
     
