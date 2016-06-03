@@ -29,12 +29,29 @@ angular.module('reports').controller('listProjectsCtrl', ['$scope', '$rootScope'
 
 }]);
 
-angular.module('reports').controller('report3Ctrl', ['$scope', '$rootScope', '$location','Projects','$http','Tasks','$stateParams','$state','Report3','Authentication',
-    function($scope,$rootScope,$location,Projects,$http,Tasks,$stateParams,$state,Report3,Authentication) {
-			$scope.days=[];
-			$scope.project = Projects.get({projectId:$stateParams.projectId});
-			$scope.user = Authentication.user;
-    		var res=Report3.get({report3Id:$stateParams.projectId}, function(response){
+angular.module('reports').controller('reportCtrl', ['$scope', '$rootScope', '$location','Projects','$http','Tasks','$stateParams','$state','Report3','Authentication','Report4',
+    function($scope,$rootScope,$location,Projects,$http,Tasks,$stateParams,$state,Report3,Authentication,Report4) {
+    		if($state.current.name.includes("report3"))
+    		{
+    			$scope.days=[];
+				$scope.project = Projects.get({projectId:$stateParams.projectId});
+				$scope.user = Authentication.user;
+	    		var res=Report3.get({report3Id:$stateParams.projectId}, function(response){
+    				loadReport();
+    			})
+    		}
+
+    		if($state.current.name.includes("report4"))
+    		{
+				$scope.days=[];
+				$scope.project = Projects.get({projectId:$stateParams.projectId});
+				$scope.user = Authentication.user;
+	    		var res=Report4.get({report4Id:$stateParams.projectId}, function(response){
+    				loadReport();
+    			})
+    		}
+			
+			function loadReport(){
     			var max=0;
 				for (var key in res) {
 					
@@ -55,11 +72,91 @@ angular.module('reports').controller('report3Ctrl', ['$scope', '$rootScope', '$l
 					$scope.days[i].title = $scope.days[i].percentage;
 					$scope.days[i].percentage = $scope.days[i].percentage/max*100;
 				}
+				var max=0;
+				var indmax=-1;
+				var indin=-1;
+				var min=Infinity;
 
+				for(var i=0; i<$scope.days.length; i++)
+					{
+						var split = $scope.days[i].x.split("/");
+						var value = parseInt(split[0])*1000+parseInt(split[1])*50+parseInt(split[2]);
+						
+						if(value>max){
+							max=value;
+							indmax=i;		
+						}
+					}
+
+				for(var i=0; i<$scope.days.length; i++)
+					{
+						var split = $scope.days[i].x.split("/");
+						var value = parseInt(split[0])*1000+parseInt(split[1])*50+parseInt(split[2]);
+						
+						if(value<min){
+							min=value;
+							indmin=i;		
+						}
+					}
 				
 				
-				
-				for(var j=$scope.days.length-1; j>=0; j--){
+
+				var min=$scope.days[indmin];
+				var max=$scope.days[indmax];
+				var date = min.x;
+				var control = 0;
+				var i=1;
+				while(date!=max.x){
+					//infinite loop protection
+					control++;
+					if(control>3000)
+						break;
+
+					var split = date.split("/");
+					
+					if(parseInt(split[2])==28 && parseInt(split[1])==2)
+						{
+							split[1]="3";
+							split[2]="1";
+						}
+					else if(parseInt(split[2])==30 && (parseInt(split[1])==4 || parseInt(split[1])==6 || parseInt(split[1])==9 || parseInt(split[1])==11))
+					{
+						split[1]=(parseInt(split[1])+1).toString();
+						split[2]="1";
+					}
+
+					else if(parseInt(split[2])==31)
+					{
+						if(parseInt(split[1])==12){
+							split[1]="1";
+							split[0]=(parseInt(split[0])+1).toString();
+						}
+						else split[1]=(parseInt(split[1])+1).toString();
+						split[2]="1";
+					}
+					else 
+					{
+						
+						
+						split[2]=(parseInt(split[2])+1).toString();
+						
+					}
+					date=split[0]+"/"+split[1]+"/"+split[2];
+					var element = {
+						x: date,
+						percentage:0,
+						title:0 
+
+					}
+					if(date!=$scope.days[i].x)
+					$scope.days.push(element);
+					else i++;
+					
+
+			}
+
+
+			for(var j=$scope.days.length-1; j>=0; j--){
 					var max=0;
 					var ind=-1;
 					for(var i=0; i<j+1; i++)
@@ -78,7 +175,7 @@ angular.module('reports').controller('report3Ctrl', ['$scope', '$rootScope', '$l
 				
 				}
 				
-    		})
+    		}
 
 
     }]);

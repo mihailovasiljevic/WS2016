@@ -1,6 +1,7 @@
 angular.module('projects').controller('listOfProjectsCtrl', ['$scope', '$rootScope', '$location','Projects','Users','$stateParams','$state',
     function($scope,$rootScope,$location,Projects,Users,$stateParams,$state) {
 		
+		$scope.listProjects={};
 		var loadEntries = function () {
 			$scope.listProjects = Projects.query();		
 			$scope.listProject = new Projects();
@@ -263,7 +264,8 @@ angular.module('projects').controller('listOfProjectsCtrl', ['$scope', '$rootSco
 		$scope.doFilter = doFilter;*/
 		
 		
-		
+		console.log('Milos'+JSON.stringify($scope.listProjects));
+		console.log('Milos'+JSON.stringify($scope.teamMembers));
         
 }]);
 
