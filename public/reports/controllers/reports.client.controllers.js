@@ -31,6 +31,8 @@ angular.module('reports').controller('listProjectsCtrl', ['$scope', '$rootScope'
 
 angular.module('reports').controller('reportCtrl', ['$scope', '$rootScope', '$location','Projects','$http','Tasks','$stateParams','$state','Report3','Authentication','Report4',
     function($scope,$rootScope,$location,Projects,$http,Tasks,$stateParams,$state,Report3,Authentication,Report4) {
+    		
+
     		if($state.current.name.includes("report3"))
     		{
     			$scope.days=[];
@@ -178,4 +180,19 @@ angular.module('reports').controller('reportCtrl', ['$scope', '$rootScope', '$lo
     		}
 
 
-    }]);
+}]);
+
+angular.module('reports').controller('reportCtrl', ['$scope', '$rootScope', '$location','Projects','$http','Tasks','$stateParams','$state','Report1','Authentication','Report2',
+    function($scope,$rootScope,$location,Projects,$http,Tasks,$stateParams,$state,Report1,Authentication,Report2) {
+
+    		if($state.current.name.includes("report1"))
+    		{
+    			alert('report1');
+    		}
+
+    		if($state.current.name.includes("report2"))
+    		{
+				alert('report2');
+    		}
+
+}]);
