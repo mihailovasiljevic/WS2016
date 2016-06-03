@@ -29,9 +29,11 @@ angular.module('reports').controller('listProjectsCtrl', ['$scope', '$rootScope'
 
 }]);
 
-angular.module('reports').controller('report3Ctrl', ['$scope', '$rootScope', '$location','Projects','$http','Tasks','$stateParams','$state','Report3',
-    function($scope,$rootScope,$location,Projects,$http,Tasks,$stateParams,$state,Report3) {
+angular.module('reports').controller('report3Ctrl', ['$scope', '$rootScope', '$location','Projects','$http','Tasks','$stateParams','$state','Report3','Authentication',
+    function($scope,$rootScope,$location,Projects,$http,Tasks,$stateParams,$state,Report3,Authentication) {
 			$scope.days=[];
+			$scope.project = Projects.get({projectId:$stateParams.projectId});
+			$scope.user = Authentication.user;
     		var res=Report3.get({report3Id:$stateParams.projectId}, function(response){
     			var max=0;
 				for (var key in res) {
