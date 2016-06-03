@@ -2,7 +2,7 @@ var mainApplicationModuleName = 'ticketing_system';
 
 var mainApplicationModule = angular.module(mainApplicationModuleName,
 
-  ['ngResource','ui.router','ngCookies','angular-jwt','ui.bootstrap', 'users','main','tasks','projects','comments']);
+  ['ngResource','ui.router','ngCookies','angular-jwt','ui.bootstrap', 'users','main','tasks','projects','comments','reports']);
   
 
 //tell search engine crawlers that this is single page application
