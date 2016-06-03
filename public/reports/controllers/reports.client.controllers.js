@@ -96,54 +96,30 @@ angular.module('reports').controller('reportCtrl', ['$scope', '$rootScope', '$lo
 				var min=$scope.days[0];
 				var max=$scope.days[$scope.days.length-1];
 				var date = min.x;
+				var split = date.split("/");
+				date = new Date(split[0],split[1]-1,split[2]);
 				var control = 0;
 				var i=1;
-				while(date!=max.x){
+				var dateForViewing = date;
+				while(dateForViewing!=max.x){
 					//infinite loop protection
 					control++;
 					if(control>3000)
 						break;
 
-					var split = date.split("/");
 					
-					if(parseInt(split[2])==28 && parseInt(split[1])==2)
-						{
-							split[1]="3";
-							split[2]="1";
-						}
-					else if(parseInt(split[2])==30 && (parseInt(split[1])==4 || parseInt(split[1])==6 || parseInt(split[1])==9 || parseInt(split[1])==11))
-					{
-						split[1]=(parseInt(split[1])+1).toString();
-						split[2]="1";
-					}
-
-					else if(parseInt(split[2])==31)
-					{
-						if(parseInt(split[1])==12){
-							split[1]="1";
-							split[0]=(parseInt(split[0])+1).toString();
-						}
-						else split[1]=(parseInt(split[1])+1).toString();
-						split[2]="1";
-					}
-					else 
-					{
-						
-						
-						split[2]=(parseInt(split[2])+1).toString();
-						
-					}
-					date=split[0]+"/"+split[1]+"/"+split[2];
+					date.setTime( date.getTime() + 1 * 86400000 )
+					dateForViewing=date.getFullYear().toString()+"/"+(date.getMonth() + 1).toString() + "/" + date.getDate().toString();
 					var element = {
-						x: date,
+						x: dateForViewing,
 						percentage:0,
 						title:0 
 
 					}
-					if(date!=$scope.days[i].x)
+					if(dateForViewing!=$scope.days[i].x)
 					$scope.days.push(element);
 					else i++;
-					
+
 
 			}
 			for(var j=$scope.days.length-1; j>=0; j--){
