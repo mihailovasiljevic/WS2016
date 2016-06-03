@@ -44,8 +44,8 @@
 Title: {{comment.title}} <br>
 Comment: {{comment.text}} <br>
 Author: {{comment.author.firstName}} {{comment.author.lastName}} <br>
-<input type="button" value="Change" ng-click="update(comment._id)">
-<input type="button" value="Delete" ng-click="delete(comment._id)">
+<input type="button" value="Change" ng-click="update(comment._id)" ng-if="comment.show">
+<input type="button" value="Delete" ng-click="delete(comment._id)" ng-if="comment.show">
 <br><br>
 </div> 
 
