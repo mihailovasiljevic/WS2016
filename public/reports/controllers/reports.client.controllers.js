@@ -72,37 +72,29 @@ angular.module('reports').controller('reportCtrl', ['$scope', '$rootScope', '$lo
 					$scope.days[i].title = $scope.days[i].percentage;
 					$scope.days[i].percentage = $scope.days[i].percentage/max*100;
 				}
-				var max=0;
-				var indmax=-1;
-				var indin=-1;
-				var min=Infinity;
 
-				for(var i=0; i<$scope.days.length; i++)
+				for(var j=$scope.days.length-1; j>=0; j--){
+					var max=0;
+					var ind=-1;
+					for(var i=0; i<j+1; i++)
 					{
 						var split = $scope.days[i].x.split("/");
 						var value = parseInt(split[0])*1000+parseInt(split[1])*50+parseInt(split[2]);
 						
 						if(value>max){
 							max=value;
-							indmax=i;		
+							ind=i;		
 						}
 					}
-
-				for(var i=0; i<$scope.days.length; i++)
-					{
-						var split = $scope.days[i].x.split("/");
-						var value = parseInt(split[0])*1000+parseInt(split[1])*50+parseInt(split[2]);
-						
-						if(value<min){
-							min=value;
-							indmin=i;		
-						}
-					}
+					var temp = $scope.days[j];
+					$scope.days[j]=$scope.days[ind]
+					$scope.days[ind]=temp;
 				
-				
+				}
+					
 
-				var min=$scope.days[indmin];
-				var max=$scope.days[indmax];
+				var min=$scope.days[0];
+				var max=$scope.days[$scope.days.length-1];
 				var date = min.x;
 				var control = 0;
 				var i=1;
@@ -154,8 +146,6 @@ angular.module('reports').controller('reportCtrl', ['$scope', '$rootScope', '$lo
 					
 
 			}
-
-
 			for(var j=$scope.days.length-1; j>=0; j--){
 					var max=0;
 					var ind=-1;
@@ -176,6 +166,4 @@ angular.module('reports').controller('reportCtrl', ['$scope', '$rootScope', '$lo
 				}
 				
     		}
-
-
     }]);
