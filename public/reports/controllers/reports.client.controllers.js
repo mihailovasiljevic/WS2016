@@ -54,19 +54,28 @@ angular.module('reports').controller('report3Ctrl', ['$scope', '$rootScope', '$l
 					$scope.days[i].percentage = $scope.days[i].percentage/max*100;
 				}
 
-				/*
-				for(var i=0; i<$scope.days.length; i++ )
-				{
-					if($scope.days[i].x.charAt(7)=='/')
+				
+				
+				
+				for(var j=$scope.days.length-1; j>=0; j--){
+					var max=0;
+					var ind=-1;
+					for(var i=0; i<j+1; i++)
 					{
-						if($scope.days[i].x.charAt(6)>$scope.days[i+1].x.charAt(7))
-						{
-
+						var split = $scope.days[i].x.split("/");
+						var value = parseInt(split[0])*1000+parseInt(split[1])*50+parseInt(split[2]);
+						
+						if(value>max){
+							max=value;
+							ind=i;		
 						}
 					}
+					var temp = $scope.days[j];
+					$scope.days[j]=$scope.days[ind]
+					$scope.days[ind]=temp;
+				
 				}
-				*/
-
+				
     		})
 
 
@@ -98,19 +107,25 @@ angular.module('reports').controller('report4Ctrl', ['$scope', '$rootScope', '$l
 					$scope.days[i].percentage = $scope.days[i].percentage/max*100;
 				}
 
-				/*
-				for(var i=0; i<$scope.days.length; i++ )
-				{
-					if($scope.days[i].x.charAt(7)=='/')
+				
+				for(var j=$scope.days.length-1; j>=0; j--){
+					var max=0;
+					var ind=-1;
+					for(var i=0; i<j+1; i++)
 					{
-						if($scope.days[i].x.charAt(6)>$scope.days[i+1].x.charAt(7))
-						{
-
+						var split = $scope.days[i].x.split("/");
+						var value = parseInt(split[0])*1000+parseInt(split[1])*50+parseInt(split[2]);
+						
+						if(value>max){
+							max=value;
+							ind=i;		
 						}
 					}
+					var temp = $scope.days[j];
+					$scope.days[j]=$scope.days[ind]
+					$scope.days[ind]=temp;
+				
 				}
-				*/
-
     		})
 
 
