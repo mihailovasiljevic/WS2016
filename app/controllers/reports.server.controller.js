@@ -62,7 +62,7 @@ exports.report2 = function(req,res,next,id)
 				user.username = tasks[indexies[key]].currentState.assignedFor.username;
 				user.percantage = Math.round(((map[key] / tasks.length)*100) * 100) / 100;
 				report.push(user);
-			}
+				}
 			}
 			res.send(report);
 		});
@@ -138,9 +138,92 @@ exports.report4 = function(req,res,next,id){
 
 				else report[normalDate]++;
 
+				console.log(report[normalDate]);
 				console.log(JSON.stringify(report));
 			}
 			res.send(report);
+		});
+	});
+}
+
+
+exports.report5 = function(req,res,next,id){
+
+	Project.findById(id)
+	.exec(function(err, project){
+		Task.find({"currentState.project":id,"currentState.status" : "Done"})
+		.populate('currentState.assignedFor')
+		.exec(function(err,tasks) {
+
+			var map = {};  //says how many taks users did
+			var indexies = {};
+			niz=[];
+			report={};
+			
+
+			for(var i=0; i<tasks.length; i++)
+			{	
+				date = new Date(tasks[i].currentState.createdAt);
+				
+				if(map[tasks[i].currentState.assignedFor] == undefined) {
+					map[tasks[i].currentState.assignedFor] = 0;
+					indexies[tasks[i].currentState.assignedFor] = i;
+				}
+				map[tasks[i].currentState.assignedFor] = map[tasks[i].currentState.assignedFor] + 1;
+				//Looking for the exact date when the task was done
+				for(var j=tasks[i].history.length-1; j>=0; j--)
+				{
+					if(tasks[i].history[j].status!="Done")
+					{
+						if(j==tasks[i].history.length-1)
+						{
+							date=new Date(tasks[i].currentState.updatedAt);
+						}
+						else{
+							date = new Date(tasks[i].history[j+1].updatedAt);
+						}
+						break;
+					}
+
+				}
+
+
+				
+				var normalDate=date.getFullYear().toString()+"/"+(date.getMonth() + 1).toString() + "/" + date.getDate().toString();
+				var provera=0;
+				
+							for(var key in map) {
+
+								var korisnik= tasks[indexies[key]].currentState.assignedFor.firstName;
+								
+									if(!report[normalDate,korisnik])
+									{
+										report[normalDate,korisnik] = 1;
+
+									}else {
+
+										report[normalDate,korisnik]++;
+									}
+
+							}
+
+
+							if (report[normalDate,korisnik]>1) {
+									niz.splice(niz.length-1,1)
+							};
+							
+							var user = {};
+							user.firstName=korisnik;
+							user.date=normalDate;
+							user.number=report[normalDate,korisnik];
+							niz.push(user);
+
+							provera++;
+								
+				}
+
+
+			res.send(niz);
 		});
 	});
 }

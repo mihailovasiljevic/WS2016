@@ -19,5 +19,10 @@ module.exports = function(app) {
     app.route('/api/report_4/:report4Id')
       .get(/*users.requiresLogin,*/reports.report4);
     app.param('report4Id', reports.report4);
+
+    app.route('/api/report_5/:report5Id')
+      .get(/*users.requiresLogin,*/reports.report5);
+    app.param('report5Id', reports.report5);
+
 	
 }
