@@ -35,7 +35,8 @@ exports.create = function(req, res, next){
                       message: errorHandler.getErrorMessage(err)
                     }); 
                 }else{
-                   
+                    //task doesn't have to be assigned to a user!
+                    if(task.currentState.assignedFor)
                     User.findById(task.currentState.assignedFor)
                     .exec(function(err, user){
                       if (err) return next(err);
@@ -51,7 +52,8 @@ exports.create = function(req, res, next){
                             res.json(task);
                         }
                       });              
-                    }); 
+                    });
+                    else res.json(task); 
                   
                 }
               });              
