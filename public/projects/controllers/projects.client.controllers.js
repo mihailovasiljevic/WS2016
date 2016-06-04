@@ -77,9 +77,6 @@ angular.module('projects').controller('listOfProjectsCtrl', ['$scope', '$rootSco
 				$scope.listProject.teamMembers.splice(index, 1);
 				$scope.listProject.$update(loadEntries);
 
-				$scope.listProject1.teamMembers.splice(index, 1);
-				$scope.listProject1.$update(loadEntries);
-
 				$state.go('dashBoard.teamMembers', {}, {reload: true});
 				
 		
