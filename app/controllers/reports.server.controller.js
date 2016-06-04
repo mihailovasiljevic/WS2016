@@ -4,7 +4,7 @@ var mongoose = require('mongoose'),
     errorHandler = require('../controllers/index.server.controller');
 	
 exports.report1 = function(req,res,next,id)
-{
+{	
 	Project.findById(id)
 	.exec(function(err, project){
 		Task.find({"currentState.project":id})
@@ -12,6 +12,9 @@ exports.report1 = function(req,res,next,id)
 		.exec(function(err,tasks) {
 			var map = {};  //says how many taks users did
 			var indexies = {};
+			for(var i = 0; i < project.teamMembers.length; i++) {
+				map[project.teamMembers[i]] = 0;
+			}
 			for(var i = 0; i < tasks.length; i++) {
 				if(map[tasks[i].currentState.assignedFor] == undefined) {
 					map[tasks[i].currentState.assignedFor] = 0;

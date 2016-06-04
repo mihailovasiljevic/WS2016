@@ -74,37 +74,29 @@ angular.module('reports').controller('reportCtrl', ['$scope', '$rootScope', '$lo
 					$scope.days[i].title = $scope.days[i].percentage;
 					$scope.days[i].percentage = $scope.days[i].percentage/max*100;
 				}
-				var max=0;
-				var indmax=-1;
-				var indin=-1;
-				var min=Infinity;
 
-				for(var i=0; i<$scope.days.length; i++)
+				for(var j=$scope.days.length-1; j>=0; j--){
+					var max=0;
+					var ind=-1;
+					for(var i=0; i<j+1; i++)
 					{
 						var split = $scope.days[i].x.split("/");
 						var value = parseInt(split[0])*1000+parseInt(split[1])*50+parseInt(split[2]);
 						
 						if(value>max){
 							max=value;
-							indmax=i;		
+							ind=i;		
 						}
 					}
-
-				for(var i=0; i<$scope.days.length; i++)
-					{
-						var split = $scope.days[i].x.split("/");
-						var value = parseInt(split[0])*1000+parseInt(split[1])*50+parseInt(split[2]);
-						
-						if(value<min){
-							min=value;
-							indmin=i;		
-						}
-					}
+					var temp = $scope.days[j];
+					$scope.days[j]=$scope.days[ind]
+					$scope.days[ind]=temp;
 				
-				
+				}
+					
 
-				var min=$scope.days[indmin];
-				var max=$scope.days[indmax];
+				var min=$scope.days[0];
+				var max=$scope.days[$scope.days.length-1];
 				var date = min.x;
 				var control = 0;
 				var i=1;
@@ -156,8 +148,6 @@ angular.module('reports').controller('reportCtrl', ['$scope', '$rootScope', '$lo
 					
 
 			}
-
-
 			for(var j=$scope.days.length-1; j>=0; j--){
 					var max=0;
 					var ind=-1;
@@ -179,20 +169,47 @@ angular.module('reports').controller('reportCtrl', ['$scope', '$rootScope', '$lo
 				
     		}
 
-
 }]);
 
-angular.module('reports').controller('reportCtrl', ['$scope', '$rootScope', '$location','Projects','$http','Tasks','$stateParams','$state','Report1','Authentication','Report2',
+loadedChart = false;
+angular.module('reports').controller('reportCntrl', ['$scope', '$rootScope', '$location','Projects','$http','Tasks','$stateParams','$state','Report1','Authentication','Report2',
     function($scope,$rootScope,$location,Projects,$http,Tasks,$stateParams,$state,Report1,Authentication,Report2) {
 
     		if($state.current.name.includes("report1"))
     		{
-    			alert('report1');
+    			Report1.query({report1Id:$stateParams.projectId}, function(response) {
+    				if(loadedChart === false) {
+				    	google.charts.load('current', {'packages':['corechart']});
+				    	loadedChart = true;
+					}
+				    google.charts.setOnLoadCallback(drawChart);
+				    function drawChart() {
+						var report = [];
+						report.push(['', '']);
+				    	for(var i = 0; i < response.length; i++) {
+				    		var name = response[i].firstName + " " + response[i].lastName + " (" +  response[i].username + ") ";
+				    		var element = [name, response[i].percantage];
+				    		report.push(element);
+				    	}
+						
+				        var data = google.visualization.arrayToDataTable(report);
+
+				        var options = {
+				          title: 'Percentage of tasks assigned for users'
+				        };
+
+				        var chart = new google.visualization.PieChart(document.getElementById('piechart'));
+
+				        chart.draw(data, options);
+				    }
+				});
     		}
 
+    		//alert('here');
     		if($state.current.name.includes("report2"))
     		{
-				alert('report2');
+
     		}
 
 }]);
+

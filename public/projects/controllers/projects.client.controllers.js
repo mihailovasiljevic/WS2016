@@ -263,9 +263,6 @@ angular.module('projects').controller('listOfProjectsCtrl', ['$scope', '$rootSco
 		}
 		$scope.doFilter = doFilter;*/
 		
-		
-		console.log('Milos'+JSON.stringify($scope.listProjects));
-		console.log('Milos'+JSON.stringify($scope.teamMembers));
         
 }]);
 
