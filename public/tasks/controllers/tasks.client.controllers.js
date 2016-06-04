@@ -34,12 +34,14 @@ angular.module('tasks').controller('listOfTasksCtrl', ['$scope', '$rootScope', '
 			$scope.cInProgress = true;
 			$scope.cVerify = true;
 			$scope.cDone = true;
+			$scope.cNoStatus = true;
 
 			$scope.cBlocker = true;
 			$scope.cCritical = true;
 			$scope.cMajor = true;
 			$scope.cMinor = true;
 			$scope.cTrivial = true;
+			$scope.cNoPriority = true;
 		}
 
 		$scope.doFilter = function(model) {
@@ -48,31 +50,37 @@ angular.module('tasks').controller('listOfTasksCtrl', ['$scope', '$rootScope', '
 
 			for(var i = 0; i < allTasks.length; i++) {
 				var ok = 0;
-				if(allTasks[i].status == 'To Do' && $scope.cToDo == true) {
+				if(allTasks[i].status == 'To Do' && $scope.cToDo == true || allTasks[i].assignedFor == '--') {
 					ok = ok + 1;
 				}
-				if(allTasks[i].status == 'In Progress' && $scope.cInProgress == true) {
+				if(allTasks[i].status == 'In Progress' && $scope.cInProgress == true || allTasks[i].assignedFor == '--') {
 					ok = ok + 1;
 				}
-				if(allTasks[i].status == 'Verify' && $scope.cVerify == true) {
+				if(allTasks[i].status == 'Verify' && $scope.cVerify == true || allTasks[i].assignedFor == '--') {
 					ok = ok + 1;
 				}
-				if(allTasks[i].status == 'Done' && $scope.cDone == true) {
+				if(allTasks[i].status == 'Done' && $scope.cDone == true || allTasks[i].assignedFor == '--') {
 					ok = ok + 1;
 				}
-				if(allTasks[i].priority == 'Blocker' && $scope.cBlocker == true) {
+				if(allTasks[i].priority == 'Blocker' && $scope.cBlocker == true || allTasks[i].assignedFor == '--') {
 					ok = ok + 1;
 				}
-				if(allTasks[i].priority == 'Critical' && $scope.cCritical == true) {
+				if(allTasks[i].priority == 'Critical' && $scope.cCritical == true || allTasks[i].assignedFor == '--') {
 					ok = ok + 1;
 				}
-				if(allTasks[i].priority == 'Major' && $scope.cMajor == true) {
+				if(allTasks[i].priority == 'Major' && $scope.cMajor == true || allTasks[i].assignedFor == '--') {
 					ok = ok + 1;
 				}
-				if(allTasks[i].priority == 'Minor' && $scope.cMinor == true) {
+				if(allTasks[i].priority == 'Minor' && $scope.cMinor == true || allTasks[i].assignedFor == '--') {
 					ok = ok + 1;
 				}
-				if(allTasks[i].priority == 'Trivial' && $scope.cTrivial == true) {
+				if(allTasks[i].priority == 'Trivial' && $scope.cTrivial == true || allTasks[i].assignedFor == '--') {
+					ok = ok + 1;
+				}
+				if(allTasks[i].status == 'No Status' && $scope.cNoStatus == true || allTasks[i].assignedFor == '--') {
+					ok = ok + 1;
+				}
+				if(allTasks[i].priority == 'No Priority' && $scope.cNoPriority == true || allTasks[i].assignedFor == '--') {
 					ok = ok + 1;
 				}
 				if(ok > 1) {

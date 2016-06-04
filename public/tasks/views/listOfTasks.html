@@ -13,6 +13,7 @@ Status:<br>
 <input type="checkbox" ng-change="doFilter(cInProgress)" ng-model="cInProgress">In Progress<br>
 <input type="checkbox" ng-change="doFilter(cVerify)" ng-model="cVerify">Verify<br>
 <input type="checkbox" ng-change="doFilter(cDone)" ng-model="cDone">Done<br>
+<input type="checkbox" ng-change="doFilter(cNoStatus)" ng-model="cNoStatus">No Status<br>
 <br>
 </div>
 <div align="left" style="display:inline-block; width:150px; margin-left:-20px;">
@@ -22,6 +23,7 @@ Priority:<br>
 <input type="checkbox" ng-change="doFilter(cMajor)" ng-model="cMajor">Major<br>
 <input type="checkbox" ng-change="doFilter(cMinor)" ng-model="cMinor">Minor<br>
 <input type="checkbox" ng-change="doFilter(cTrivial)" ng-model="cTrivial">Trivial<br>
+<input type="checkbox" ng-change="doFilter(cNoPriority)" ng-model="cNoPriority">No Priority<br>
 </div>
 <!-- <select ng-options="item for item in statusies" ng-model="selected1" ng-change="selected_status(selected1)">
 <select ng-options="item for item in priorities" ng-model="selected2" ng-change="selected_status(selected2)"> -->
