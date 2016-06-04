@@ -139,7 +139,9 @@ exports.create = function(req, res, next){
 
 exports.list = function(req, res, next){
   
-  User.find().sort('-role').exec(function(err, users){
+  User.find().sort('-role')
+  .populate('projects')
+  .exec(function(err, users){
     if(err){
          return res.status(400).send({
            message: errorHandler.getErrorMessage(err)
