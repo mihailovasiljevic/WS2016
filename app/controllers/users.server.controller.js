@@ -140,7 +140,6 @@ exports.create = function(req, res, next){
 exports.list = function(req, res, next){
   
   User.find().sort('-role')
-  .populate('projects')
   .exec(function(err, users){
     if(err){
          return res.status(400).send({
@@ -158,7 +157,9 @@ exports.read = function(req, res){
 
 exports.userByID = function(req, res, next, id){
   
-  User.findById(id).exec(function(err, user){
+  User.findById(id)
+  .populate('projects')
+  .exec(function(err, user){
     if (err) return next(err);
     if(!user) return next(new Error('Failed to load user ' + id));
     
