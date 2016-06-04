@@ -3,6 +3,7 @@ angular.module('projects').controller('listOfProjectsCtrl', ['$scope', '$rootSco
 		
 		$scope.listProjects={};
 		var loadEntries = function () {
+			alert('load');
 			$scope.listProjects = Projects.query();	
 			$scope.listProject = new Projects();
 
@@ -35,28 +36,29 @@ angular.module('projects').controller('listOfProjectsCtrl', ['$scope', '$rootSco
 			}
 			
 		}
-		loadEntries();
+		//loadEntries();
 		
 
 
-
+		$scope.exsists = false;
 		$scope.save = function () {
 
-			console.log('jeeeeeeeeej');
-
 			if(!$scope.listProject._id){
-				console.log('1');
-				$scope.listProject.$save(loadEntries);
-				$state.go('dashBoard.projects');
+				$scope.listProject.$save(function(response) {
+					alert(JSON.stringify(response));
+					if(response.forbidden == "true") {
+						$scope.exsists = true;
+						return;
+					} else {
+						$scope.exsists = false;
+						$state.go('dashBoard.projects');
+					}
+				});
 			}
 			else{
-				console.log('2');
 				$scope.listProject.$update(loadEntries);
-				$state.go('dashBoard.projects');		
-					console.log('3');		
+				$state.go('dashBoard.projects');	
 			}
-		
-
 			
 		} 
 		$scope.delete = function (listProject) {
@@ -123,8 +125,6 @@ angular.module('projects').controller('listOfProjectsCtrl', ['$scope', '$rootSco
 		}
 
 		$scope.Projects = function(){
-			console.log('usao14');
-			console.log($scope.user);
 	
 			var korisnici = Projects.get({projectId:$scope.project._id},function(response) {
 			$scope.teamMembers = korisnici.teamMembers;

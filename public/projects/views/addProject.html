@@ -6,17 +6,17 @@
 <br><hr><br>
 	<table align="center">
 		<th colspan="2">Add Project</th>
-		 <tr><td>Title:</td><td><input  id="selProject" type="text" ng-model="listProject.title"/></td></tr> 
+		 <tr><td>Title:</td><td><input  id="selProject" type="text" ng-model="listProject.title"/><br><span style="color:red" ng-show="exsists">Title exsists</span></td></tr>
 		<!-- <tr><td><label>Project:</label></td><td><select id="selProject" ng-change="Projects()" ng-model="listProject._id">
  			 <option ng-repeat="project in projects" value="{{ project._id }}" >{{ project.title }}</option>
 			</select> </td></tr> -->
-		 <tr><td>Team members:</td>
+		 <!-- <tr><td>Team members:</td>
 			<td>
 			<select  ng-change="ubaci(listProject.teamMembers,listProject._id)" ng-model="listProject.teamMembers">
  			<option ng-repeat="user in users" value="{{ user._id }}" >{{ user.username }}</option> 
  			
 			</select> 
-		</td></tr> 
+		</td></tr>  -->
 		<!-- <tr><td>Team members:</td>
 			<td>
 			<ul ng-change="Users()" ng-model="listProject.teamMembers">
