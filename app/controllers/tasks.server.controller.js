@@ -126,8 +126,8 @@ exports.update = function(req, res, next){
            console.log(task.currentState.assignedFor);
            console.log(req.body.currentState.assignedFor._id != task.currentState.assignedFor);
           if(req.body.currentState.assignedFor != task.currentState.assignedFor){
-
-            console.log(task.currentState.assignedFor);
+            //task doesn't have to be assigned to a user
+            if(task.currentState.assignedFor)
             User.findById(task.currentState.assignedFor)
             .exec(function(err, user){
               if (err) return next(err);
@@ -161,7 +161,8 @@ exports.update = function(req, res, next){
                     });                
                 }
               });              
-            });            
+            }); 
+            else res.json(task);           
           } 
          } else{
            res.json(task); 
@@ -198,7 +199,7 @@ exports.delete = function(req, res, next){
                       message: errorHandler.getErrorMessage(err)
                     }); 
                 }else{
-                    //tasks doesn't have to be assigned to a user
+                    //task doesn't have to be assigned to a user
                     if(req.task.currentState.assignedFor){
                     userId = req.task.currentState.assignedFor;
                       User.findById(userId)
