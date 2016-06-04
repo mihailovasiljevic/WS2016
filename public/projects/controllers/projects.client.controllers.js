@@ -3,11 +3,13 @@ angular.module('projects').controller('listOfProjectsCtrl', ['$scope', '$rootSco
 		
 		$scope.listProjects={};
 		var loadEntries = function () {
-			$scope.listProjects = Projects.query();		
+			$scope.listProjects = Projects.query();	
 			$scope.listProject = new Projects();
+			
+			$scope.user = new Users();
+			$scope.niz14=['1','2'];
 
 			$scope.ubaci= function(member,project){
-
 
 				var oznaka=false;
 
@@ -17,33 +19,34 @@ angular.module('projects').controller('listOfProjectsCtrl', ['$scope', '$rootSco
 
 				$scope.listProject.teamMembers=[];
 
+
 				for(var i=0;i<$scope.teamMembers.length;i++){
 					$scope.listProject.teamMembers.push($scope.teamMembers[i]);
-
 					if($scope.teamMembers[i]._id==member){
 						 oznaka=true;
 					}
 					
 				}
-				
+			
 				if (oznaka==false) {
 					$scope.listProject.teamMembers.push(member);
-				}
-				
-	
-				});
-				
-				
-			}
 
+				}
+
+				});
+	
+			}
 			
 		}
 		loadEntries();
-
+		
 
 
 
 		$scope.save = function () {
+
+			console.log('jeeeeeeeeej');
+
 			if(!$scope.listProject._id){
 
 				$scope.listProject.$save(loadEntries);
@@ -53,33 +56,27 @@ angular.module('projects').controller('listOfProjectsCtrl', ['$scope', '$rootSco
 				$scope.listProject.$update(loadEntries);
 				$state.go('dashBoard.projects');				
 			}
+		
+
+			
 		} 
 		$scope.delete = function (listProject) {
 			listProject.$delete(loadEntries);
+	//		listProject1.$delete(loadEntries);
+		}
+
+		
+
+		$scope.addMember = function(id){
+
+			$state.go('dashBoard.addMember',{projectId:id});
 		}
 
 		$scope.deleteMember = function(index){
-		/*var korisnici = Projects.get({projectId:project},function(response) {
-					$scope.teamMembers = korisnici.teamMembers;
-					console.log(idTask);
-					console.log($scope.teamMembers[0]._id);
-
-					for(var i=0;i<$scope.teamMembers.length;i++){
-					
-					if($scope.teamMembers[i]._id==idTask){
-						console.log('hajd');
-						$scope.teamMembers[i].$delete();
-						 
-					}
-					
-					}
-
-	
-				//	$scope.teamMembers[idTask].$delete({projectId:project},function(response){});
-					$state.go('dashBoard.teamMembers');
-				});*/
+		
 				$scope.listProject.teamMembers.splice(index, 1);
 				$scope.listProject.$update(loadEntries);
+
 				$state.go('dashBoard.teamMembers', {}, {reload: true});
 				
 		
@@ -87,6 +84,7 @@ angular.module('projects').controller('listOfProjectsCtrl', ['$scope', '$rootSco
 
 		$scope.edit = function (listProject) {
 			$scope.listProject = listProject;
+	//		$scope.listProject1 = listProject;
 			$state.go('dashBoard.editProject');
 		} 
 
@@ -108,11 +106,11 @@ angular.module('projects').controller('listOfProjectsCtrl', ['$scope', '$rootSco
     		}
     		);
     		$scope.users=users;
-    		
-
+		
    
 		}
 		loadEntriesUsers();
+
 		
 
 		$scope.Users = function(){
@@ -135,27 +133,6 @@ angular.module('projects').controller('listOfProjectsCtrl', ['$scope', '$rootSco
 			});
 		}
 
-		/*$scope.items = function(){
-			console.log('usao14');
-			console.log($scope.user);
-	
-			var korisnici = Users.get({userId:$scope.user._id},function(response) {
-			$scope.teamMembers = korisnici.teamMembers;
-	
-			});
-		}*/
-
-		  $scope.items = [
-	        { text: 'foo' },
-	        { text: 'bar' },
-	        { text: 'baz' }
-    	];
-
-		$scope.toggle = function (item) {
-        item.selected = !item.selected;
-    	};
-
-
 		$scope.showAddProjectForm = function()
 		{
 			$state.go('dashBoard.addProject');
@@ -165,7 +142,6 @@ angular.module('projects').controller('listOfProjectsCtrl', ['$scope', '$rootSco
 
 		var loadForEdit = function () {
 			
-			//$scope.projects = Projects.query();	
 			$scope.project = new Projects();
 			
     		
@@ -179,89 +155,91 @@ angular.module('projects').controller('listOfProjectsCtrl', ['$scope', '$rootSco
 
 			$scope.listProject.title=listProject.title;
 			$scope.listProject.teamMembers=listProject.teamMembers;
-			
+
+
 			});
+
+
+
+			var users = Users.query(
+
+						function(response) {
+							console.log('duzina users je: '+users.length)
+							if(users.length>0){
+							$scope.user._id = users[0]._id;
+
+						}
+		    			
+		    		}
+		    		);
+		    		$scope.users14=users;
+		    		console.log('aaaa'+$scope.users14.length);
+
+
+
+				//    var korisnici = Projects.get({projectId:project},function(response) {
+				var korisnici = Projects.get({projectId:$stateParams.projectId},function(response) {
+							$scope.teamMembers = korisnici.teamMembers;
+
+							$scope.listProject1 = new Projects();
+					$scope.listProject1._id = listProject._id;
+					$scope.listProject1.teamMembers={};
+			
+					$scope.listProject1.title=listProject.title;
+
+
+
+
+					for(var i=0;i<$scope.users14.length;i++){
+							for(var j=0;j<$scope.teamMembers.length;j++){
+							var name=$scope.users14[i]._id;
+							var name1=$scope.teamMembers[j]._id;
+								if(name1==name){
+								
+								console.log(name);
+								$scope.users14.splice(i,1);
+								console.log($scope.users14.length);
+								}
+							}
+						} 
+
+						$scope.listProject1.teamMembers=[];
+			
+
+						for(var i=0;i<$scope.users14.length;i++){
+							$scope.listProject1.teamMembers.push($scope.users14[i]);
+
+						}
+							
+
+				});
+			
+			
     		
     		
 		}
 
 		if($stateParams.projectId===undefined){
-		loadEntries();
+			loadEntries();
 		}
 		else{
 			loadForEdit();
+
 		}
 
 		$scope.editProject = function(id){
 		$state.go('dashBoard.editProject',{projectId:id});
 		}
 
-		$scope.addMember = function(id){
-		$state.go('dashBoard.addMember',{projectId:id});
-		}
+		
 
 		$scope.showUsers = function(id)
 		{
-			//$scope.listProject = listProject;
 			$state.go('dashBoard.teamMembers',{projectId:id});
 
 		}
 
 
-		/*$scope.listOfTasks = Projects.query();
-		$scope.allTasks = Projects.query();
-
-		$scope.cToDo = true;
-		$scope.cInProgress = true;
-		$scope.cVerify = true;
-		$scope.cDone = true;
-
-		$scope.cBlocker = true;
-		$scope.cCritical = true;
-		$scope.cMajor = true;
-		$scope.cMinor = true;
-		$scope.cTrivial = true;
-
-		var doFilter = function(model) {
-			var newList = [];
-			var allTasks = $scope.allTasks;
-			var ok = 0;
-			for(var i = 0; i < allTasks.length; i++) {
-				if(allTasks[i].status == 'To Do' && $scope.cToDo == true) {
-					ok = ok + 1;
-				}
-				if(allTasks[i].status == 'In Progress' && $scope.cInProgress == true) {
-					ok = ok + 1;
-				}
-				if(allTasks[i].status == 'Verify' && $scope.cVerify == true) {
-					ok = ok + 1;
-				}
-				if(allTasks[i].status == 'Done' && $scope.cDone == true) {
-					ok = ok + 1;
-				}
-				if(allTasks[i].priority == 'Blocker' && $scope.cBlocker == true) {
-					ok = ok + 1;
-				}
-				if(allTasks[i].priority == 'Critical' && $scope.cCritical == true) {
-					ok = ok + 1;
-				}
-				if(allTasks[i].priority == 'Major' && $scope.cMajor == true) {
-					ok = ok + 1;
-				}
-				if(allTasks[i].priority == 'Minor' && $scope.cMinor == true) {
-					ok = ok + 1;
-				}
-				if(allTasks[i].priority == 'Trivial' && $scope.cTrivial == true) {
-					ok = ok + 1;
-				}
-				if(ok > 0) {
-					newList.push(allTasks[i]);
-				}
-			}
-			alert(newList.length);
-			$scope.listOfTasks = newList ;
-		}
-		$scope.doFilter = doFilter;*/
 		
         
 }]);

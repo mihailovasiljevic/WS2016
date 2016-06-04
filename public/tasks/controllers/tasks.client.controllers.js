@@ -5,7 +5,9 @@ angular.module('tasks').controller('listOfTasksCtrl', ['$scope', '$rootScope', '
 			Tasks.query(function(response) {
 				var tasks = [];
 				for(var i = 0; i < response.length; i++) {
+					if(response[i].currentState.author)
 					var author = response[i].currentState.author.firstName + response[i].currentState.author.lastName;
+					else author="--";
 					if(response[i].currentState.assignedFor!=undefined)
 					var assignedFor = response[i].currentState.assignedFor.firstName + response[i].currentState.assignedFor.lastName;
 					else assignedFor="--";
