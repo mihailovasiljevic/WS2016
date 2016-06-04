@@ -28,7 +28,7 @@
 					{{ user.username }}
 				</div> 
 				<div>
-					<button ng-click="deleteMember($index)">delete</button>
+					<button ng-show="isAdmin" ng-click="deleteMember($index)">delete</button>
 				</div>
 			</div> 
 
