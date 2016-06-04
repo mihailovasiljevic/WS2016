@@ -243,6 +243,7 @@ angular.module('reports').controller('reportCntrl', ['$scope', '$rootScope', '$l
 
 }]);
 
+/*
 angular.module('reports').controller('repCon', ['$scope', '$rootScope', '$location','Projects','$http','Tasks','$stateParams','$state','Authentication','Report5',
     function($scope,$rootScope,$location,Projects,$http,Tasks,$stateParams,$state,Authentication,Report5) {
     		
@@ -288,3 +289,4 @@ angular.module('reports').controller('repCon', ['$scope', '$rootScope', '$locati
     		}
 
 }]);
+*/
