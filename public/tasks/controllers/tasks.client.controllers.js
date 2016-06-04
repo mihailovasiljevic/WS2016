@@ -1,7 +1,71 @@
-angular.module('tasks').controller('listOfTasksCtrl', ['$scope', '$rootScope', '$location','Tasks','Projects','$state',
-    function($scope,$rootScope,$location,Tasks,Projects,$state) {
+angular.module('tasks').controller('listOfTasksCtrl', ['$scope', '$rootScope', '$location','Tasks','Projects','$state','Authentication','Users','$stateParams',
+    function($scope,$rootScope,$location,Tasks,Projects,$state,Authentication,Users,$stateParams) {
+
 
 		$scope.list = function() {
+
+				if(!$stateParams.projectId){
+				var tasksFromAuth ={};
+				var tasks = [];
+				var id = Authentication.user._id;
+				Users.get({userId:id},function(response){
+					tasksFromAuth=response.tasks;
+				
+					for(var i = 0; i < tasksFromAuth.length; i++) {
+						Tasks.get({taskId:tasksFromAuth[i]},function(response){
+	
+						var task=loadTaskForTable(response);
+						tasks.push(task);
+						})
+						
+					}
+				});
+				$scope.allTasks = tasks;
+				$scope.listOfTasks = tasks;
+			}
+			else{
+
+				tasksFromProject = {};
+				var tasks = [];
+				var id = $stateParams.projectId;
+				Projects.get({projectId:id},function(response){
+					tasksFromProject=response.tasks;
+				
+					for(var i = 0; i < tasksFromProject.length; i++) {
+						Tasks.get({taskId:tasksFromProject[i]._id},function(response){
+
+						var task=loadTaskForTable(response);						
+						tasks.push(task);
+						})
+						
+					}
+				});
+				$scope.allTasks = tasks;
+				$scope.listOfTasks = tasks;
+			}
+
+
+			function loadTaskForTable(response){
+						if(response.currentState.author)
+						var author =response.currentState.author.firstName + response.currentState.author.lastName;
+						else author="--";
+						if(response.currentState.assignedFor!=undefined)
+						var assignedFor = response.currentState.assignedFor.firstName + response.currentState.assignedFor.lastName;
+						else assignedFor="--";
+						var task = {
+							"id": response._id,
+							"mark": response.currentState.mark,
+							"title": response.currentState.title,
+							"author": author,
+							"assignedFor": assignedFor,
+							"status":response.currentState.status,
+							"priority": response.currentState.priority,
+							"updatedAt": "23-04-2016",
+						}
+						return task;
+
+			}
+			/*
 			Tasks.query(function(response) {
 				var tasks = [];
 				for(var i = 0; i < response.length; i++) {
@@ -26,6 +90,7 @@ angular.module('tasks').controller('listOfTasksCtrl', ['$scope', '$rootScope', '
 				$scope.allTasks = tasks;
 				$scope.listOfTasks = tasks;
 			});
+			*/
 		}
 		
 		$scope.initCheckboxs = function() 
@@ -34,12 +99,14 @@ angular.module('tasks').controller('listOfTasksCtrl', ['$scope', '$rootScope', '
 			$scope.cInProgress = true;
 			$scope.cVerify = true;
 			$scope.cDone = true;
+			$scope.cNoStatus = true;
 
 			$scope.cBlocker = true;
 			$scope.cCritical = true;
 			$scope.cMajor = true;
 			$scope.cMinor = true;
 			$scope.cTrivial = true;
+			$scope.cNoPriority = true;
 		}
 
 		$scope.doFilter = function(model) {
@@ -48,31 +115,37 @@ angular.module('tasks').controller('listOfTasksCtrl', ['$scope', '$rootScope', '
 
 			for(var i = 0; i < allTasks.length; i++) {
 				var ok = 0;
-				if(allTasks[i].status == 'To Do' && $scope.cToDo == true) {
+				if(allTasks[i].status == 'To Do' && $scope.cToDo == true || allTasks[i].assignedFor == '--') {
 					ok = ok + 1;
 				}
-				if(allTasks[i].status == 'In Progress' && $scope.cInProgress == true) {
+				if(allTasks[i].status == 'In Progress' && $scope.cInProgress == true || allTasks[i].assignedFor == '--') {
 					ok = ok + 1;
 				}
-				if(allTasks[i].status == 'Verify' && $scope.cVerify == true) {
+				if(allTasks[i].status == 'Verify' && $scope.cVerify == true || allTasks[i].assignedFor == '--') {
 					ok = ok + 1;
 				}
-				if(allTasks[i].status == 'Done' && $scope.cDone == true) {
+				if(allTasks[i].status == 'Done' && $scope.cDone == true || allTasks[i].assignedFor == '--') {
 					ok = ok + 1;
 				}
-				if(allTasks[i].priority == 'Blocker' && $scope.cBlocker == true) {
+				if(allTasks[i].priority == 'Blocker' && $scope.cBlocker == true || allTasks[i].assignedFor == '--') {
 					ok = ok + 1;
 				}
-				if(allTasks[i].priority == 'Critical' && $scope.cCritical == true) {
+				if(allTasks[i].priority == 'Critical' && $scope.cCritical == true || allTasks[i].assignedFor == '--') {
 					ok = ok + 1;
 				}
-				if(allTasks[i].priority == 'Major' && $scope.cMajor == true) {
+				if(allTasks[i].priority == 'Major' && $scope.cMajor == true || allTasks[i].assignedFor == '--') {
 					ok = ok + 1;
 				}
-				if(allTasks[i].priority == 'Minor' && $scope.cMinor == true) {
+				if(allTasks[i].priority == 'Minor' && $scope.cMinor == true || allTasks[i].assignedFor == '--') {
 					ok = ok + 1;
 				}
-				if(allTasks[i].priority == 'Trivial' && $scope.cTrivial == true) {
+				if(allTasks[i].priority == 'Trivial' && $scope.cTrivial == true || allTasks[i].assignedFor == '--') {
+					ok = ok + 1;
+				}
+				if(allTasks[i].status == 'No Status' && $scope.cNoStatus == true || allTasks[i].assignedFor == '--') {
+					ok = ok + 1;
+				}
+				if(allTasks[i].priority == 'No Priority' && $scope.cNoPriority == true || allTasks[i].assignedFor == '--') {
 					ok = ok + 1;
 				}
 				if(ok > 1) {
@@ -94,7 +167,9 @@ angular.module('tasks').controller('listOfTasksCtrl', ['$scope', '$rootScope', '
 		$scope.showAddTaskForm = function()
 		{
 			//$location.path('/dashBoard/addTask');
+			if(!$stateParams.projectId)
 			$state.go('dashBoard.addTask');
+			else $state.go('dashBoard.addTask',{projectId:$stateParams.projectId});
 		}
 
 		$scope.selectedIndex = -1;
@@ -114,9 +189,13 @@ angular.module('tasks').controller('listOfTasksCtrl', ['$scope', '$rootScope', '
         
 }]);
 
-angular.module('tasks').controller('taskModel', ['$scope', '$rootScope', '$location','$stateParams', 'Tasks','$state',
-	function($scope,$rootScope,$location,$stateParams,Tasks,$state) {
+angular.module('tasks').controller('taskModel', ['$scope', '$rootScope', '$location','$stateParams', 'Tasks','$state','Authentication',
+	function($scope,$rootScope,$location,$stateParams,Tasks,$state,Authentication) {
 		
+		if(Authentication.user.role=='admin')
+			$scope.isAdmin=true;
+		else $scope.isAdmin = false;
+
 		$scope.list = function() {
 
 			Tasks.get({taskId: $stateParams.taskId},function(response) {
@@ -167,6 +246,7 @@ angular.module('tasks').controller('taskModel', ['$scope', '$rootScope', '$locat
 	}
 
 	$scope.deleteTask = function(id){
+		
 		var task = Tasks.get({taskId:id},function(response){})
 		task.$delete({taskId:id},function(response){console.log("USPESNO BRISANJE");
 		$state.go('dashBoard.tasks');
@@ -190,17 +270,19 @@ var loadEntries = function () {
 			$scope.task.currentState.project={};
 			$scope.task.currentState.assignedFor={};
 
-			//$scope.projects = Projects.query();	
+			$scope.projects = [];
 			$scope.project = new Projects();
+			//$scope.projects = Projects.query();	
+			if(!$stateParams.projectId){
 			var prjs = Projects.query(
 
 				function(response) {
 					console.log('duzina prjs je: '+prjs.length)
-					if(prjs.length>0){
-					$scope.teamMembers = prjs[0].teamMembers;
-					$scope.task.currentState.project._id = prjs[0]._id;
-					if(prjs[0].teamMembers.length>0){
-					$scope.task.currentState.assignedFor._id=prjs[0].teamMembers[0]._id;
+					if(response.length>0){
+					$scope.teamMembers = response[0].teamMembers;
+					$scope.task.currentState.project._id = response[0]._id;
+					if(response[0].teamMembers.length>0){
+					$scope.task.currentState.assignedFor._id=response[0].teamMembers[0]._id;
 					}
 				}
     			/*for(var i=0; i<prjs.length;i++)
@@ -222,8 +304,17 @@ var loadEntries = function () {
     			}
     		);
     		$scope.projects=prjs;
-    		
-
+			}
+			else {
+				Projects.get({projectId:$stateParams.projectId},function(response){
+					$scope.projects.push(response);
+					$scope.task.currentState.project._id = response._id;
+					$scope.teamMembers = response.teamMembers;
+					if(response.teamMembers.length>0){
+					$scope.task.currentState.assignedFor._id=response.teamMembers[0]._id;
+					}
+				})
+			}
     		
     		
 		}
@@ -233,39 +324,9 @@ var loadForEdit = function () {
 			
 			//$scope.projects = Projects.query();	
 			$scope.project = new Projects();
-			var prjs = Projects.query(
-
-				function(response) {
-					/*
-					console.log('duzina prjs je: '+prjs.length)
-					if(prjs.length>0){
-					$scope.teamMembers = prjs[0].teamMembers;
-					$scope.task.currentState.project._id = prjs[0]._id;
-					if(prjs[0].teamMembers.length>0)
-					$scope.task.currentState.assignedFor._id=prjs[0].teamMembers[0]._id;
-				*/}
-    			/*for(var i=0; i<prjs.length;i++)
-    			{
-    				
-    				for(var j=0; j<prjs[i].teamMembers.length; j++){
-    					var idKor = prjs[i].teamMembers[j]._id;
-    					$http.get("./api/sendMe").success(function(user){
-    						
-			    			console.log(user.username)
-			    			$scope.user=user;
-			    			
-			    			if(idKor===user._id){
-								console.log("KORISNIK pronadjen") ;   						
-    					}
-    						} );
-    				}
-    				*/
-    			//}
-    		);
-    		$scope.projects=prjs;
+			$scope.projects = [];
     		
     		var task = Tasks.get({taskId:$stateParams.taskId},function(response){
-
 
 			$scope.task = new Tasks();
 			$scope.task._id = task._id;
@@ -282,7 +343,8 @@ var loadForEdit = function () {
 			$scope.task.currentState.createdAt = task.currentState.createdAt;
 
 			var prj = Projects.get({projectId:task.currentState.project},function(response) {
-				$scope.teamMembers = prj.teamMembers;
+				$scope.teamMembers = response.teamMembers;
+				$scope.projects.push(response);
 			});
 			if(task.currentState.assignedFor!=undefined)
 			$scope.task.currentState.assignedFor._id=task.currentState.assignedFor._id;
