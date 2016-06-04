@@ -121,10 +121,10 @@ exports.update = function(req, res, next){
          }); 
     }else{
       console.log("Updating");
-          if(req.body.currentState.assignedFor){
+          
            console.log(req.body.currentState.assignedFor);
            console.log(task.currentState.assignedFor);
-           console.log(req.body.currentState.assignedFor._id != task.currentState.assignedFor);
+           console.log(req.body.currentState.assignedFor != task.currentState.assignedFor);
           if(req.body.currentState.assignedFor != task.currentState.assignedFor){
             //task doesn't have to be assigned to a user
             if(task.currentState.assignedFor)
@@ -132,15 +132,16 @@ exports.update = function(req, res, next){
             .exec(function(err, user){
               if (err) return next(err);
               if(!user) return next(new Error('Failed to load user ' + task.currentState.assignedFor));
-              var index = user.tasks.indexOf(req.body.currentState.assignedFor);
+              var index = user.tasks.indexOf(req.body._id);
               console.log("index "+index);
-              user.tasks.splice(index,1)
+              user.tasks.splice(index,1);
               User.findByIdAndUpdate(user.id, user, function(err, user){
                 if(err){
                     return res.status(400).send({
                       message: errorHandler.getErrorMessage(err)
                     }); 
                 }else{
+                  if(req.body.currentState.assignedFor){
                     User.findById(req.body.currentState.assignedFor)
                     .exec(function(err, user){
                       if (err) return next(err);
@@ -160,13 +161,39 @@ exports.update = function(req, res, next){
                       });              
                     });                
                 }
+                else res.json(task);
+              }
               });              
             }); 
-            else res.json(task);           
+            else {
+              
+
+              if(req.body.currentState.assignedFor){
+                    User.findById(req.body.currentState.assignedFor)
+                    .exec(function(err, user){
+                      if (err) return next(err);
+                      if(!user) return next(new Error('Failed to load project ' + task.currentState.assignedFor));
+                      
+  
+                      user.tasks.push(task);
+                      User.findByIdAndUpdate(user.id, user, function(err, user){
+                        if(err){
+                            return res.status(400).send({
+                              message: errorHandler.getErrorMessage(err)
+                            }); 
+                        }else{
+                          console.log("\nUspesno sacuvan "+task.currentState.assignedFor);
+                          res.json(task);                       
+                        }
+                      });              
+                    });                
+                }
+                else res.json(task);
+
+
+            }       
           } 
-         } else{
-           res.json(task); 
-         }
+         
     }
   });
 };
