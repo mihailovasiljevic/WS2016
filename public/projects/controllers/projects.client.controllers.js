@@ -62,7 +62,7 @@ angular.module('projects').controller('listOfProjectsCtrl', ['$scope', '$rootSco
 		} 
 		$scope.delete = function (listProject) {
 			listProject.$delete(loadEntries);
-			listProject1.$delete(loadEntries);
+	//		listProject1.$delete(loadEntries);
 		}
 
 		
@@ -84,7 +84,7 @@ angular.module('projects').controller('listOfProjectsCtrl', ['$scope', '$rootSco
 
 		$scope.edit = function (listProject) {
 			$scope.listProject = listProject;
-			$scope.listProject1 = listProject;
+	//		$scope.listProject1 = listProject;
 			$state.go('dashBoard.editProject');
 		} 
 
