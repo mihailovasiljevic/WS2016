@@ -4,33 +4,52 @@ var mongoose = require('mongoose'),
     errorHandler = require('../controllers/index.server.controller');
 	
 exports.report1 = function(req,res,next,id)
-{
+{	
 	Project.findById(id)
+	.populate('teamMembers')
 	.exec(function(err, project){
 		Task.find({"currentState.project":id})
 		.populate('currentState.assignedFor')
 		.exec(function(err,tasks) {
 			var map = {};  //says how many taks users did
 			var indexies = {};
+			for(var i = 0; i < project.teamMembers.length; i++) {
+				map[project.teamMembers[i]._id] = 0;
+			}
+			map[-1] = 0;
 			for(var i = 0; i < tasks.length; i++) {
-				if(map[tasks[i].currentState.assignedFor] == undefined) {
-					map[tasks[i].currentState.assignedFor] = 0;
-					indexies[tasks[i].currentState.assignedFor] = i;
+				if(tasks[i].currentState.assignedFor != undefined) {
+					map[tasks[i].currentState.assignedFor._id] = map[tasks[i].currentState.assignedFor._id] + 1;
+				} else {
+					map[-1] = map[-1] + 1;
 				}
-				map[tasks[i].currentState.assignedFor] = map[tasks[i].currentState.assignedFor] + 1;
 			}
 			var report = [];
-
-			for(var key in map) {
-				if(tasks[indexies[key]].currentState.assignedFor){
+			
+			for(var i = 0; i < project.teamMembers.length; i++) {
 				var user = {};
-				user.firstName = tasks[indexies[key]].currentState.assignedFor.firstName;
-				user.lastName = tasks[indexies[key]].currentState.assignedFor.lastName;
-				user.username = tasks[indexies[key]].currentState.assignedFor.username;
-				user.percantage = Math.round(((map[key] / tasks.length)*100) * 100) / 100;
+				user.firstName = project.teamMembers[i].firstName;
+				user.lastName = project.teamMembers[i].lastName;
+				user.username = project.teamMembers[i].username;
+				user.percantage = Math.round(((map[project.teamMembers[i]._id] / tasks.length) * 100) * 100) / 100;
 				report.push(user);
 			}
-			}
+			
+			user = {};
+			user.firstName = "-1";
+			user.lastName = "-1";
+			user.username = "";
+			user.percantage = Math.round(((map[-1] / tasks.length) * 100) * 100) / 100;
+			report.push(user);
+			report.sort(function (a, b) {
+				if (a.percantage < b.percantage) {
+					return 1;
+				}
+				if (a.percantage > b.percantage) {
+					return -1;
+				}
+				return 0;
+			});
 			res.send(report);
 		});
 	});
@@ -39,31 +58,50 @@ exports.report1 = function(req,res,next,id)
 exports.report2 = function(req,res,next,id)
 {
 	Project.findById(id)
+	.populate('teamMembers')
 	.exec(function(err, project){
-		Task.find({"currentState.project":id, "currentState.status" : "Done"})
+		Task.find({"currentState.project":id})
 		.populate('currentState.assignedFor')
 		.exec(function(err,tasks) {
-			console.log(tasks.length);
 			var map = {};  //says how many taks users did
 			var indexies = {};
+			for(var i = 0; i < project.teamMembers.length; i++) {
+				map[project.teamMembers[i]._id] = 0;
+			}
+			map[-1] = 0;
 			for(var i = 0; i < tasks.length; i++) {
-				if(map[tasks[i].currentState.assignedFor] == undefined) {
-					map[tasks[i].currentState.assignedFor] = 0;
-					indexies[tasks[i].currentState.assignedFor] = i;
+				if(tasks[i].currentState.assignedFor != undefined && tasks[i].currentState.status == 'Done') {
+					map[tasks[i].currentState.assignedFor._id] = map[tasks[i].currentState.assignedFor._id] + 1;
+				} else {
+					map[-1] = map[-1] + 1;
 				}
-				map[tasks[i].currentState.assignedFor] = map[tasks[i].currentState.assignedFor] + 1;
 			}
 			var report = [];
-			for(var key in map) {
-				if(tasks[indexies[key]].currentState.assignedFor){
+			
+			for(var i = 0; i < project.teamMembers.length; i++) {
 				var user = {};
-				user.firstName = tasks[indexies[key]].currentState.assignedFor.firstName;
-				user.lastName = tasks[indexies[key]].currentState.assignedFor.lastName;
-				user.username = tasks[indexies[key]].currentState.assignedFor.username;
-				user.percantage = Math.round(((map[key] / tasks.length)*100) * 100) / 100;
+				user.firstName = project.teamMembers[i].firstName;
+				user.lastName = project.teamMembers[i].lastName;
+				user.username = project.teamMembers[i].username;
+				user.percantage = Math.round(((map[project.teamMembers[i]._id] / tasks.length) * 100) * 100) / 100;
 				report.push(user);
-				}
 			}
+			
+			user = {};
+			user.firstName = "-1";
+			user.lastName = "-1";
+			user.username = "";
+			user.percantage = Math.round(((map[-1] / tasks.length) * 100) * 100) / 100;
+			report.push(user);
+			report.sort(function (a, b) {
+				if (a.percantage < b.percantage) {
+					return 1;
+				}
+				if (a.percantage > b.percantage) {
+					return -1;
+				}
+				return 0;
+			});
 			res.send(report);
 		});
 	});
