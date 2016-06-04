@@ -100,7 +100,7 @@ angular.module('reports').controller('reportCtrl', ['$scope', '$rootScope', '$lo
 				date = new Date(split[0],split[1]-1,split[2]);
 				var control = 0;
 				var i=1;
-				var dateForViewing = date;
+				var dateForViewing = min.x;
 				while(dateForViewing!=max.x){
 					//infinite loop protection
 					control++;
