@@ -17,7 +17,7 @@ angular.module('main').config(['$urlRouterProvider','$stateProvider',
         url: 'tasks',
         templateUrl: './tasks/views/listOfTasks.html',
         /*controller: 'listOfTasksCtrl'*/
-      })
+      })   
     .state('dashBoard.addProject', {
         url: 'addProject',
         templateUrl: 'projects/views/addProject.html',
@@ -82,6 +82,11 @@ angular.module('main').config(['$urlRouterProvider','$stateProvider',
                  .state('dashBoard.report4',{
       url: 'report4/:projectId',
       templateUrl: 'reports/views/report4.html'
-     })   ;
+     }) 
+                 
+     .state('dashBoard.report5',{
+      url: 'report5/:projectId',
+      templateUrl: 'reports/views/report5.html'
+     });
   }
 ]);
