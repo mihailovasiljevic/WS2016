@@ -1,6 +1,7 @@
 angular.module('projects').controller('listOfProjectsCtrl', ['$scope', '$rootScope', '$location','Projects','Users','$stateParams','$state',
     function($scope,$rootScope,$location,Projects,Users,$stateParams,$state) {
 		
+		$scope.listProjects={};
 		var loadEntries = function () {
 			$scope.listProjects = Projects.query();	
 			$scope.listProject = new Projects();
@@ -242,8 +243,6 @@ angular.module('projects').controller('listOfProjectsCtrl', ['$scope', '$rootSco
 		}
 
 
-		
-		
 		
         
 }]);
