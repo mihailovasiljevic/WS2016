@@ -23,3 +23,17 @@ angular.module('reports').factory('Report4', ['$resource',
 		  });
 
 }]);
+
+
+angular.module('reports').factory('Report5', ['$resource',
+	function($resource){
+
+		return $resource('/api/report_5/:report5Id', {
+		    projectId : '@_id'
+		  }, {
+		    update : {
+		      method: 'PUT'
+		    }
+		  });
+
+}]);

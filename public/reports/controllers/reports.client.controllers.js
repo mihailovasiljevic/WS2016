@@ -14,23 +14,28 @@ angular.module('reports').controller('listProjectsCtrl', ['$scope', '$rootScope'
     		$state.go('dashBoard.report1',{projectId:$stateParams.projectId})
     	}
 
-    		$scope.goReport2 = function(){
+    	$scope.goReport2 = function(){
     		$state.go('dashBoard.report2',{projectId:$stateParams.projectId})
     	}
 
-    		$scope.goReport3 = function(){
+    	$scope.goReport3 = function(){
     		$state.go('dashBoard.report3',{projectId:$stateParams.projectId})
     	}
 
-    		$scope.goReport4 = function(){
+    	$scope.goReport4 = function(){
     		$state.go('dashBoard.report4',{projectId:$stateParams.projectId})
+    	}
+
+    	$scope.goReport5 = function(){
+    		$state.go('dashBoard.report5',{projectId:$stateParams.projectId})
     	}
 
 
 }]);
 
-angular.module('reports').controller('reportCtrl', ['$scope', '$rootScope', '$location','Projects','$http','Tasks','$stateParams','$state','Report3','Authentication','Report4',
-    function($scope,$rootScope,$location,Projects,$http,Tasks,$stateParams,$state,Report3,Authentication,Report4) {
+angular.module('reports').controller('reportCtrl', ['$scope', '$rootScope', '$location','Projects','$http','Tasks','$stateParams','$state','Report3','Authentication','Report4','Report5',
+    function($scope,$rootScope,$location,Projects,$http,Tasks,$stateParams,$state,Report3,Authentication,Report4,Report5) {
+
     		if($state.current.name.includes("report3"))
     		{
     			$scope.days=[];
@@ -50,6 +55,16 @@ angular.module('reports').controller('reportCtrl', ['$scope', '$rootScope', '$lo
     				loadReport();
     			})
     		}
+
+    		if($state.current.name.includes("report5"))
+    		{
+				$scope.days=[];
+				$scope.project = Projects.get({projectId:$stateParams.projectId});
+				$scope.user = Authentication.user;
+	    		var res=Report5.get({report5Id:$stateParams.projectId}, function(response){
+    				loadReport();
+    			})
+    		}
 			
 			function loadReport(){
     			var max=0;
@@ -62,7 +77,7 @@ angular.module('reports').controller('reportCtrl', ['$scope', '$rootScope', '$lo
 					  	day = {
 						x: key,
 						percentage: res[key]
-					}
+						}
 					$scope.days.push(day);
 					}
 				}

@@ -5,9 +5,6 @@ angular.module('projects').controller('listOfProjectsCtrl', ['$scope', '$rootSco
 		var loadEntries = function () {
 			$scope.listProjects = Projects.query();	
 			$scope.listProject = new Projects();
-			
-			$scope.user = new Users();
-			$scope.niz14=['1','2'];
 
 			$scope.ubaci= function(member,project){
 
@@ -48,13 +45,15 @@ angular.module('projects').controller('listOfProjectsCtrl', ['$scope', '$rootSco
 			console.log('jeeeeeeeeej');
 
 			if(!$scope.listProject._id){
-
+				console.log('1');
 				$scope.listProject.$save(loadEntries);
 				$state.go('dashBoard.projects');
 			}
 			else{
+				console.log('2');
 				$scope.listProject.$update(loadEntries);
-				$state.go('dashBoard.projects');				
+				$state.go('dashBoard.projects');		
+					console.log('3');		
 			}
 		
 
