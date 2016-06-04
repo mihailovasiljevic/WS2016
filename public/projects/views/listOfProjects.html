@@ -3,7 +3,7 @@
 </head>
 
 <div  ng-controller="listOfProjectsCtrl">
-<br><hr><br>
+<!-- <br><hr><br>
 <div align="center">
 <div align="left" style="display:inline-block; width:150px;margin-left:-20px;">
 Status:<br>
@@ -21,60 +21,34 @@ Priority:<br>
 <input type="checkbox" ng-change="doFilter(cMinor)" ng-model="cMinor">Minor<br>
 <input type="checkbox" ng-change="doFilter(cTrivial)" ng-model="cTrivial">Trivial<br>
 </div>
-<!-- <select ng-options="item for item in statusies" ng-model="selected1" ng-change="selected_status(selected1)">
-<select ng-options="item for item in priorities" ng-model="selected2" ng-change="selected_status(selected2)"> -->
 
-</div>
+</div> -->
 
 
-<br><hr><br>
-
-<!-- <table id="t01" align="center" width="75%;">
-  <tr>
-    <th>&nbsp;</th>
-    <th>Mark</th>  
-    <th>Status</th>
-    <th>Priority</th>
-    <th>Title</th>
-    <th>Author</th>
-    <th>Assigned For</th>
-    <th>Last Change</th>
-  </tr>
-  <tr ng-repeat="element in listOfTasks">
-    <td style="width:4%;">{{$index+1}}&nbsp;</td>
-    <td style="width:11%;">{{element.mark}}</td>  
-    <td style="width:9%;">{{element.status}}</td>
-    <td style="width:9%;">{{element.priority}}</td>
-    <td style="width:21%;"><p style="color:blue" ng-click="pregled(element.id)"><u>{{element.title}}</u></p></td>
-    <td style="width:15%;">{{element.author}}</td>
-    <td style="width:15%;">{{element.assignedFor}}</td>
-    <td style="width:12%;">{{element.updatedAt}}</td>
-  </tr>
-
-</table> -->
+<br><hr><br> 
 
 
- <table id="t01" align="left" width="25%;">
+ <table id="t01" align="left" width="75%;">
           <tr>
             <th>Title</th>
             <th>&nbsp;</th> 
             <th>&nbsp;</th> 
-            <th>&nbsp;</th> 
+            <th ng-show="isAdmin">&nbsp;</th> 
             <th>&nbsp;</th>
-            <th>&nbsp;</th> 
+            <th >&nbsp;</th> 
           </tr>
           <tr ng-repeat="listProject in listProjects">
-            <td><p><u>{{listProject.title}}</u></p></td>
-            <td><button ng-click="editProject(listProject._id)">edit</button></td> 
-            <td><button ng-click="delete(listProject)">delete</button></td>
-            <td><button ng-click="addMember(listProject._id)">add member</button></td> 
-            <td><button ng-click="showUsers(listProject._id)">members</button></td>
-            <td><button ng-click="listTasks(listProject._id)">list of tasks</button></td>
+            <td ><p><u>{{listProject.title}}</u></p></td>
+            <td ><button ng-click="editProject(listProject._id)">edit</button></td> 
+            <td ><button ng-click="delete(listProject)">delete</button></td>
+            <td ng-show="isAdmin"><button ng-click="addMember(listProject._id)">add member</button></td> 
+            <td ><button ng-click="showUsers(listProject._id)">members</button></td>
+            <td ><button ng-click="listTasks(listProject._id)">list of tasks</button></td>
           </tr>
          <!--  <tr ><td colspan=5><button ng-click="showAddProjectForm()">Add Project</button></td></tr> -->
   </table>   
 
-   <div style="float:left; margin-left:20px;"><input type="button" value="Add Project"
+   <div style="float:left; margin-left:20px;"><input ng-show="isAdmin" type="button" value="Add Project"
  ng-click="showAddProjectForm()"></div>    
 
 
