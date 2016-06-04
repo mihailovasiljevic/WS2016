@@ -198,6 +198,8 @@ exports.delete = function(req, res, next){
                       message: errorHandler.getErrorMessage(err)
                     }); 
                 }else{
+                    //tasks doesn't have to be assigned to a user
+                    if(req.task.currentState.assignedFor){
                     userId = req.task.currentState.assignedFor;
                       User.findById(userId)
                       .exec(function(err, user){
@@ -219,10 +221,13 @@ exports.delete = function(req, res, next){
                             res.json(req.task);
                           }
                         });    
-    
-                        
+                       
                       // next();
-                      });                 
+                      });  
+                    }
+                    else {
+                      res.json(req.task);
+                    }               
 
                 }
               });    
