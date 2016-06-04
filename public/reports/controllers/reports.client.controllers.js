@@ -14,15 +14,15 @@ angular.module('reports').controller('listProjectsCtrl', ['$scope', '$rootScope'
     		$state.go('dashBoard.report1',{projectId:$stateParams.projectId})
     	}
 
-    		$scope.goReport2 = function(){
+		$scope.goReport2 = function(){
     		$state.go('dashBoard.report2',{projectId:$stateParams.projectId})
     	}
 
-    		$scope.goReport3 = function(){
+		$scope.goReport3 = function(){
     		$state.go('dashBoard.report3',{projectId:$stateParams.projectId})
     	}
 
-    		$scope.goReport4 = function(){
+		$scope.goReport4 = function(){
     		$state.go('dashBoard.report4',{projectId:$stateParams.projectId})
     	}
 
@@ -154,38 +154,49 @@ angular.module('reports').controller('reportCntrl', ['$scope', '$rootScope', '$l
     		if($state.current.name.includes("report1"))
     		{
     			Report1.query({report1Id:$stateParams.projectId}, function(response) {
-    				if(loadedChart === false) {
-				    	google.charts.load('current', {'packages':['corechart']});
-				    	loadedChart = true;
-					}
-				    google.charts.setOnLoadCallback(drawChart);
-				    function drawChart() {
-						var report = [];
-						report.push(['', '']);
-				    	for(var i = 0; i < response.length; i++) {
-				    		var name = response[i].firstName + " " + response[i].lastName + " (" +  response[i].username + ") ";
-				    		var element = [name, response[i].percantage];
-				    		report.push(element);
-				    	}
-						
-				        var data = google.visualization.arrayToDataTable(report);
+    				draw(response,"Not assigned");
+    			});
 
-				        var options = {
-				          title: 'Percentage of tasks assigned for users'
-				        };
-
-				        var chart = new google.visualization.PieChart(document.getElementById('piechart'));
-
-				        chart.draw(data, options);
-				    }
-				});
     		}
 
-    		//alert('here');
     		if($state.current.name.includes("report2"))
     		{
-
+    			Report2.query({report2Id:$stateParams.projectId}, function(response) {
+    				draw(response,"Unifinished");
+    			});
     		}
+
+    		function draw(response,value) {
+				if(loadedChart === false) {
+			    	google.charts.load('current', {'packages':['corechart']});
+			    	loadedChart = true;
+				}
+			    google.charts.setOnLoadCallback(drawChart);
+			    function drawChart() {
+					var report = [];
+					report.push(['', '']);
+			    	for(var i = 0; i < response.length; i++) {
+			    		if(response[i].username !== "") {
+			    			var name = response[i].firstName + " " + response[i].lastName + " (" +  response[i].username + ") ";
+			    		} else {
+			    			var name = value;
+			    		}
+			    		var element = [name, response[i].percantage];
+			    		report.push(element);
+			    	}
+					
+			        var data = google.visualization.arrayToDataTable(report);
+
+			        var options = {
+			          title: 'Percentage of tasks assigned for users'
+			        };
+
+			        var chart = new google.visualization.PieChart(document.getElementById('piechart'));
+
+			        chart.draw(data, options);
+			    }
+			}
+
 
 }]);
 
