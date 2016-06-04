@@ -7,7 +7,7 @@ var mongoose = require('mongoose'),
 exports.create = function(req, res, next){
     var task = new Task(req.body);
     
-//    task.currentState.author = req.user._id;  // stavio sam author umesto creator
+    task.currentState.author = req.user._id;  // stavio sam author umesto creator
    
     var projectId = req.body.currentState.project._id;
     
@@ -35,7 +35,8 @@ exports.create = function(req, res, next){
                       message: errorHandler.getErrorMessage(err)
                     }); 
                 }else{
-                   
+                    //task doesn't have to be assigned to a user!
+                    if(task.currentState.assignedFor)
                     User.findById(task.currentState.assignedFor)
                     .exec(function(err, user){
                       if (err) return next(err);
@@ -51,7 +52,8 @@ exports.create = function(req, res, next){
                             res.json(task);
                         }
                       });              
-                    }); 
+                    });
+                    else res.json(task); 
                   
                 }
               });              
