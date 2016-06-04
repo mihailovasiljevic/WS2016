@@ -41,6 +41,15 @@ exports.report1 = function(req,res,next,id)
 			user.username = "";
 			user.percantage = Math.round(((map[-1] / tasks.length) * 100) * 100) / 100;
 			report.push(user);
+			report.sort(function (a, b) {
+				if (a.percantage < b.percantage) {
+					return 1;
+				}
+				if (a.percantage > b.percantage) {
+					return -1;
+				}
+				return 0;
+			});
 			res.send(report);
 		});
 	});
@@ -84,6 +93,15 @@ exports.report2 = function(req,res,next,id)
 			user.username = "";
 			user.percantage = Math.round(((map[-1] / tasks.length) * 100) * 100) / 100;
 			report.push(user);
+			report.sort(function (a, b) {
+				if (a.percantage < b.percantage) {
+					return 1;
+				}
+				if (a.percantage > b.percantage) {
+					return -1;
+				}
+				return 0;
+			});
 			res.send(report);
 		});
 	});
