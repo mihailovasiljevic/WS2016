@@ -2,23 +2,15 @@
    <link rel="stylesheet" href="/reports/views/graph.css">
 </head>
 
-<div ng-controller="reportCtrl">
+<div ng-controller="repCon">
 
 <div id="chart">
 <ul class="chart">
-  <li ng-repeat="day in days">
-    <span style="height:{{day.percentage}}%" title="{{day.title}}" x="{{day.x}}"></span>
+  <li ng-repeat="num in numbers">
+    <span style="height:{{num.percentage}}%" title="{{num.title}}" x="{{num.x}}"></span>
   </li>
   
 </ul>
-</div>
+</div> 
 
-
-<table ng-model="project" ng-model="user">
-<tr><td colspan="2">Number of created tasks per date</td></tr>
-<tr><td>Project name</td><td>{{project.title}}</td></tr>
-<tr><td>Generated for</td><td>{{user.firstName}}</td></tr>
-<tr>
-</table>
-
-</div>    
+</div>   
