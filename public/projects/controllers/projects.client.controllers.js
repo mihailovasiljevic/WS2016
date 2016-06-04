@@ -238,6 +238,10 @@ angular.module('projects').controller('listOfProjectsCtrl', ['$scope', '$rootSco
 
 		}
 
+		$scope.listTasks = function(id)
+		{
+			$state.go('dashBoard.tasksForProject',{projectId:id});
+		}
 
 		
         

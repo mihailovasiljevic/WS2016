@@ -1,7 +1,71 @@
-angular.module('tasks').controller('listOfTasksCtrl', ['$scope', '$rootScope', '$location','Tasks','Projects','$state',
-    function($scope,$rootScope,$location,Tasks,Projects,$state) {
+angular.module('tasks').controller('listOfTasksCtrl', ['$scope', '$rootScope', '$location','Tasks','Projects','$state','Authentication','Users','$stateParams',
+    function($scope,$rootScope,$location,Tasks,Projects,$state,Authentication,Users,$stateParams) {
+
 
 		$scope.list = function() {
+
+				if(!$stateParams.projectId){
+				var tasksFromAuth ={};
+				var tasks = [];
+				var id = Authentication.user._id;
+				Users.get({userId:id},function(response){
+					tasksFromAuth=response.tasks;
+				
+					for(var i = 0; i < tasksFromAuth.length; i++) {
+						Tasks.get({taskId:tasksFromAuth[i]},function(response){
+	
+						var task=loadTaskForTable(response);
+						tasks.push(task);
+						})
+						
+					}
+				});
+				$scope.allTasks = tasks;
+				$scope.listOfTasks = tasks;
+			}
+			else{
+
+				tasksFromProject = {};
+				var tasks = [];
+				var id = $stateParams.projectId;
+				Projects.get({projectId:id},function(response){
+					tasksFromProject=response.tasks;
+				
+					for(var i = 0; i < tasksFromProject.length; i++) {
+						Tasks.get({taskId:tasksFromProject[i]._id},function(response){
+
+						var task=loadTaskForTable(response);						
+						tasks.push(task);
+						})
+						
+					}
+				});
+				$scope.allTasks = tasks;
+				$scope.listOfTasks = tasks;
+			}
+
+
+			function loadTaskForTable(response){
+						if(response.currentState.author)
+						var author =response.currentState.author.firstName + response.currentState.author.lastName;
+						else author="--";
+						if(response.currentState.assignedFor!=undefined)
+						var assignedFor = response.currentState.assignedFor.firstName + response.currentState.assignedFor.lastName;
+						else assignedFor="--";
+						var task = {
+							"id": response._id,
+							"mark": response.currentState.mark,
+							"title": response.currentState.title,
+							"author": author,
+							"assignedFor": assignedFor,
+							"status":response.currentState.status,
+							"priority": response.currentState.priority,
+							"updatedAt": "23-04-2016",
+						}
+						return task;
+
+			}
+			/*
 			Tasks.query(function(response) {
 				var tasks = [];
 				for(var i = 0; i < response.length; i++) {
@@ -26,6 +90,7 @@ angular.module('tasks').controller('listOfTasksCtrl', ['$scope', '$rootScope', '
 				$scope.allTasks = tasks;
 				$scope.listOfTasks = tasks;
 			});
+			*/
 		}
 		
 		$scope.initCheckboxs = function() 
@@ -114,9 +179,13 @@ angular.module('tasks').controller('listOfTasksCtrl', ['$scope', '$rootScope', '
         
 }]);
 
-angular.module('tasks').controller('taskModel', ['$scope', '$rootScope', '$location','$stateParams', 'Tasks','$state',
-	function($scope,$rootScope,$location,$stateParams,Tasks,$state) {
+angular.module('tasks').controller('taskModel', ['$scope', '$rootScope', '$location','$stateParams', 'Tasks','$state','Authentication',
+	function($scope,$rootScope,$location,$stateParams,Tasks,$state,Authentication) {
 		
+		if(Authentication.user.role=='admin')
+			$scope.isAdmin=true;
+		else $scope.isAdmin = false;
+
 		$scope.list = function() {
 
 			Tasks.get({taskId: $stateParams.taskId},function(response) {
@@ -167,6 +236,7 @@ angular.module('tasks').controller('taskModel', ['$scope', '$rootScope', '$locat
 	}
 
 	$scope.deleteTask = function(id){
+		
 		var task = Tasks.get({taskId:id},function(response){})
 		task.$delete({taskId:id},function(response){console.log("USPESNO BRISANJE");
 		$state.go('dashBoard.tasks');
