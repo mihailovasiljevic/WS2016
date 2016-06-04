@@ -8,6 +8,7 @@ exports.create = function(req, res, next){
     var task = new Task(req.body);
     
     task.currentState.author = req.user._id;  // stavio sam author umesto creator
+
    
     var projectId = req.body.currentState.project._id;
     

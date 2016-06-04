@@ -3,27 +3,6 @@
 </head>
 
 <div  ng-controller="listOfProjectsCtrl">
-<!-- <br><hr><br>
-<div align="center">
-<div align="left" style="display:inline-block; width:150px;margin-left:-20px;">
-Status:<br>
-<input type="checkbox" ng-change="doFilter(cToDo)" ng-model="cToDo">To Do<br>
-<input type="checkbox" ng-change="doFilter(cInProgress)" ng-model="cInProgress">In Progress<br>
-<input type="checkbox" ng-change="doFilter(cVerify)" ng-model="cVerify">Verify<br>
-<input type="checkbox" ng-change="doFilter(cDone)" ng-model="cDone">Done<br>
-<br>
-</div>
-<div align="left" style="display:inline-block; width:150px; margin-left:-20px;">
-Priority:<br>
-<input type="checkbox" ng-change="doFilter(cBlocker)" ng-model="cBlocker">Blocker<br>
-<input type="checkbox" ng-change="doFilter(cCritical)" ng-model="cCritical">Criticalo<br>
-<input type="checkbox" ng-change="doFilter(cMajor)" ng-model="cMajor">Major<br>
-<input type="checkbox" ng-change="doFilter(cMinor)" ng-model="cMinor">Minor<br>
-<input type="checkbox" ng-change="doFilter(cTrivial)" ng-model="cTrivial">Trivial<br>
-</div>
-
-</div> -->
-
 
 <br><hr><br> 
 
@@ -40,12 +19,18 @@ Priority:<br>
           <tr ng-repeat="listProject in listProjects">
             <td ><p><u>{{listProject.title}}</u></p></td>
             <td ><button ng-click="editProject(listProject._id)">edit</button></td> 
-            <td ><button ng-click="delete(listProject)">delete</button></td>
+            <td ><button ng-click="clicked=true">delete</button>
+                      <div ng-show="clicked">
+                          <label>Are you sure you want to delete this task?</label>
+                          <input type="button" class="btn btn-default btn-sm topButtons"
+                           value="Yes" ng-click="delete(listProject)">
+                           <input type="button" class="btn btn-default btn=sm topButtons" value="No" ng-click="clicked=false">
+                     </div>
+            </td> 
             <td ng-show="isAdmin"><button ng-click="addMember(listProject._id)">add member</button></td> 
             <td ><button ng-click="showUsers(listProject._id)">members</button></td>
             <td ><button ng-click="listTasks(listProject._id)">list of tasks</button></td>
           </tr>
-         <!--  <tr ><td colspan=5><button ng-click="showAddProjectForm()">Add Project</button></td></tr> -->
   </table>   
 
    <div style="float:left; margin-left:20px;"><input ng-show="isAdmin" type="button" value="Add Project"
