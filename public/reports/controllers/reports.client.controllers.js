@@ -26,6 +26,10 @@ angular.module('reports').controller('listProjectsCtrl', ['$scope', '$rootScope'
     		$state.go('dashBoard.report4',{projectId:$stateParams.projectId})
     	}
 
+    	$scope.goReport5 = function(){
+    		$state.go('dashBoard.report5',{projectId:$stateParams.projectId})
+    	}
+
 
 }]);
 
@@ -197,5 +201,51 @@ angular.module('reports').controller('reportCntrl', ['$scope', '$rootScope', '$l
 			    }
 			}
 
+
+}]);
+
+angular.module('reports').controller('repCon', ['$scope', '$rootScope', '$location','Projects','$http','Tasks','$stateParams','$state','Authentication','Report5',
+    function($scope,$rootScope,$location,Projects,$http,Tasks,$stateParams,$state,Authentication,Report5) {
+    		
+    		if($state.current.name.includes("report5"))
+    		{
+    			$scope.numbers=[];
+				$scope.project = Projects.get({projectId:$stateParams.projectId});
+				$scope.user = Authentication.user;
+	    		var res=Report5.query({report5Id:$stateParams.projectId}, function(response){
+    				loadReport();
+    			})
+    		}
+			
+			function loadReport(){
+    			var max=0;
+
+				for (var i=0; i<res.length; i++)
+				{
+
+				     var firstName=res[i].firstName;
+				     var date = res[i].date;
+				     var number = res[i].number;
+
+				     if(number>max)
+					  		max=number;
+
+				     num = {
+						x: firstName+' '+date,
+						title: number,
+						percentage: number
+					}
+					$scope.numbers.push(num);
+
+
+				}
+
+				for(var i=0; i<$scope.numbers.length; i++ )
+				{
+				
+					$scope.numbers[i].percentage = $scope.numbers[i].percentage/max*100;
+				}
+				
+    		}
 
 }]);
