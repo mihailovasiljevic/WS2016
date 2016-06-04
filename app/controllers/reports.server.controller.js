@@ -1,6 +1,7 @@
 var mongoose = require('mongoose'),
     Task = mongoose.model('Task'),
-    Project = mongoose.model('Project'), // use mongoose to call module method to get project model
+    Project = mongoose.model('Project'),
+    User = mongoose.model('User'), // use mongoose to call module method to get project model
     errorHandler = require('../controllers/index.server.controller');
 	
 exports.report1 = function(req,res,next,id)
@@ -187,6 +188,8 @@ exports.report4 = function(req,res,next,id){
 
 exports.report5 = function(req,res,next,id){
 
+
+	/*
 	Project.findById(id)
 	.exec(function(err, project){
 		Task.find({"currentState.project":id,"currentState.status" : "Done"})
@@ -225,8 +228,9 @@ exports.report5 = function(req,res,next,id){
 				
 				var normalDate=date.getFullYear().toString()+"/"+(date.getMonth() + 1).toString() + "/" + date.getDate().toString();
 
+								if(tasks[i].currentState.assignedFor)
 								var korisnik= tasks[i].currentState.assignedFor.firstName;
-
+								else var korisnik = "--";
 							
 								
 									if(!report[normalDate,korisnik])
@@ -306,6 +310,118 @@ exports.report5 = function(req,res,next,id){
 
 
 			res.send(niz);
+		});
+	});
+	*/
+
+
+	Project.findById(id).populate('teamMembers')
+	.exec(function(err, project){
+		Task.find({"currentState.project":id,"currentState.status" : "Done"})
+		.populate('currentState.assignedFor')
+		.exec(function(err,tasks) {
+			reports=[];
+			for(var k=0; k<project.teamMembers.length; k++){
+			report={}
+			for(var i=0; i<tasks.length; i++)
+			{	
+				if(tasks[i].currentState.assignedFor)
+			
+			
+				if(tasks[i].currentState.assignedFor)
+				if(tasks[i].currentState.assignedFor._id.toString()===project.teamMembers[k]._id.toString()){
+					
+					date = new Date(tasks[i].currentState.createdAt);
+					//Looking for the exact date when the task was done
+					for(var j=tasks[i].history.length-1; j>=0; j--)
+					{
+						if(tasks[i].history[j].status!="Done")
+						{
+							if(j==tasks[i].history.length-1)
+							{
+								date=new Date(tasks[i].currentState.updatedAt);
+							}
+							else{
+								date = new Date(tasks[i].history[j+1].updatedAt);
+							}
+							break;
+						}
+
+					}
+
+
+					
+					var normalDate=date.getFullYear().toString()+"/"+(date.getMonth() + 1).toString() + "/" + date.getDate().toString();
+					
+					if(!report[normalDate])
+					{
+						report[normalDate] = 1;
+
+					}
+
+					else report[normalDate]++;
+
+				}
+
+
+			}
+			report = {
+				username: project.teamMembers[k].username,
+				data: report
+			}
+			reports.push(report);
+		}
+
+		report={};
+		for(var i=0; i<tasks.length;i++){
+			
+			if(!tasks[i].currentState.assignedFor){
+
+				date = new Date(tasks[i].currentState.createdAt);
+					//Looking for the exact date when the task was done
+					for(var j=tasks[i].history.length-1; j>=0; j--)
+					{
+						if(tasks[i].history[j].status!="Done")
+						{
+							if(j==tasks[i].history.length-1)
+							{
+								date=new Date(tasks[i].currentState.updatedAt);
+							}
+							else{
+								date = new Date(tasks[i].history[j+1].updatedAt);
+							}
+							break;
+						}
+
+					}
+
+
+					
+					var normalDate=date.getFullYear().toString()+"/"+(date.getMonth() + 1).toString() + "/" + date.getDate().toString();
+					
+					if(!report[normalDate])
+					{
+						report[normalDate] = 1;
+
+					}
+
+					else report[normalDate]++;
+
+				}
+
+
+
+			}
+
+		report = {
+				username: "Not assigned",
+				data: report
+			}
+		reports.push(report);
+		
+
+
+		res.send(reports);
 		});
 	});
 }

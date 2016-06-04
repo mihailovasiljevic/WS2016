@@ -1,5 +1,9 @@
-angular.module('projects').controller('listOfProjectsCtrl', ['$scope', '$rootScope', '$location','Projects','Users','$stateParams','$state',
-    function($scope,$rootScope,$location,Projects,Users,$stateParams,$state) {
+angular.module('projects').controller('listOfProjectsCtrl', ['$scope', '$rootScope', '$location','Projects','Users','$stateParams','$state','Authentication',
+    function($scope,$rootScope,$location,Projects,Users,$stateParams,$state,Authentication) {
+
+    	if(Authentication.user.role=='admin')
+			$scope.isAdmin=true;
+		else $scope.isAdmin = false;
 		
 		$scope.listProjects={};
 		var loadEntries = function () {

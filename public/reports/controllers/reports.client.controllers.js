@@ -33,8 +33,8 @@ angular.module('reports').controller('listProjectsCtrl', ['$scope', '$rootScope'
 
 }]);
 
-angular.module('reports').controller('reportCtrl', ['$scope', '$rootScope', '$location','Projects','$http','Tasks','$stateParams','$state','Report3','Authentication','Report4',
-    function($scope,$rootScope,$location,Projects,$http,Tasks,$stateParams,$state,Report3,Authentication,Report4) {
+angular.module('reports').controller('reportCtrl', ['$scope', '$rootScope', '$location','Projects','$http','Tasks','$stateParams','$state','Report3','Authentication','Report4','Report5',
+    function($scope,$rootScope,$location,Projects,$http,Tasks,$stateParams,$state,Report3,Authentication,Report4,Report5) {
     		
 
     		if($state.current.name.includes("report3"))
@@ -43,7 +43,7 @@ angular.module('reports').controller('reportCtrl', ['$scope', '$rootScope', '$lo
 				$scope.project = Projects.get({projectId:$stateParams.projectId});
 				$scope.user = Authentication.user;
 	    		var res=Report3.get({report3Id:$stateParams.projectId}, function(response){
-    				loadReport();
+    				loadReport(res);
     			})
     		}
 
@@ -53,11 +53,47 @@ angular.module('reports').controller('reportCtrl', ['$scope', '$rootScope', '$lo
 				$scope.project = Projects.get({projectId:$stateParams.projectId});
 				$scope.user = Authentication.user;
 	    		var res=Report4.get({report4Id:$stateParams.projectId}, function(response){
-    				loadReport();
+    				loadReport(res);
+    			})
+    		}
+
+    		if($state.current.name.includes("report5"))
+    		{
+    			$scope.project = Projects.get({projectId:$stateParams.projectId},function(response){
+    				$scope.users = response.teamMembers;
+    			})
+				$scope.days=[];
+				$scope.user = Authentication.user;
+	    		var res=Report5.query({report5Id:$stateParams.projectId}, function(response){
+	    			res=response[0].data;
+	    			$scope.selected =  response[0].username;
+    				loadReport(res);
+    			})
+    		}
+
+
+    		$scope.showGraph = function(username){
+    			$scope.days=[];
+    			var res=Report5.query({report5Id:$stateParams.projectId}, function(response){
+    				if(username)
+    				for(var i=0; i<response.length; i++){
+    					if(response[i].username===username)
+    					{
+    						res=response[i].data;
+    						$scope.selected =  username;
+    						loadReport(res);
+    					}
+    				}
+    				else{
+    					res=response[response.length-1].data;
+    					$scope.selected =  "Not assigned";
+    					loadReport(res);
+    				}
+    				
     			})
     		}
 			
-			function loadReport(){
+			function loadReport(res){
     			var max=0;
 				for (var key in res) {
 					
@@ -72,6 +108,9 @@ angular.module('reports').controller('reportCtrl', ['$scope', '$rootScope', '$lo
 					$scope.days.push(day);
 					}
 				}
+
+				if($scope.days.length==0)
+					return;
 
 				for(var i=0; i<$scope.days.length; i++ )
 				{
@@ -204,6 +243,7 @@ angular.module('reports').controller('reportCntrl', ['$scope', '$rootScope', '$l
 
 }]);
 
+/*
 angular.module('reports').controller('repCon', ['$scope', '$rootScope', '$location','Projects','$http','Tasks','$stateParams','$state','Authentication','Report5',
     function($scope,$rootScope,$location,Projects,$http,Tasks,$stateParams,$state,Authentication,Report5) {
     		
@@ -249,3 +289,4 @@ angular.module('reports').controller('repCon', ['$scope', '$rootScope', '$locati
     		}
 
 }]);
+*/
