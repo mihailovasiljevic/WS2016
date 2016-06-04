@@ -11,12 +11,11 @@
 		 <tr><td>Add member:</td>
 			<td>
 			<select  ng-change="ubaci(listProject.teamMembers,listProject._id)" ng-model="listProject.teamMembers">
- 			<option ng-repeat="user in users" value="{{ user._id }}" >{{ user.username }}</option> 
- 			
+ 			<option ng-repeat="user in listProject1.teamMembers"  value="{{ user._id }}" >{{ user.username }}</div></option> 	 
 			</select> 
 		</td></tr> 
 	
-		
+		<!-- value="{{ user._id }}" {{ user.username }}-->
 		<tr><td id="tdSubmitProject" colspan=2><button ng-click="save()" >Submit</button></td></tr>
 	</table>
 

@@ -8,11 +8,16 @@ exports.create = function(req, res, next){
   
   
     var project = new Project(req.body);
+
+  //  project.creator = req.user._id;
+
     
-    updateUsers(project,project.teamMembers, function(){
-      console.log("KONACAN USPEH!");
-      res.send(JSON.stringify(project));
-    });
+        updateUsers(project,project.teamMembers, function(){
+          console.log("KONACAN USPEH!");
+          res.send(JSON.stringify(project));
+        });
+
+
 
 
 };
@@ -25,7 +30,7 @@ function updateUsers(project, collection, callback){
          User.findById(item)
         .exec(function(err, user){
           if (err) return next(err);
-          if(!user) return next(new Error('Failed to load project ' + item));
+     //     if(!user) return next(new Error('Failed to load project ' + item));
 
           project.save(function(err) {
               if (err) {
