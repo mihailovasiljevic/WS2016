@@ -7,11 +7,15 @@ angular.module('projects').controller('listOfProjectsCtrl', ['$scope', '$rootSco
 		
 		$scope.listProjects={};
 		var loadEntries = function () {
-			alert('load');
+		//	alert('load');
 			$scope.listProjects = Projects.query();	
-			$scope.listProject = new Projects();
+			$scope.listProject = new Projects();	
 
-			$scope.ubaci= function(member,project){
+
+		}
+	//	loadEntries();
+
+		$scope.ubaci= function(member,project){
 
 				var oznaka=false;
 
@@ -38,8 +42,8 @@ angular.module('projects').controller('listOfProjectsCtrl', ['$scope', '$rootSco
 				});
 	
 			}
-			
-		}
+
+		
 
 
 		$scope.exsists = false;
