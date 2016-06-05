@@ -1,26 +1,74 @@
 var mongoose = require('mongoose'),
-    Project = mongoose.model('Project'), // use mongoose to call module method to get project model
+    Project = mongoose.model('Project'),
+    User = mongoose.model('User'), // use mongoose to call module method to get project model
     errorHandler = require('../controllers/index.server.controller');
-    
-    
+
 exports.create = function(req, res, next){
-    console.log('presave');
-	var project = new Project(req.body);
-    //project.creator = req.user;
-    console.log('save');
-    project.save(function(err) {
-        if (err) {
-         return res.status(400).send({
-           message: errorHandler.getErrorMessage(err)
-         });
-        } else {
-            res.json(project);
-        }
-    });
-};
+  
+  
+  
+    var project = new Project(req.body);
+
+     project.creator = req.user._id;
+
+    project.teamMembers.push(req.user._id);
+    Project.find({"title":project.title})
+      .exec(function(err,response) {
+          if(response.length > 0) {
+            res.send({"forbidden":"true"});
+          } else {
+            updateUsers(project,project.teamMembers, function(){
+              project.forbidden = false;
+              res.send(JSON.stringify(project));
+            });
+          }
+      });
+      
+}
+   
+
+
+
+
+function updateUsers(project, collection, callback){
+  var usersIds = collection.slice(0);//clone collection;
+  (function updateUsers(){
+         var item = usersIds.splice(0,1)[0];
+         User.findById(item)
+        .exec(function(err, user){
+          if (err) return next(err);
+     //     if(!user) return next(new Error('Failed to load project ' + item));
+
+          project.save(function(err) {
+              if (err) {
+                return res.status(400).send({
+                  message: errorHandler.getErrorMessage(err)
+                });
+              } else {
+                  user.projects.push(project);
+                  User.findByIdAndUpdate(user.id, user, function(err, user){
+                    if(err){
+                        return res.status(400).send({
+                          message: errorHandler.getErrorMessage(err)
+                        }); 
+                    }else{
+                       if(usersIds.length == 0)
+                        callback();
+                       else
+                        updateUsers();
+                    }
+                  });              
+                
+
+              }
+          });     
+          
+        });       
+    })();
+}
 
 exports.list = function(req, res, next){
-  
+ 
   Project.find().sort('-created')
   .populate('creator')
   .populate('teamMembers')

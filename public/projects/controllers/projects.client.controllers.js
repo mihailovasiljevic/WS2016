@@ -1,6 +1,15 @@
-angular.module('projects').controller('listOfProjectsCtrl', ['$scope', '$rootScope', '$location','Projects','Users','$stateParams','$state','$timeout',
-    function($scope,$rootScope,$location,Projects,Users,$stateParams,$state,$timeout) {
+angular.module('projects').controller('listOfProjectsCtrl', ['$scope', '$rootScope', '$location','Projects','Users','$stateParams','$state','$timeout','Authentication',
+    function($scope,$rootScope,$location,Projects,Users,$stateParams,$state,$timeout,Authentication) {
 		
+		$scope.dialogShown = false;
+		$scope.show = function(){
+			$scope.dialogShown = true;
+		}
+		$scope.data = {
+			singleSelect: null,
+			multipleSelect: [],
+			option1: 'option-1',
+		};
 		$scope.listProjects={};
 		var loadEntries = function () {
 			$scope.listProjects = Projects.query();	
@@ -43,11 +52,32 @@ angular.module('projects').controller('listOfProjectsCtrl', ['$scope', '$rootSco
 				$location.path('/projects/addProject');
 			});
 		}
-
+		var vm = this;
+		vm.project = {};
+		$scope.create = function(){
+			var project = new Projects({
+				title: this.title,
+				teamMembers: $scope.data.multipleSelect
+			})
+			var tmp = [];
+			for(var i = 0; i < project.teamMembers.length; i++){
+				tmp.push({_id:project.teamMembers[i]});
+			}
+			project.teamMembers = tmp;
+			project.$save(function(response){
+				$location.path('projects/'+response._id);
+			}, function(errorResponse){
+				$scope.error = errorResponse.data.message;
+			});
+		};
 		$scope.save = function () {
 
 			console.log('jeeeeeeeeej');
-
+			$scope.listProject = new Projects({
+				
+			});
+			$scope.listProject.teamMembers = $scope.data.multipleSelect;
+			$scop
 			if(!$scope.listProject._id){
 				console.log('1');
 				$scope.listProject.$save(loadEntries);

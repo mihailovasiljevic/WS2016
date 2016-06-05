@@ -21,7 +21,6 @@ var taskSchema = new Schema({
     assignedFor: {
       type: Schema.Types.ObjectId,
       ref: 'User',
-      required: 'You have to insert who is task assigned for.'
     },
     project: {
       type: Schema.Types.ObjectId,
@@ -39,31 +38,17 @@ var taskSchema = new Schema({
       type: Date,
     },
     comments: [{
-          author: {
-            type: Schema.Types.ObjectId,
-              ref: 'User',
-              required:true
-          },
-          text: {
-            type: String,
-            required: 'You have to insert comment text.'
-          },
-          createdAt: {
-              type: Date,
-              default: Date.now,
-          },
-          updatedAt: {
-            type: Date,
-          }
+      type: Schema.Types.ObjectId,
+      ref: 'Comment'//,
     }],
     priority: {
       type: String,
-      enum: ['blocker', 'critical', 'major', 'minor', 'trivial']
+      enum: ['No Priority','Blocker', 'Critical', 'Major', 'Minor', 'Trivial']
     },
 
     status: {
       type: String,
-      enum: ['todo', 'progress', 'verify', 'done']
+      enum: ['No Status','To Do', 'In Progress', 'Verify', 'Done']
     }
   },
   history:[{
@@ -102,22 +87,8 @@ var taskSchema = new Schema({
       type: Date,
     },
     comments: [{
-          author: {
-            type: Schema.Types.ObjectId,
-              ref: 'User',
-              required:true
-          },
-          text: {
-            type: String,
-            required: 'You have to insert comment text.'
-          },
-          createdAt: {
-              type: Date,
-              default: Date.now,
-          },
-          updatedAt: {
-            type: Date,
-          }
+      type: Schema.Types.ObjectId,
+      ref: 'Comment'//,
     }],
     priority: {
       type: String,

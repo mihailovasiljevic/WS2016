@@ -1,6 +1,6 @@
 angular.module('users')
-  .controller('LoginCtrl', ['$scope', '$rootScope', 'Authentication', '$timeout',
-    function($scope,$rootScope, Authentication, $timeout){
+  .controller('LoginCtrl', ['$scope', '$rootScope', 'Authentication', '$timeout','$location',
+    function($scope,$rootScope, Authentication, $timeout,$location){
         
       var vm = this;
 

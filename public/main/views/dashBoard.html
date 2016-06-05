@@ -1,28 +1,109 @@
 
-<section ng-controller="listOfProjectsCtrl as prctrl" ng-init="prctrl.listProjects()">
-		<div id="projects-wrapper">
-			<a href="#" id="add-project" ng-click="addProject()">Add project</a>
+<section ng-controller="myCtrl as ctrl">
+	<div id="menu-wrapper" ng-show="authentication.loggedin">
+		
+		<div id="logo-info">
+			<div id="logo-image">
+				<img src="img/logo.png" alt="ticketing system logo">
+			</div> 
+		</div>
+		
+		<div id="logged-user">
+			<span class="logged_as">Logged as:</span><br>
+			<span class="user" ng-bind="authentication.user.fullName"></span><span class="role" ng-bind="authentication.user.role"></span>
+			<a href="#" id="logout" ng-click="logout()"><span>logout</span></a>
+		</div>
+		<div id = "menu">
+			<ul>
+				<li><a class="active" href="/#!/projects">Projects</a></li>
+				<li ng-show="authentication.isAdmin"><a href="/#!/users">Users</a></li>
+				<li><a href="/#!/reports">Reports</a></li>
+			</ul>
+		</div>
+		
+	</div>
 
-			<div ng-repeat="project in listProjects">
+	
+	<div id="content-wrapper" ng-show="authentication.loggedin" ui-view>
+		
+		<section ng-controller="listOfProjectsCtrl as prctrl" ng-init="prctrl.listProjects()">
+				<div id="projects-wrapper">
+					
+					<button id="add-project" ng-click="show();">Open Modal</button>						
+					<modal-dialog show='dialogShown' dialog-title='My Dialog' height='400px' width='75%'>
+						<div ng-controller="listOfProjectsCtrl">
+<br><hr><br>
+	<table align="center">
+		<th colspan="2">Add Project</th>
+		 <tr><td>Title:</td><td><input  id="selProject" type="text" ng-model="title"/><br><span style="color:red" ng-show="exsists">Title exsists</span></td></tr>
+		<!-- <tr><td><label>Project:</label></td><td><select id="selProject" ng-change="Projects()" ng-model="listProject._id">
+ 			 <option ng-repeat="project in projects" value="{{ project._id }}" >{{ project.title }}</option>
+			</select> </td></tr> -->
+		  <tr><td>Team members:</td>
+			<td>
+			<select ng-model="data.multipleSelect" multiple>
+ 				<option ng-repeat="user in users" value="{{ user._id }}" >{{ user.username }}</option> 
+			</select> 
+		</td></tr> 
+		<!-- <tr><td>Team members:</td>
+			<td>
+			<ul ng-change="Users()" ng-model="listProject.teamMembers">
+            <li ng-repeat="item in users" value="{{ item._id }}" ng-class="{'selected':item.selected}" >
+                <a href="" ng-click="toggle(item)">{{item.username}}</a>
+            </li>
+        </ul>
+		</td></tr> -->
+		
+		<tr><td id="tdSubmitProject" colspan=2><button ng-click="create()" >Submit</button></td></tr>
+	</table>
 
-				<div id="project-wrapper">
-					<div id="user-info">
-						<span class="user-name" ng-bind="project.creator.fullName"></span>
-						<span class="date" ng-bind="project.created"></span>
-					</div>
-					<div id="project-background">
-						<div id="project-title">
-							<span class="title" ng-bind="project.title"></span>
-							<a id="edit-project" href="#"></a>
+    
+  <br><hr><br>
+  
+   <!-- <div ng-repeat="listProject in listProjects">
+				
+					{{ listProject.title }}
+					
+				<div ng-repeat="user in teamMembers" value="{{user._id}}">
+					{{ user.username }}
+				</div>
+				<div>
+					<button ng-click="delete(listProject)">delete</button>
+					<button ng-click="edit(listProject)">edit</button>
+				</div>
+			</div>  -->
+
+	
+
+</div>
+					</modal-dialog>					
+					<div ng-repeat="project in listProjects">
+
+						<div id="project-wrapper">
+							<div id="user-info">
+								<span class="user-name" ng-bind="project.creator.fullName"></span>
+								<span class="date" ng-bind="project.created"></span>
+							</div>
+							<div id="project-background">
+								<div id="project-title">
+									<span class="title" ng-bind="project.title"></span>
+									<a id="edit-project" href="#"></a>
+								</div>
+								<ul>
+								<div id="project-content" ng-repeat="teamMember in project.teamMembers">
+									<li ng-bind="teamMember.fullName"></li>
+								</div>
+								</ul>
+								<a href="/#!/{{listProject._id}}/tasks" id="more">pogledaj zadatke</a>
+							</div>
 						</div>
-						<ul>
-						<div id="project-content" ng-repeat="teamMember in project.teamMembers">
-							<li ng-bind="teamMember.fullName"></li>
-						</div>
-						</ul>
-						<a href="/#!/{{listProject._id}}/tasks" id="more">pogledaj zadatke</a>
 					</div>
 				</div>
-			</div>
-		</div>
-	</section>	
+									
+				
+			</section>			
+		
+	</div>
+
+</section>
+
