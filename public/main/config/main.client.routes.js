@@ -32,7 +32,7 @@ angular.module('main').config(['$urlRouterProvider','$stateProvider',
         controller: 'addTaskCtrl'
       }).      
        state('dashBoard.task', {
-        url: '/task/:id',
+        url: '/tasks/:id',
         templateUrl: 'tasks/views/taskDetails.html',
         controller: 'listOfTasksCtrl'
       })       

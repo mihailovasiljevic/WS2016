@@ -15,7 +15,7 @@
 		</div>
 		<div id = "menu">
 			<ul>
-				<li><a class="active" href="/#!/projects">Projects</a></li>
+				<li><a class="active" href="#">Projects</a></li>
 				<li ng-show="authentication.isAdmin"><a href="/#!/users">Users</a></li>
 				<li><a href="/#!/reports">Reports</a></li>
 			</ul>
@@ -24,10 +24,10 @@
 	</div>
 
 	
-	<div id="content-wrapper" ng-show="authentication.loggedin" ui-view>
+	<div id="content-wrapper" ng-show="authentication.loggedin" >
 		
 		<section ng-controller="listOfProjectsCtrl as prctrl" ng-init="prctrl.listProjects()">
-				<div id="projects-wrapper">
+				<div id="projects-wrapper" ui-view>
 	<br><hr><br>
 <div align="center">
 <div align="left" style="display:inline-block; width:150px;margin-left:-20px;">

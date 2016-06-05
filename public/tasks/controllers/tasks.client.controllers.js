@@ -1,5 +1,5 @@
-angular.module('tasks').controller('listOfTasksCtrl', ['$scope', '$rootScope', '$location','Tasks','Projects','$state','Authentication','Users','$stateParams',
-    function($scope,$rootScope,$location,Tasks,Projects,$state,Authentication,Users,$stateParams) {
+angular.module('tasks').controller('listOfTasksCtrl', ['$scope', '$rootScope', '$location','Tasks','Projects','$state','Authentication','Users','$stateParams','$timeout',
+    function($scope,$rootScope,$location,Tasks,Projects,$state,Authentication,Users,$stateParams,$timeout) {
 
 
 		$scope.list = function() {
@@ -22,6 +22,9 @@ angular.module('tasks').controller('listOfTasksCtrl', ['$scope', '$rootScope', '
 				});
 				$scope.allTasks = tasks;
 				$scope.listOfTasks = tasks;
+				for(var i = 0; i < $scope.listOfTasks.length; i++){
+					console.log("ID: " + $scope.listOfTasks[i]._id);
+				}
 			}
 			else{
 
@@ -42,15 +45,19 @@ angular.module('tasks').controller('listOfTasksCtrl', ['$scope', '$rootScope', '
 				});
 				$scope.allTasks = tasks;
 				$scope.listOfTasks = tasks;
+				
+				for(var i = 0; i < $scope.listOfTasks.length; i++){
+					console.log("ID: " + $scope.listOfTasks[i]._id);
+				}
 			}
 
 
 			function loadTaskForTable(response){
 						if(response.currentState.author)
-						var author =response.currentState.author.firstName + response.currentState.author.lastName;
+						var author =response.currentState.author.fullName;
 						else author="--";
 						if(response.currentState.assignedFor!=undefined)
-						var assignedFor = response.currentState.assignedFor.firstName + response.currentState.assignedFor.lastName;
+						var assignedFor = response.currentState.assignedFor.fullName;
 						else assignedFor="--";
 						var task = {
 							"id": response._id,
@@ -92,6 +99,10 @@ angular.module('tasks').controller('listOfTasksCtrl', ['$scope', '$rootScope', '
 			});
 			*/
 		}
+		
+		$scope.lookUpTask = function(id){
+			$state.go('dashBoard.task', { 'id':id});
+		};
 		
 		$scope.initCheckboxs = function() 
 		{
@@ -197,8 +208,8 @@ angular.module('tasks').controller('taskModel', ['$scope', '$rootScope', '$locat
 		else $scope.isAdmin = false;
 
 		$scope.list = function() {
-
-			Tasks.get({taskId: $stateParams.taskId},function(response) {
+			console.log($stateParams.id);
+			Tasks.get({taskId: $stateParams.id},function(response) {
 				if(response.currentState.assignedFor!=undefined)
 				var assignedFor = response.currentState.assignedFor.firstName + " " + response.currentState.assignedFor.lastName;
 				else assignedFor="";

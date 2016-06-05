@@ -1,11 +1,6 @@
-<head>
-    <link rel="stylesheet" href="/tasks/views/listOfTasks.css">
-</head>
 
 <div  ng-controller="listOfTasksCtrl">
 <br><hr><br>
-<div style="float:left; margin-left:20px;"><input type="button" value="Add Task"
- ng-click="showAddTaskForm()"></div>
 <div align="center">
 <div align="left" style="display:inline-block; width:150px;margin-left:-20px;">
 Status:<br>
@@ -33,7 +28,6 @@ Priority:<br>
 
 <table id="t01" align="center" width="75%;">
   <tr>
-    <th>&nbsp;</th>
     <th>Mark</th>  
     <th>Status</th>
     <th>Priority</th>
@@ -41,13 +35,14 @@ Priority:<br>
     <th>Author</th>
     <th>Assigned For</th>
     <th>Last Change</th>
+    <th><input type="button" value="Add Task" ng-click="showAddTaskForm()" id="add-task"></th>   
   </tr>
   <tr ng-repeat="element in listOfTasks">
     <td style="width:4%;">{{$index+1}}&nbsp;</td>
     <td style="width:11%;">{{element.mark}}</td>  
     <td style="width:9%;">{{element.status}}</td>
     <td style="width:9%;">{{element.priority}}</td>
-    <td style="width:21%;"><p ng-class="{tleave: $index != selectedIndex, tover: $index == selectedIndex}" ng-click="pregled(element.id)" ng-mouseover="tover($index)" ng-mouseleave="tleave($index)"><u>{{element.title}}</u></p></td>
+    <td style="width:21%;"><button ng-click="lookUpTask(element.id);"><u>{{element.title}}</u></button></td>
     <td style="width:15%;">{{element.author}}</td>
     <td style="width:15%;">{{element.assignedFor}}</td>
     <td style="width:12%;">{{element.updatedAt}}</td>

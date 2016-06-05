@@ -79,6 +79,9 @@ div#content-wrapper{
     width: 720px;       
     height: 100%;    
     z-index: 2;
+   font-family: 'Roboto', Arial, sans-serif;
+    font-size: 15px;
+    color:white;
 }
 div#logo-info{
     background-color: #3f3f58;
@@ -320,6 +323,30 @@ div#content-wrapper div#projects-wrapper td {
     border-top: 1px dashed #1f1f33;
 }
 
+div#content-wrapper table {
+    border-collapse: collapse;
+    width: 100%;
+    background-color: #06061c;
+    padding: 10px;
+    border-radius: 5px;
+    empty-cells: show;
+}
+
+div#content-wrapper th, td {
+    padding: 15px;
+}
+div#content-wrapper th {
+    font-weight: bold;
+    border-bottom: 1px dashed #1f1f33;
+    color: white;
+}
+
+div#content-wrapper td {
+    font-size: 12px;
+    color: #838390;
+    border-top: 1px dashed #1f1f33;
+}
+
 div#content-wrapper div#projects-wrapper div#project-wrapper{
     position:relative;
     top: 20px;
@@ -495,7 +522,29 @@ button#edit-project:hover{
     opacity: 1;
     cursor: hand;
 }
-
+input#add-task{
+   top: 0px;
+    left: 5px;
+    display: inline-block;
+    border: 0px;
+    border-radius: 5px;
+    width: 153px;
+    height: 28px;
+    text-align: center;
+    vertical-align: middle;
+    text-decoration: none;
+    color: white;
+    opacity: 0.9;
+    font-family: 'Roboto', Arial, sans-serif;
+    font-size: 13px;
+    padding-top: 0px;
+     border-radius: 5px;
+  background-color: rgb( 45, 184, 67 );
+}
+input#add-task:hover{
+    opacity: 1;
+    cursor: hand;
+}
 /* add project*/
 div#content-wrapper div#addProjectForm{
     position: relative;
@@ -578,3 +627,87 @@ div#container div#addProjectForm span.team-members{
     opacity:0.4;
 }
 /*end of add project*/
+
+/* add task */
+div#content-wrapper div#addTaskForm{
+    position: relative;
+    top: 150px;
+    left: 90px;
+    width: 643px;
+    height: 650px;      
+    border-radius: 5px;
+    background-color: #0f0f2a;   
+}
+
+div#container div#addTaskForm span.title{
+    color:white;
+    font-family: 'Roboto', Arial, sans-serif;
+    font-size: 36px;
+    font-weight:360;    
+    z-index: 20;
+    opacity:1;
+    position: relative;
+    top: 10px;
+    left: 30px;
+}
+div#container div#addTaskForm span.subtitle{
+    color:white;
+    font-family: 'Roboto', Arial, sans-serif;
+    font-size: 15px;
+    font-weight:3600;    
+    z-index: 20;
+    opacity:0.4;
+    position: relative;
+    top: 12px;
+    left: 30px;
+}
+div#container div#addTaskForm div{
+    position:relative;
+    width:90%;
+    top:20px;
+    left:30px
+}
+div#container div#addTaskForm input{
+    width:100%;
+    padding: 12px 20px;
+    margin: 8px 0;
+    box-sizing: border-box;
+    border: 0px;
+    border-radius: 2px;   
+}
+div#container div#addTaskForm button{
+    width:100%;
+    padding: 12px 20px;
+    margin: 8px 0;
+    box-sizing: border-box;
+    border: 0px;
+    border-radius: 2px;   
+    background-color: #00abec;
+    color:white;
+    font-family: 'Roboto', Arial, sans-serif;
+    font-size: 14px;
+    font-weight:360;  
+}
+
+div#container div#addTaskForm button:hover{
+    cursor:hand;
+    opacity:0.9;
+}
+div#container div#addTaskForm select{
+    width:100%;
+    padding: 12px 20px;
+    margin: 8px 0;
+    box-sizing: border-box;
+    border: 0px;
+    border-radius: 2px;   
+}
+div#container div#addTaskForm textarea{
+    width:100%;
+    padding: 12px 20px;
+    margin: 8px 0;
+    box-sizing: border-box;
+    border: 0px;
+    border-radius: 2px;   
+    height: 80px;
+}
+/* end of add task */
