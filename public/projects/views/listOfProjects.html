@@ -13,13 +13,13 @@
             <th>&nbsp;</th> 
             <th>&nbsp;</th> 
             <th ng-show="isAdmin">&nbsp;</th> 
-            <th>&nbsp;</th>
-            <th >&nbsp;</th> 
+            <th ng-show="isAdmin">&nbsp;</th>
+            <th ng-show="isAdmin" >&nbsp;</th> 
           </tr>
           <tr ng-repeat="listProject in listProjects">
             <td ><p><u>{{listProject.title}}</u></p></td>
-            <td ><button ng-click="editProject(listProject._id)">edit</button></td> 
-            <td ><button ng-click="clicked=true">delete</button>
+            <td ng-show="isAdmin" ><button ng-click="editProject(listProject._id)">edit</button></td> 
+            <td ng-show="isAdmin"><button ng-click="clicked=true">delete</button>
                       <div ng-show="clicked">
                           <label>Are you sure you want to delete this task?</label>
                           <input type="button" class="btn btn-default btn-sm topButtons"
