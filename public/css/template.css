@@ -113,9 +113,6 @@ div#logged-user .user{
     font-size: 14px;
 }
 div#logged-user .role{
-    position: relative;
-    top:5px;
-    left: 8px;
     color: #0084ff;
 }
 div#logged-user a#logout{
@@ -222,7 +219,7 @@ div#container div#login-form-background input[type=Submit]{
     font-weight:360;  
 }
 
-div#container div#login-form-background input[type=button]:hover{
+div#container div#login-form-background input[type=Submit]:hover{
     cursor:hand;
     opacity:0.9;
 }
@@ -230,7 +227,7 @@ div#container div#login-form-background a{
     color:white;
     font-family: 'Roboto', Arial, sans-serif;
     font-size: 15px;
-    font-weight:3600;    
+    font-weight:360;    
     z-index: 20;
     opacity:0.4;
     position: relative;
@@ -240,4 +237,175 @@ div#container div#login-form-background a{
 }
 div#container div#login-form-background a:hover{
     color: #00abec;
+}
+div#container div#menu{
+    position: relative;
+    top: 70px;
+    
+}
+div#container div#menu ul {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+    width: 240px;
+
+}
+
+div#container div#menu li a {
+    display: block;
+    color:white;
+    font-family: 'Roboto', Arial, sans-serif;
+    opacity: 0.5;
+    font-size: 15px;
+    font-weight:600; 
+    padding: 12px 0 8px 16px;
+    text-decoration: none;
+    border-radius: 5px;
+    padding-left: 90px;
+}
+
+
+div#container div#menu li a.active {
+    opacity:1;
+    background-color: #454572;
+    color: white;
+}
+
+div#container div#menu li a:hover:not(.active) {
+    background-color: #454572;
+    color: white;
+}
+
+div#content-wrapper div#projects-wrapper{
+    position:relative;
+    top: 78px;
+    height: auto;
+    width: 100%;
+}
+div#content-wrapper div#projects-wrapper div#project-wrapper{
+    position:relative;
+    top: 20px;
+    left:40px;
+    width: 90%;
+    height: 212px;
+}
+div#content-wrapper div#projects-wrapper div#project-wrapper div#user-info{
+    position:relative;
+    display: table-row;
+}
+div#content-wrapper div#projects-wrapper div#project-wrapper div#user-info span.user-name{
+    position:relative;
+    color:white;
+    font-family: 'Roboto', Arial, sans-serif;
+    opacity: 0.5;
+    font-size: 15px;
+    top:80px;
+    left:20px;
+}
+div#content-wrapper div#projects-wrapper div#project-wrapper div#user-info span.date{
+    position:relative;
+    color:white;
+    font-family: 'Roboto', Arial, sans-serif;
+    opacity: 0.7;
+    font-weight: bold;
+    font-size: 13px;
+    top:100px;
+    left:-90px;    
+}
+div#content-wrapper div#projects-wrapper div#project-wrapper div#project-background{
+    position:relative;
+    top: 0px;
+    left: 150px;
+    background-image: url('../img/project_background.png');
+    width:502px;
+    height:176px;
+}
+div#content-wrapper div#projects-wrapper div#project-wrapper div#project-background div#project-title{
+    position: relative;
+    padding: 5px;
+    padding-left: 50px;
+}
+div#content-wrapper div#projects-wrapper div#project-wrapper div#project-background div#project-title span.title{
+    position:relative;
+    color:white;
+    font-family: 'Roboto', Arial, sans-sesrif;
+    opacity: 1;  
+    font-weight: bolder;
+    font-size: 18px;
+    top:5px;
+}
+div#content-wrapper div#projects-wrapper div#project-wrapper div#project-background div#project-title a#edit-project{
+   position:absolute;
+   top: 2px;
+    left: 425px;
+   display: inline-block;
+    background-image: url('../img/edit_button.png');
+    border: 0px;
+    width: 76px;
+    height: 38px;
+    text-align: center;
+    vertical-align: middle;
+    text-decoration: none;
+    color: white;
+    opacity: 0.8;
+}
+div#content-wrapper div#projects-wrapper div#project-wrapper div#project-background div#project-title a#edit-project:hover{
+   opacity:1;
+}
+div#content-wrapper div#projects-wrapper div#project-wrapper div#project-background div#project-content{
+    position:relative;
+    left: 30px;
+    color:white;
+    font-family: 'Roboto', Arial, sans-serif;
+    opacity: 0.9;
+    font-size: 13px;
+    height: 70px;
+    width: 450px;
+}
+div#content-wrapper div#projects-wrapper div#project-wrapper div#project-background a#more{
+   position:absolute;
+   top: 137px;
+    left: 347px;
+    display: inline-block;
+    background-color: #6e3d83;
+    border: 0px;
+    border-radius: 5px;
+    width: 153px;
+    height: 28px;
+    text-align: center;
+    vertical-align: middle;
+    text-decoration: none;
+    color: white;
+    opacity: 0.8;
+    font-family: 'Roboto', Arial, sans-serif;
+    font-size: 13px;
+    padding-top: 8px;
+    z-index: 150;
+}
+div#content-wrapper div#projects-wrapper div#project-wrapper div#project-background a#more:hover{
+    opacity: 1;
+}
+div#content-wrapper div#projects-wrapper a#add-project{
+   position:relative;
+   top: 0px;
+    left: 520px;
+    display: inline-block;
+    border: 0px;
+    border-radius: 5px;
+    width: 153px;
+    height: 28px;
+    text-align: center;
+    vertical-align: middle;
+    text-decoration: none;
+    color: white;
+    opacity: 0.9;
+    font-family: 'Roboto', Arial, sans-serif;
+    font-size: 13px;
+    padding-top: 8px;
+     border-radius: 5px;
+  background-color: rgb( 45, 184, 67 );
+    margin-bottom: -10px;
+}
+div#content-wrapper div#projects-wrapper a#add-project:hover{
+    opacity: 1;
 }

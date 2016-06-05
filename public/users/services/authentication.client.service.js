@@ -54,6 +54,9 @@ angular.module('users').factory('Authentication', ['$rootScope', '$http', '$loca
           this.passwordError = null;
           $cookieStore.put("user", this.user);      
         }else {
+          
+          this.loggedin = false;
+          
           if(response.information.message == 'Uknown user'){
             this.usernameError = response.information.message;
             this.loginError++;
@@ -83,7 +86,7 @@ angular.module('users').factory('Authentication', ['$rootScope', '$http', '$loca
     }
      else
         var User = new UserClass();
-    UserClass.prototype.login = function(user){
+    UserClass.prototype.login = function(user, callback){
       var destination = $location.path().indexOf('/login') === -1 ? $location.absUrl() : false;
       $http.post('/api/login', {
         username: user.username,
@@ -92,6 +95,10 @@ angular.module('users').factory('Authentication', ['$rootScope', '$http', '$loca
       })
       .success(this.onIdentity.bind(this))
       .error(this.onIdFail.bind(this));
+      return {
+          usernameError: this.usernameError,
+          password: this.passwordError
+      }
     };
     
     UserClass.prototype.logout = function(callback){

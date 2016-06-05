@@ -2,7 +2,8 @@ var User = require('mongoose').model('User'),
     passport = require('passport'),
       _ = require('lodash'),
     jwt = require('jsonwebtoken'),
-    config = require('../../config/config'); // use mongoose to call module method to get User model
+    config = require('../../config/config'), // use mongoose to call module method to get project model
+    errorHandler = require('../controllers/index.server.controller'); 
 
 var getErrorMessage = function(err){
   var message = '';

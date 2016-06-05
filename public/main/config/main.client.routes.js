@@ -19,9 +19,12 @@ angular.module('main').config(['$urlRouterProvider','$stateProvider',
         controller: 'listOfTasksCtrl'
       })
 	  .state('dashBoard.addProject', {
-        url: '/addProject',
+        url: 'projects/addProject',
         templateUrl: 'projects/views/addProject.html',
-        controller: 'addProjectCtrl'
+        controller: function($scope){
+                    $scope.title = 'My Contacts';
+                    console.log($scope.title);
+                  }
       })
        .state('dashBoard.addTask', {
         url: '/addTask',

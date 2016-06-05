@@ -1,0 +1,24 @@
+<head>
+   <link rel="stylesheet" href="/reports/views/graph.css">
+</head>
+
+<div ng-controller="reportCtrl">
+
+<div id="chart">
+<ul class="chart">
+  <li ng-repeat="day in days">
+    <span style="height:{{day.percentage}}%" title="{{day.title}}" x="{{day.x}}"></span>
+  </li>
+  
+</ul>
+</div>
+
+
+<table ng-model="project" ng-model="user">
+<tr><td colspan="2">Number of finished tasks per date</td></tr>
+<tr><td>Project name</td><td>{{project.title}}</td></tr>
+<tr><td>Generated for</td><td>{{user.firstName}}</td></tr>
+<tr>
+</table>
+
+</div>    

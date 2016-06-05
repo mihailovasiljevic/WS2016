@@ -2,14 +2,31 @@
 	<link rel="stylesheet" href="/tasks/views/taskDetails.css">
 </head>
 
-<div align="center" ng-controller="taskModel"><br>
+<div align="center" ng-controller="taskModel">
+	<div class="topLocal" align="left">
+		<div>
+			<input type="button" class="btn btn-default btn-sm topButtons" value="Change Task" ng-click="editTask(task.id)">
+			<input type="button" class="btn btn-default btn-sm topButtons" value="Show History" ng-click="showHistory(task.id)">
+			<input ng-show="isAdmin" type="button" class ="btn btn-default btn-sm topButtons"
+			value="Delete Task" ng-click="clicked=true">
+			<div ng-show="clicked">
+				<label>Are you sure you want to delete this task?</label>
+				<input type="button" class="btn btn-default btn-sm topButtons"
+				 value="Yes" ng-click="deleteTask(task.id)">
+				 <input type="button" class="btn btn-default btn=sm topButtons" value="No" ng-click="clicked=false">
+			</div>
+		</div>
+	</div>
+	<br>
 <div align="left" class="taskDetails">
-<u class="taskTitle">{{task.title}}&nbsp;&nbsp;({{task.mark}})</u><br><br>
-<p class="taskP1">Added <b>{{task.name}} {{task.surname}}</b> at <b>{{task.createdAt}}</b>. Last update at <b>{{task.updatedAt}}</b>.<p><br>
+	<u class="taskTitle">{{task.title}}&nbsp;&nbsp;({{task.mark}})</u><br><br>
+	<p class="taskP1">Added <b>{{task.name}} {{task.surname}}</b> at <b>{{task.createdAt}}</b>.
+		<span ng-show="lastUpdate">Last update at </span><b>{{task.updatedAt}}</b><span ng-show="lastUpdate">.</span></p><br>
 <table class="taskT">
-<tr><td>Status: </td><td><b>{{task.status}}</b></td></tr>
-<tr><td>Priority: </td><td><b>{{task.priority}}</b></td></tr>
-<tr><td>Assigned for: &nbsp;</td><td><b>{{task.assignedFor}}</b></td></tr>
+	<tr>
+		<td>Status: </td><td><b>{{task.status}}</b></td></tr>
+	<tr><td>Priority: </td><td><b>{{task.priority}}</b></td></tr>
+	<tr><td>Assigned for: &nbsp;</td><td><b>{{task.assignedFor}}</b></td></tr>
 </table>
 <br><br>
 </div>
@@ -18,4 +35,31 @@
 <p class="ptDesc"><u>Description:</u></p>
 <p class="taskP2"><b>{{task.description}}</b></p>
 </div>
+
+</div>
+<br><br>
+
+<div ng-controller="listOfComments">
+<div ng-repeat="comment in comments">
+Title: {{comment.title}} <br>
+Comment: {{comment.text}} <br>
+Author: {{comment.author.firstName}} {{comment.author.lastName}} <br>
+<input type="button" value="Change" ng-click="update(comment._id)" ng-if="comment.show">
+<input type="button" value="Delete" ng-click="delete(comment._id)" ng-if="comment.show">
+<br><br>
+</div> 
+
+<br>
+
+<table align="center">
+<tr>
+<td>Title:</td> <td><input type="text" ng-model="commentM.title"></td>
+</tr>
+<tr>
+<td>Comment: &nbsp;</td><td><textarea cols="40" rows="8" ng-model="commentM.text"></textarea></td>
+</tr>
+<tr ng-show="hasComment"><td>&nbsp;</td><td>Morate uneti komentar</td></tr>
+<tr><td colspan="2" align="center"><input type="button" value="Submit" ng-click="create()"></td></tr>
+</table>
+
 </div>

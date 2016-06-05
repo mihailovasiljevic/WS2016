@@ -1,0 +1,16 @@
+<head>
+   <link rel="stylesheet" href="/reports/views/graph.css">
+</head>
+
+<div ng-controller="repCon">
+
+<div id="chart">
+<ul class="chart">
+  <li ng-repeat="num in numbers">
+    <span style="height:{{num.percentage}}%" title="{{num.title}}" x="{{num.x}}"></span>
+  </li>
+  
+</ul>
+</div> 
+
+</div>   

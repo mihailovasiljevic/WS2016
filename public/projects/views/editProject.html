@@ -1,0 +1,51 @@
+<head>
+  <link rel="stylesheet" href="/projects/views/listOfProjects.css">
+</head>
+
+<div ng-controller="listOfProjectsCtrl">
+<br><hr><br>
+	<table align="center">
+		<th colspan="2">Edit Project</th>
+		 <tr><td>Title:</td><td><input  id="selProject" type="text" ng-model="listProject.title"/></td></tr> 
+		<!-- <tr><td><label>Project:</label></td><td><select id="selProject" ng-change="Projects()" ng-model="listProject._id">
+ 			 <option ng-repeat="project in projects" value="{{ project._id }}" >{{ project.title }}</option>
+			</select> </td></tr> -->
+		<!--  <tr><td>Team members:</td>
+			<td>
+			<select  ng-change="ubaci(listProject.teamMembers,listProject._id)" ng-model="listProject.teamMembers">
+ 			<option ng-repeat="user in users" value="{{ user._id }}" >{{ user.username }}</option> 
+ 			
+			</select> 
+		</td></tr>  -->
+		<!-- <tr><td>Team members:</td>
+			<td>
+			<ul ng-change="Users()" ng-model="listProject.teamMembers">
+            <li ng-repeat="item in users" value="{{ item._id }}" ng-class="{'selected':item.selected}" >
+                <a href="" ng-click="toggle(item)">{{item.username}}</a>
+            </li>
+        </ul>
+		</td></tr> -->
+		
+		<tr><td id="tdSubmitProject" colspan=2><button ng-click="save()" >Submit</button></td></tr>
+	</table>
+
+    
+  <br><hr><br>
+  
+   <!-- <div ng-repeat="listProject in listProjects">
+				
+					{{ listProject.title }}
+					
+				<div ng-repeat="user in teamMembers" value="{{user._id}}">
+					{{ user.username }}
+				</div>
+				<div>
+					<button ng-click="delete(listProject)">delete</button>
+					<button ng-click="edit(listProject)">edit</button>
+				</div>
+			</div>  -->
+
+	
+
+</div>
+  

@@ -1,7 +1,8 @@
 div.taskDetails
 {
 	width: 70%;
-	background-color: rgba(180,215,40,0.4);
+	/*background-color: rgba(180,215,40,0.4);*/
+	background-color: rgba(230,252,119,0.6);
 	margin-top:0.2%;
 }
 
@@ -32,5 +33,22 @@ p.taskP2
 
 table.taskT
 {
+	margin-left: 10px;
+}
+
+div.topLocal
+{
+	background-color: lightgoldenrodyellow;/*C9C9C9;*/
+	height: 30px;
+	line-height: 30px;
+	vertical-align: middle;
+	text-align:left;
+}
+
+input.topButtons
+{
+	width:100px;
+	height:20px;
+	margin-top: 5px;
 	margin-left: 10px;
 }

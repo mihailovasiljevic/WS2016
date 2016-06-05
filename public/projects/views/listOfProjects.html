@@ -1,11 +1,9 @@
 <head>
-    <link rel="stylesheet" href="/tasks/views/listOfTasks.css">
+  <link rel="stylesheet" href="/projects/views/listOfProjects.css">
 </head>
 
-<div  ng-controller="listOfTasksCtrl">
+<div  ng-controller="listOfProjectsCtrl">
 <br><hr><br>
-<div style="float:left; margin-left:20px;"><input type="button" value="Add Task"
- ng-click="showAddTaskForm()"></div>
 <div align="center">
 <div align="left" style="display:inline-block; width:150px;margin-left:-20px;">
 Status:<br>
@@ -13,25 +11,25 @@ Status:<br>
 <input type="checkbox" ng-change="doFilter(cInProgress)" ng-model="cInProgress">In Progress<br>
 <input type="checkbox" ng-change="doFilter(cVerify)" ng-model="cVerify">Verify<br>
 <input type="checkbox" ng-change="doFilter(cDone)" ng-model="cDone">Done<br>
-<input type="checkbox" ng-change="doFilter(cNoStatus)" ng-model="cNoStatus">No Status<br>
 <br>
 </div>
 <div align="left" style="display:inline-block; width:150px; margin-left:-20px;">
 Priority:<br>
 <input type="checkbox" ng-change="doFilter(cBlocker)" ng-model="cBlocker">Blocker<br>
-<input type="checkbox" ng-change="doFilter(cCritical)" ng-model="cCritical">Critical<br>
+<input type="checkbox" ng-change="doFilter(cCritical)" ng-model="cCritical">Criticalo<br>
 <input type="checkbox" ng-change="doFilter(cMajor)" ng-model="cMajor">Major<br>
 <input type="checkbox" ng-change="doFilter(cMinor)" ng-model="cMinor">Minor<br>
 <input type="checkbox" ng-change="doFilter(cTrivial)" ng-model="cTrivial">Trivial<br>
-<input type="checkbox" ng-change="doFilter(cNoPriority)" ng-model="cNoPriority">No Priority<br>
 </div>
 <!-- <select ng-options="item for item in statusies" ng-model="selected1" ng-change="selected_status(selected1)">
 <select ng-options="item for item in priorities" ng-model="selected2" ng-change="selected_status(selected2)"> -->
 
 </div>
+
+
 <br><hr><br>
 
-<table id="t01" align="center" width="75%;">
+<!-- <table id="t01" align="center" width="75%;">
   <tr>
     <th>&nbsp;</th>
     <th>Mark</th>  
@@ -47,11 +45,39 @@ Priority:<br>
     <td style="width:11%;">{{element.mark}}</td>  
     <td style="width:9%;">{{element.status}}</td>
     <td style="width:9%;">{{element.priority}}</td>
-    <td style="width:21%;"><p ng-class="{tleave: $index != selectedIndex, tover: $index == selectedIndex}" ng-click="pregled(element.id)" ng-mouseover="tover($index)" ng-mouseleave="tleave($index)"><u>{{element.title}}</u></p></td>
+    <td style="width:21%;"><p style="color:blue" ng-click="pregled(element.id)"><u>{{element.title}}</u></p></td>
     <td style="width:15%;">{{element.author}}</td>
     <td style="width:15%;">{{element.assignedFor}}</td>
     <td style="width:12%;">{{element.updatedAt}}</td>
   </tr>
 
-</table>
+</table> -->
+
+
+ <table id="t01" align="left" width="25%;">
+          <tr>
+            <th>Title</th>
+            <th>&nbsp;</th> 
+            <th>&nbsp;</th> 
+            <th>&nbsp;</th> 
+            <th>&nbsp;</th>
+            <th>&nbsp;</th> 
+          </tr>
+          <tr ng-repeat="listProject in listProjects">
+            <td><p><u>{{listProject.title}}</u></p></td>
+            <td><button ng-click="editProject(listProject._id)">edit</button></td> 
+            <td><button ng-click="delete(listProject)">delete</button></td>
+            <td><button ng-click="addMember(listProject._id)">add member</button></td> 
+            <td><button ng-click="showUsers(listProject._id)">members</button></td>
+            <td><button ng-click="listTasks(listProject._id)">list of tasks</button></td>
+          </tr>
+         <!--  <tr ><td colspan=5><button ng-click="showAddProjectForm()">Add Project</button></td></tr> -->
+  </table>   
+
+   <div style="float:left; margin-left:20px;"><input type="button" value="Add Project"
+ ng-click="showAddProjectForm()"></div>    
+
+
+
+
 </div>
