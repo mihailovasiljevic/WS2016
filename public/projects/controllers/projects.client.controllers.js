@@ -47,7 +47,6 @@ angular.module('projects').controller('listOfProjectsCtrl', ['$scope', '$rootSco
 
 			if(!$scope.listProject._id){
 				$scope.listProject.$save(function(response) {
-					alert(JSON.stringify(response));
 					if(response.forbidden == "true") {
 						$scope.exsists = true;
 						return;
