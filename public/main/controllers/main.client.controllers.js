@@ -1,11 +1,13 @@
-angular.module('main').controller('myCtrl', ['$scope', '$rootScope', '$location','$state',
-    function($scope,$rootScope,$location,$state){
+angular.module('main').controller('myCtrl', ['$scope', '$rootScope', '$location','$state','Authentication',
+    function($scope,$rootScope,$location,$state,Authentication){
         
       var treeElements = [];
       treeElements.push('Projects');
       treeElements.push('Tasks');
+      if(Authentication.user.role=='admin'){
       treeElements.push("Reports");
       treeElements.push("Users");
+    }
 
       $scope.treeElements = treeElements;
 

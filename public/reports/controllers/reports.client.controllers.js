@@ -1,10 +1,20 @@
-angular.module('reports').controller('listProjectsCtrl', ['$scope', '$rootScope', '$location','Projects','$http','Tasks','$stateParams','$state',
-    function($scope,$rootScope,$location,Projects,$http,Tasks,$stateParams,$state) {
+angular.module('reports').controller('listProjectsCtrl', ['$scope', '$rootScope', '$location','Projects','$http','Tasks','$stateParams','$state','Authentication','Users',
+    function($scope,$rootScope,$location,Projects,$http,Tasks,$stateParams,$state,Authentication,Users) {
 
-    	$scope.projects = Projects.query(function(response){
+    	var isAdmin = Authentication.user.role=='admin';
+    	var userLogId = Authentication.user._id;
+    	if(isAdmin){
+			$scope.projects = Projects.query();
+		}
+			else
+			{
+				if(userLogId)
+				Users.get({userId:userLogId}, function(response){
+					$scope.projects = response.projects;
+				})
+			}	
+			$scope.project = new Projects();
 
-
-    	});
 
     	$scope.projectReport = function(id){
     		$state.go('dashBoard.chooseReport',{projectId:id});
