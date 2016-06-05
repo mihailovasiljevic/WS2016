@@ -7,7 +7,6 @@ angular.module('projects').controller('listOfProjectsCtrl', ['$scope', '$rootSco
 		var userLogId = Authentication.user._id;
 		$scope.listProjects={};
 		var loadEntries = function () {
-			alert('load');
 			if($scope.isAdmin){
 			$scope.listProjects = Projects.query();
 		}
@@ -20,7 +19,12 @@ angular.module('projects').controller('listOfProjectsCtrl', ['$scope', '$rootSco
 			}	
 			$scope.listProject = new Projects();
 
-			$scope.ubaci= function(member,project){
+
+
+		}
+
+
+		$scope.ubaci= function(member,project){
 
 				var oznaka=false;
 
@@ -47,8 +51,8 @@ angular.module('projects').controller('listOfProjectsCtrl', ['$scope', '$rootSco
 				});
 	
 			}
-			
-		}
+
+		
 
 
 		$scope.exsists = false;
