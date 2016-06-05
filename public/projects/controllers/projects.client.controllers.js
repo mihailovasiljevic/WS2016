@@ -4,11 +4,20 @@ angular.module('projects').controller('listOfProjectsCtrl', ['$scope', '$rootSco
     	if(Authentication.user.role=='admin')
 			$scope.isAdmin=true;
 		else $scope.isAdmin = false;
-		
+		var userLogId = Authentication.user._id;
 		$scope.listProjects={};
 		var loadEntries = function () {
 			alert('load');
-			$scope.listProjects = Projects.query();	
+			if($scope.isAdmin){
+			$scope.listProjects = Projects.query();
+		}
+			else
+			{
+				if(userLogId)
+				Users.get({userId:userLogId}, function(response){
+					$scope.listProjects = response.projects;
+				})
+			}	
 			$scope.listProject = new Projects();
 
 			$scope.ubaci= function(member,project){

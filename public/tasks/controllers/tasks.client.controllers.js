@@ -8,6 +8,7 @@ angular.module('tasks').controller('listOfTasksCtrl', ['$scope', '$rootScope', '
 				var tasksFromAuth ={};
 				var tasks = [];
 				var id = Authentication.user._id;
+				if(id)
 				Users.get({userId:id},function(response){
 					tasksFromAuth=response.tasks;
 				
@@ -48,10 +49,15 @@ angular.module('tasks').controller('listOfTasksCtrl', ['$scope', '$rootScope', '
 			function loadTaskForTable(response){
 						if(response.currentState.author)
 						var author =response.currentState.author.firstName + response.currentState.author.lastName;
-						else author="--";
+						else var author="--";
 						if(response.currentState.assignedFor!=undefined)
 						var assignedFor = response.currentState.assignedFor.firstName + response.currentState.assignedFor.lastName;
-						else assignedFor="--";
+						else var assignedFor="--";
+						if(response.currentState.updatedAt)
+						var updatedAt = new Date(response.currentState.updatedAt);
+						else var updatedAt = new Date(response.currentState.createdAt);
+						updatedAt = updatedAt.getMonth()+"/"+updatedAt.getDate()+"/"+updatedAt.getFullYear();
+
 						var task = {
 							"id": response._id,
 							"mark": response.currentState.mark,
@@ -60,7 +66,7 @@ angular.module('tasks').controller('listOfTasksCtrl', ['$scope', '$rootScope', '
 							"assignedFor": assignedFor,
 							"status":response.currentState.status,
 							"priority": response.currentState.priority,
-							"updatedAt": "23-04-2016",
+							"updatedAt": updatedAt,
 						}
 						return task;
 
@@ -255,8 +261,8 @@ angular.module('tasks').controller('taskModel', ['$scope', '$rootScope', '$locat
 
 }]);
 
-angular.module('tasks').controller('addTaskCtrl', ['$scope', '$rootScope', '$location','Projects','$http','Tasks','$stateParams','$state',
-    function($scope,$rootScope,$location,Projects,$http,Tasks,$stateParams,$state) {
+angular.module('tasks').controller('addTaskCtrl', ['$scope', '$rootScope', '$location','Projects','$http','Tasks','$stateParams','$state','Users','Authentication',
+    function($scope,$rootScope,$location,Projects,$http,Tasks,$stateParams,$state,Users,Authentication) {
 		
 console.log('dfddfdffdfd3344334');
 
@@ -274,15 +280,18 @@ var loadEntries = function () {
 			$scope.project = new Projects();
 			//$scope.projects = Projects.query();	
 			if(!$stateParams.projectId){
-			var prjs = Projects.query(
-
+			//what if no one is logged in?
+			Users.get({userId:Authentication.user._id},
 				function(response) {
-					console.log('duzina prjs je: '+prjs.length)
-					if(response.length>0){
-					$scope.teamMembers = response[0].teamMembers;
-					$scope.task.currentState.project._id = response[0]._id;
-					if(response[0].teamMembers.length>0){
-					$scope.task.currentState.assignedFor._id=response[0].teamMembers[0]._id;
+					$scope.projects=response.projects;
+					if(response.projects.length>0){
+					$scope.task.currentState.project._id = response.projects[0]._id;
+					if(response.projects[0].teamMembers.length>0){
+					Projects.get({projectId:response.projects[0]._id},function(response){
+					$scope.teamMembers = response.teamMembers;
+					$scope.task.currentState.assignedFor._id=response.teamMembers[0]._id;	
+					})
+					
 					}
 				}
     			/*for(var i=0; i<prjs.length;i++)
@@ -303,7 +312,7 @@ var loadEntries = function () {
     				*/
     			}
     		);
-    		$scope.projects=prjs;
+    		
 			}
 			else {
 				Projects.get({projectId:$stateParams.projectId},function(response){
