@@ -40,8 +40,6 @@ angular.module('projects').controller('listOfProjectsCtrl', ['$scope', '$rootSco
 			}
 			
 		}
-		//loadEntries();
-		
 
 
 		$scope.exsists = false;
@@ -60,14 +58,13 @@ angular.module('projects').controller('listOfProjectsCtrl', ['$scope', '$rootSco
 				});
 			}
 			else{
-				$scope.listProject.$update(loadEntries);
+				$scope.listProject.$update();
 				$state.go('dashBoard.projects');	
 			}
 			
 		} 
 		$scope.delete = function (listProject) {
 			listProject.$delete(loadEntries);
-	//		listProject1.$delete(loadEntries);
 		}
 
 		
@@ -83,8 +80,6 @@ angular.module('projects').controller('listOfProjectsCtrl', ['$scope', '$rootSco
 				$scope.listProject.$update(loadEntries);
 
 				$state.go('dashBoard.teamMembers', {}, {reload: true});
-				
-		
 		}
 
 		$scope.edit = function (listProject) {
@@ -100,14 +95,11 @@ angular.module('projects').controller('listOfProjectsCtrl', ['$scope', '$rootSco
 			
 			$scope.user = new Users();
 			var users = Users.query(
-
 				function(response) {
-					console.log('duzina users je: '+users.length)
 					if(users.length>0){
 					$scope.user._id = users[0]._id;
 					
 				}
-    			
     		}
     		);
     		$scope.users=users;
