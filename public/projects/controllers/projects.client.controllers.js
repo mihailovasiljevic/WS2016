@@ -60,6 +60,7 @@ angular.module('projects').controller('listOfProjectsCtrl', ['$scope', '$rootSco
 				});
 			}
 			else{
+				console.log(JSON.stringify($scope.listProject));
 				$scope.listProject.$update(loadEntries);
 				$state.go('dashBoard.projects');	
 			}

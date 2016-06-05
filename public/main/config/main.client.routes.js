@@ -29,7 +29,7 @@ angular.module('main').config(['$urlRouterProvider','$stateProvider',
         /*controller: 'addProjectCtrl'*/
       })
        .state('dashBoard.addTask', {
-        url: 'addTask',
+        url: 'addTask/:projectId',
         templateUrl: 'tasks/views/addTask.html',
         /*controller: 'addTaskCtrl'*/
       })
