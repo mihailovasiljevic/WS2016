@@ -11,6 +11,9 @@ angular.module('projects').controller('listOfProjectsCtrl', ['$scope', '$rootSco
 			option1: 'option-1',
 		};
 		$scope.listProjects={};
+		$scope.addProject = function(){
+			$state.go('dashBoard.addProject');	
+		};
 		var loadEntries = function () {
 			$scope.listProjects = Projects.query();	
 			$scope.listProject = new Projects();
@@ -56,7 +59,7 @@ angular.module('projects').controller('listOfProjectsCtrl', ['$scope', '$rootSco
 		vm.project = {};
 		$scope.create = function(){
 			var project = new Projects({
-				title: this.title,
+				title: this.projectTitle,
 				teamMembers: $scope.data.multipleSelect
 			})
 			var tmp = [];
@@ -65,7 +68,9 @@ angular.module('projects').controller('listOfProjectsCtrl', ['$scope', '$rootSco
 			}
 			project.teamMembers = tmp;
 			project.$save(function(response){
-				$location.path('projects/'+response._id);
+				$timeout(function(){
+					$location.path('/');
+				});
 			}, function(errorResponse){
 				$scope.error = errorResponse.data.message;
 			});

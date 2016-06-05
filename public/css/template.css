@@ -150,7 +150,6 @@ div#container div#login-form{
     margin-left: -321px;
     width: 643px;
     height: 403px;   
-
 }
 div#container div#login-form-background{
     position: relative;
@@ -278,10 +277,49 @@ div#container div#menu li a:hover:not(.active) {
 
 div#content-wrapper div#projects-wrapper{
     position:relative;
-    top: 78px;
+
     height: auto;
-    width: 100%;
+    width: 90%;
+    color:white;
+    font-family: 'Roboto', Arial, sans-serif;
+    opacity: 1;
+    font-size: 15px;
+    left:50px;
 }
+div#content-wrapper div#projects-wrapper th,td{
+   color:white;
+   font-family: 'Roboto', Arial, sans-serif;
+
+   border-collapse: collapse;
+}
+div#content-wrapper div#projects-wrapper div#content-wrapper div#projects-wrappertable, td, th {    
+    font-size: 15px;
+    text-align: left;
+}
+
+div#content-wrapper div#projects-wrapper table {
+    border-collapse: collapse;
+    width: 100%;
+    background-color: #06061c;
+    padding: 10px;
+    border-radius: 5px;
+    empty-cells: show;
+}
+
+div#content-wrapper div#projects-wrapper th, td {
+    padding: 15px;
+}
+div#content-wrapper div#projects-wrapper th {
+    font-weight: bold;
+    border-bottom: 1px dashed #1f1f33;
+}
+
+div#content-wrapper div#projects-wrapper td {
+    font-size: 12px;
+    color: #838390;
+    border-top: 1px dashed #1f1f33;
+}
+
 div#content-wrapper div#projects-wrapper div#project-wrapper{
     position:relative;
     top: 20px;
@@ -310,7 +348,7 @@ div#content-wrapper div#projects-wrapper div#project-wrapper div#user-info span.
     font-weight: bold;
     font-size: 13px;
     top:100px;
-    left:-90px;    
+    left:-110px;    
 }
 div#content-wrapper div#projects-wrapper div#project-wrapper div#project-background{
     position:relative;
@@ -362,6 +400,9 @@ div#content-wrapper div#projects-wrapper div#project-wrapper div#project-backgro
     height: 70px;
     width: 450px;
 }
+div#content-wrapper div#projects-wrapper div#project-wrapper div#project-background div#project-content li{
+   display: block;
+}
 div#content-wrapper div#projects-wrapper div#project-wrapper div#project-background a#more{
    position:absolute;
    top: 137px;
@@ -385,10 +426,9 @@ div#content-wrapper div#projects-wrapper div#project-wrapper div#project-backgro
 div#content-wrapper div#projects-wrapper div#project-wrapper div#project-background a#more:hover{
     opacity: 1;
 }
-div#content-wrapper div#projects-wrapper button#add-project{
-   position:relative;
+button#add-project{
    top: 0px;
-    left: 520px;
+    left: 5px;
     display: inline-block;
     border: 0px;
     border-radius: 5px;
@@ -401,56 +441,140 @@ div#content-wrapper div#projects-wrapper button#add-project{
     opacity: 0.9;
     font-family: 'Roboto', Arial, sans-serif;
     font-size: 13px;
-    padding-top: 8px;
+    padding-top: 0px;
      border-radius: 5px;
   background-color: rgb( 45, 184, 67 );
-    margin-bottom: -10px;
 }
-div#content-wrapper div#projects-wrapper button#add-project:hover{
+button#add-project:hover{
     opacity: 1;
+    cursor: hand;
+}
+button#list-tasks-project{
+   top: 0px;
+    left: 5px;
+    display: inline-block;
+    border: 0px;
+    border-radius: 5px;
+    width: 153px;
+    height: 28px;
+    text-align: center;
+    vertical-align: middle;
+    text-decoration: none;
+    color: white;
+    opacity: 0.9;
+    font-family: 'Roboto', Arial, sans-serif;
+    font-size: 13px;
+    padding-top: 0px;
+     border-radius: 5px;
+  background-color: #6e3d83;
+}
+button#list-tasks-project:hover{
+    opacity: 1;
+    cursor: hand;
+}
+button#edit-project{
+   top: 0px;
+    left: 5px;
+    display: inline-block;
+    border: 0px;
+    border-radius: 5px;
+    width: 153px;
+    height: 28px;
+    text-align: center;
+    vertical-align: middle;
+    text-decoration: none;
+    color: white;
+    opacity: 0.9;
+    font-family: 'Roboto', Arial, sans-serif;
+    font-size: 13px;
+    padding-top: 0px;
+     border-radius: 5px;
+  background-color: #00abec;
+}
+button#edit-project:hover{
+    opacity: 1;
+    cursor: hand;
 }
 
-/**/
-.ng-modal-overlay {
-  /* A dark translucent div that covers the whole screen */
-  position:absolute;
-  z-index:9999;
-  top:0;
-  left:0;
-  width:100%;
-  height:100%;
-  background-color:#000000;
-  opacity: 0.8;
+/* add project*/
+div#content-wrapper div#addProjectForm{
+    position: relative;
+    top: 150px;
+    left: 90px;
+    width: 643px;
+    height: 350px;      
+    border-radius: 5px;
+    background-color: #0f0f2a;   
 }
-.ng-modal-dialog {
-  /* A centered div above the overlay with a box shadow. */
-  z-index:10000;
-  position: absolute;
-  width: 50%; /* Default */
 
-  /* Center the dialog */
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  -webkit-transform: translate(-50%, -50%);
-  -moz-transform: translate(-50%, -50%);
+div#container div#addProjectForm span.title{
+    color:white;
+    font-family: 'Roboto', Arial, sans-serif;
+    font-size: 36px;
+    font-weight:360;    
+    z-index: 20;
+    opacity:1;
+    position: relative;
+    top: 10px;
+    left: 30px;
+}
+div#container div#addProjectForm span.subtitle{
+    color:white;
+    font-family: 'Roboto', Arial, sans-serif;
+    font-size: 15px;
+    font-weight:3600;    
+    z-index: 20;
+    opacity:0.4;
+    position: relative;
+    top: 12px;
+    left: 30px;
+}
+div#container div#addProjectForm div{
+    position:relative;
+    width:90%;
+    top:20px;
+    left:30px
+}
+div#container div#addProjectForm input{
+    width:100%;
+    padding: 12px 20px;
+    margin: 8px 0;
+    box-sizing: border-box;
+    border: 0px;
+    border-radius: 2px;   
+}
+div#container div#addProjectForminput[type=Submit]{
+    width:100%;
+    padding: 12px 20px;
+    margin: 8px 0;
+    box-sizing: border-box;
+    border: 0px;
+    border-radius: 2px;   
+    background-color: #00abec;
+    color:white;
+    font-family: 'Roboto', Arial, sans-serif;
+    font-size: 14px;
+    font-weight:360;  
+}
 
-  background-color: #fff;
-  box-shadow: 4px 4px 80px #000;
+div#container div#addProjectForm input[type=Submit]:hover{
+    cursor:hand;
+    opacity:0.9;
 }
-.ng-modal-dialog-content {
-  padding:10px;
-  text-align: left;
+div#container div#addProjectForm select{
+    width:100%;
+    padding: 12px 20px;
+    margin: 8px 0;
+    box-sizing: border-box;
+    border: 0px;
+    border-radius: 2px;   
 }
-.ng-modal-close {
-  position: absolute;
-  top: 3px;
-  right: 5px;
-  padding: 5px;
-  cursor: pointer;
-  font-size: 120%;
-  display: inline-block;
-  font-weight: bold;
-  font-family: 'arial', 'sans-serif';
+div#container div#addProjectForm span.team-members{
+    color:white;
+    font-family: 'Roboto', Arial, sans-serif;
+    font-size: 15px;
+    font-weight:3600;    
+    z-index: 20;
+    opacity:0.4;
 }
-/**/
+/*end of add project*/

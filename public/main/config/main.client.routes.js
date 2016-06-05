@@ -35,6 +35,10 @@ angular.module('main').config(['$urlRouterProvider','$stateProvider',
         url: '/task/:id',
         templateUrl: 'tasks/views/taskDetails.html',
         controller: 'listOfTasksCtrl'
+      })       
+      .state('dashBoard.tasksForProject',{
+        url: 'tasksForProject/:projectId',
+        templateUrl: 'tasks/views/listOfTasks.html'
       });
   }
 ]);

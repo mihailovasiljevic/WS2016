@@ -17,7 +17,7 @@ exports.create = function(req, res, next){
           if(response.length > 0) {
             res.send({"forbidden":"true"});
           } else {
-            updateUsers(project,project.teamMembers, function(){
+            updateUsers(project,project.teamMembers,res, function(){
               project.forbidden = false;
               res.send(JSON.stringify(project));
             });
@@ -30,7 +30,7 @@ exports.create = function(req, res, next){
 
 
 
-function updateUsers(project, collection, callback){
+function updateUsers(project, collection,res, callback){
   var usersIds = collection.slice(0);//clone collection;
   (function updateUsers(){
          var item = usersIds.splice(0,1)[0];
