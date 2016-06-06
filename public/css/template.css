@@ -592,7 +592,7 @@ div#container div#addProjectForm input{
     border: 0px;
     border-radius: 2px;   
 }
-div#container div#addProjectForminput[type=Submit]{
+div#container div#addProjectForm input[type=Submit]{
     width:100%;
     padding: 12px 20px;
     margin: 8px 0;
@@ -711,3 +711,213 @@ div#container div#addTaskForm textarea{
     height: 80px;
 }
 /* end of add task */
+
+/* task details */
+div#content-wrapper div#taskBackground{
+    position: relative;
+    left: 20px;
+    width: 750px;
+    height: 650px;      
+    border-radius: 5px;
+
+    display: block;
+}
+
+div#container div#taskBackground span.title{
+    color:white;
+    font-family: 'Roboto', Arial, sans-serif;
+    font-size: 36px;
+    font-weight:360;    
+    z-index: 20;
+    opacity:1;
+    position: relative;
+    top: 10px;
+    left: 30px;
+}
+div#container div#taskBackground span.mark{
+    color:white;
+    font-family: 'Roboto', Arial, sans-serif;
+    font-size: 15px;
+    font-weight:3600;    
+    z-index: 20;
+    opacity:0.4;
+    position: relative;
+    top: 35px;
+    left: -178px;
+}
+div#container div#taskBackground p{
+    position:relative;
+    width: 90%;
+    left:30px;
+    text-align: justify;
+}
+div#container div#taskBackground div#comments-section{
+    position:relative;
+    top:80px;
+}
+div#container div#taskBackground div#comments-show{
+    position:relative;
+    top:110px;
+}
+div#container div#taskBackground span.description{
+    color:white;
+    font-family: 'Roboto', Arial, sans-serif;
+    font-size: 18px;
+    font-weight:3600;    
+    z-index: 20;
+    opacity:0.9;
+    position: relative;
+    top: 30px;
+}
+div#container div#taskBackground div#comments-show input#update-comment{
+    width:100%;
+    padding: 12px 20px;
+    margin: 8px 0;
+    box-sizing: border-box;
+    border: 0px;
+    border-radius: 2px;   
+    background-color: darkcyan;
+    color:white;
+    font-family: 'Roboto', Arial, sans-serif;
+    font-size: 14px;
+    font-weight:360; 
+    opacity:0.9; 
+}
+div#container div#taskBackground div#comments-show input#update-comment:hover{
+    opacity: 1;
+    cursor: hand;
+}
+div#container div#taskBackground div#comments-show input#delete-comment{
+    width:100%;
+    padding: 12px 20px;
+    margin: 8px 0;
+    box-sizing: border-box;
+    border: 0px;
+    border-radius: 2px;   
+    background-color: brown;
+    color:white;
+    font-family: 'Roboto', Arial, sans-serif;
+    font-size: 14px;
+    font-weight:360; 
+    opacity:0.9; 
+}
+div#container div#taskBackground div#comments-show input#delete-comment:hover{
+    opacity: 1;
+    cursor: hand;
+}
+div#container div#taskBackground input#edit-task{
+   top: 0px;
+    left: 5px;
+    display: inline-block;
+    border: 0px;
+    border-radius: 5px;
+    width: 153px;
+    height: 28px;
+    text-align: center;
+    vertical-align: middle;
+    text-decoration: none;
+    color: white;
+    opacity: 0.9;
+    font-family: 'Roboto', Arial, sans-serif;
+    font-size: 13px;
+    padding-top: 0px;
+     border-radius: 5px;
+  background-color: #0084ff;
+}
+div#container div#taskBackground input#edit-task:hover{
+    opacity: 1;
+    cursor: hand;
+}
+
+div#container div#taskBackground input#show-history{
+   top: 0px;
+    left: 5px;
+    display: inline-block;
+    border: 0px;
+    border-radius: 5px;
+    width: 153px;
+    height: 28px;
+    text-align: center;
+    vertical-align: middle;
+    text-decoration: none;
+    color: white;
+    opacity: 0.9;
+    font-family: 'Roboto', Arial, sans-serif;
+    font-size: 13px;
+    padding-top: 0px;
+     border-radius: 5px;
+  background-color: #6e3d83;
+}
+div#container div#taskBackground input#show-history:hover{
+    opacity: 1;
+    cursor: hand;
+}
+
+div#container div#taskBackground input#delete-task{
+   top: 0px;
+    left: 5px;
+    display: inline-block;
+    border: 0px;
+    border-radius: 5px;
+    width: 153px;
+    height: 28px;
+    text-align: center;
+    vertical-align: middle;
+    text-decoration: none;
+    color: white;
+    opacity: 0.9;
+    font-family: 'Roboto', Arial, sans-serif;
+    font-size: 13px;
+    padding-top: 0px;
+     border-radius: 5px;
+  background-color: brown;
+}
+div#container div#taskBackground input#delete-task:hover{
+    opacity: 1;
+    cursor: hand;
+}
+div#task-content{
+    position: relative;
+    top:50px;
+}
+div#content-wrapper div#taskBackground div#buttons{
+    position:relative;
+    left:5px;
+}
+div#container div#taskBackground input{
+    width:100%;
+    padding: 12px 20px;
+    margin: 8px 0;
+    box-sizing: border-box;
+    border: 0px;
+    border-radius: 2px;   
+}
+div#container div#taskBackground [type=button]{
+    width:100%;
+    padding: 12px 20px;
+    margin: 8px 0;
+    box-sizing: border-box;
+    border: 0px;
+    border-radius: 2px;   
+    background-color: #00abec;
+    color:white;
+    font-family: 'Roboto', Arial, sans-serif;
+    font-size: 14px;
+    font-weight:360;  
+}
+
+div#container div#taskBackground button:hover{
+    cursor:hand;
+    opacity:0.9;
+}
+
+div#container div#taskBackground textarea{
+    width:100%;
+    padding: 12px 20px;
+    margin: 8px 0;
+    box-sizing: border-box;
+    border: 0px;
+    border-radius: 2px;   
+    height: 80px;
+}
+/* end of task details */

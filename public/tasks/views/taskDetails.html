@@ -1,65 +1,77 @@
-<head>
-	<link rel="stylesheet" href="/tasks/views/taskDetails.css">
-</head>
+<div ng-controller="taskModel">
+	<div id="taskBackground">
+		
+		<div id="taskTitleBar">
+			<div id="buttons">
+				<input type="button" class="btn btn-default btn-sm topButtons" value="show history" ng-click="showHistory(task.id)" id="show-history">			
+				<input type="button" class="btn btn-default btn-sm topButtons" value="change task" ng-click="editTask(task.id)" id="edit-task">
+				<input ng-show="isAdmin" type="button" class ="btn btn-default btn-sm topButtons" value="delete task" ng-click="clicked=true" id="delete-task">			
+				<div ng-show="clicked">
+					<label>Are you sure you want to delete this task?</label>
+					<input type="button" class="btn btn-default btn-sm topButtons"
+					value="Yes" ng-click="deleteTask(task.id)">
+					<input type="button" class="btn btn-default btn=sm topButtons" value="No" ng-click="clicked=false">
+				</div>			
+			</div>			
+			
+			<div><span class="title" ng-bind="task.title"></span><span class="mark" ng-bind="task.mark"></span></div>
 
-<div align="center" ng-controller="taskModel">
-	<div class="topLocal" align="left">
-		<div>
-			<input type="button" class="btn btn-default btn-sm topButtons" value="Change Task" ng-click="editTask(task.id)">
-			<input type="button" class="btn btn-default btn-sm topButtons" value="Show History" ng-click="showHistory(task.id)">
-			<input ng-show="isAdmin" type="button" class ="btn btn-default btn-sm topButtons"
-			value="Delete Task" ng-click="clicked=true">
-			<div ng-show="clicked">
-				<label>Are you sure you want to delete this task?</label>
-				<input type="button" class="btn btn-default btn-sm topButtons"
-				 value="Yes" ng-click="deleteTask(task.id)">
-				 <input type="button" class="btn btn-default btn=sm topButtons" value="No" ng-click="clicked=false">
+			<p><span class="description" ng-bind="task.description"></span></p>
+
+		</div>
+		
+		<div id="task-content">
+			<table>
+				<tr>
+					<th>Author</th>
+					<td>{{task.name}} {{task.surname}}</td>
+				</tr>
+				<tr>
+					<th>Priority</th>
+					<td ng-bind="task.priority"></td>
+				</tr>
+				<tr>
+					<th>Status</th>
+					<td ng-bind="task.status"></td>
+				</tr>
+				<tr>
+					<th>Assigned for</th>
+					<td>{{task.assignedFor}}</td>
+				</tr>
+				<tr>
+					<th>Created at</th>
+					<td>{{task.createdAt}}</td>
+				</tr>
+				<tr>
+					<th>Updated at</th>
+					<td ng-show="task.updatedAt">{{task.updatedAt}}</td>
+				</tr>																												
+			</table>	
+		</div>
+		<div ng-controller="listOfComments">
+			<div id="comments-section">
+				<div>
+					Title:<input type="text" ng-model="commentM.title">
+				</div>
+				<div>
+					Comment: &nbsp;<textarea cols="40" rows="8" ng-model="commentM.text"></textarea>
+				</div>	
+				<div>
+					<input type="button" value="Submit" ng-click="create()">
+				</div>				
+			</div>
+			
+
+			<div ng-repeat="comment in comments" id="comments-show">
+				<b style="font-size:18px;">Title:</b> {{comment.title}} <br>
+				<b style="font-size:18px;">Comment:</b> {{comment.text}} <br>
+				<b style="font-size:18px;">Author:</b> {{comment.author.firstName}} {{comment.author.lastName}} <br>
+				<input type="button" value="Change" ng-click="update(comment._id)" ng-if="comment.show" id="update-comment">
+				<input type="button" value="Delete" ng-click="delete(comment._id)" ng-if="comment.show" id="delete-comment">
+				<br><br>
 			</div>
 		</div>
+		
 	</div>
-	<br>
-<div align="left" class="taskDetails">
-	<u class="taskTitle">{{task.title}}&nbsp;&nbsp;({{task.mark}})</u><br><br>
-	<p class="taskP1">Added <b>{{task.name}} {{task.surname}}</b> at <b>{{task.createdAt}}</b>.
-		<span ng-show="lastUpdate">Last update at </span><b>{{task.updatedAt}}</b><span ng-show="lastUpdate">.</span></p><br>
-<table class="taskT">
-	<tr>
-		<td>Status: </td><td><b>{{task.status}}</b></td></tr>
-	<tr><td>Priority: </td><td><b>{{task.priority}}</b></td></tr>
-	<tr><td>Assigned for: &nbsp;</td><td><b>{{task.assignedFor}}</b></td></tr>
-</table>
-<br><br>
-</div>
-
-<div align="left" class="taskDetails">
-<p class="ptDesc"><u>Description:</u></p>
-<p class="taskP2"><b>{{task.description}}</b></p>
-</div>
-
-</div>
-<br><br>
-
-<div ng-controller="listOfComments">
-<div ng-repeat="comment in comments">
-Title: {{comment.title}} <br>
-Comment: {{comment.text}} <br>
-Author: {{comment.author.firstName}} {{comment.author.lastName}} <br>
-<input type="button" value="Change" ng-click="update(comment._id)" ng-if="comment.show">
-<input type="button" value="Delete" ng-click="delete(comment._id)" ng-if="comment.show">
-<br><br>
-</div> 
-
-<br>
-
-<table align="center">
-<tr>
-<td>Title:</td> <td><input type="text" ng-model="commentM.title"></td>
-</tr>
-<tr>
-<td>Comment: &nbsp;</td><td><textarea cols="40" rows="8" ng-model="commentM.text"></textarea></td>
-</tr>
-<tr ng-show="hasComment"><td>&nbsp;</td><td>Morate uneti komentar</td></tr>
-<tr><td colspan="2" align="center"><input type="button" value="Submit" ng-click="create()"></td></tr>
-</table>
-
+	
 </div>

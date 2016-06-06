@@ -4,7 +4,7 @@ angular.module('comments').controller('listOfComments', ['$scope', '$rootScope',
 
     	$scope.hasComment = false;
     	Comments.query(function(response) {
-    		var taskId = $stateParams.taskId;
+    		var taskId = $stateParams.id;
     		var comments = [];
     		for(var i = 0; i < response.length; i++) {
     			if(response[i].task === taskId) {
@@ -27,7 +27,7 @@ angular.module('comments').controller('listOfComments', ['$scope', '$rootScope',
     	
     	$scope.create = function() {
     		$scope.comment = new Comments();
-    		$scope.comment.task = $stateParams.taskId;
+    		$scope.comment.task = $stateParams.id;
     		if($scope.commentM.text == "" || $scope.commentM.text == undefined) {
     			$scope.hasComment = true;
     			return false;
