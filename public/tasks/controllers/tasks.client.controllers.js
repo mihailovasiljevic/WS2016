@@ -1,16 +1,17 @@
 angular.module('tasks').controller('listOfTasksCtrl', ['$scope', '$rootScope', '$location','Tasks','Projects','$state','Authentication','Users','$stateParams','$timeout',
     function($scope,$rootScope,$location,Tasks,Projects,$state,Authentication,Users,$stateParams,$timeout) {
 
-
+		
 		$scope.list = function() {
 
 				if(!$stateParams.projectId){
+				
 				var tasksFromAuth ={};
 				var tasks = [];
 				var id = Authentication.user._id;
 				Users.get({userId:id},function(response){
 					tasksFromAuth=response.tasks;
-				
+
 					for(var i = 0; i < tasksFromAuth.length; i++) {
 						Tasks.get({taskId:tasksFromAuth[i]},function(response){
 	
@@ -27,7 +28,6 @@ angular.module('tasks').controller('listOfTasksCtrl', ['$scope', '$rootScope', '
 				}
 			}
 			else{
-
 				tasksFromProject = {};
 				var tasks = [];
 				var id = $stateParams.projectId;
@@ -67,7 +67,7 @@ angular.module('tasks').controller('listOfTasksCtrl', ['$scope', '$rootScope', '
 							"assignedFor": assignedFor,
 							"status":response.currentState.status,
 							"priority": response.currentState.priority,
-							"updatedAt": "23-04-2016",
+							"updatedAt": "23-04-2016"
 						}
 						return task;
 
@@ -101,7 +101,7 @@ angular.module('tasks').controller('listOfTasksCtrl', ['$scope', '$rootScope', '
 		}
 		
 		$scope.lookUpTask = function(id){
-			$state.go('dashBoard.task', { 'id':id});
+			$state.go('dashBoard.task', { 'projectId': $stateParams.projectId,'id':id});
 		};
 		
 		$scope.initCheckboxs = function() 
@@ -252,15 +252,16 @@ angular.module('tasks').controller('taskModel', ['$scope', '$rootScope', '$locat
 	$scope.editTask = function(id){
 		//$location.path('/dashBoard/edit_task/'+id);
 		console.log(id);
-		$state.go('dashBoard.editTask',{taskId:id});
+		console.log($scope.task);
+		$state.go('dashBoard.editTask',{'projectId':$stateParams.projectId, 'id':id});
 
 	}
 
 	$scope.deleteTask = function(id){
 		
-		var task = Tasks.get({taskId:id},function(response){})
+		var task = Tasks.get({id:id},function(response){})
 		task.$delete({taskId:id},function(response){console.log("USPESNO BRISANJE");
-		$state.go('dashBoard.tasks');
+		$state.go('dashBoard.tasksForProject', {'projectId':$stateParams.projectId});
 	})
 	}
 
@@ -269,7 +270,7 @@ angular.module('tasks').controller('taskModel', ['$scope', '$rootScope', '$locat
 angular.module('tasks').controller('addTaskCtrl', ['$scope', '$rootScope', '$location','Projects','$http','Tasks','$stateParams','$state',
     function($scope,$rootScope,$location,Projects,$http,Tasks,$stateParams,$state) {
 		
-console.log('dfddfdffdfd3344334');
+
 
 var loadEntries = function () {
 			$scope.task = new Tasks();
@@ -337,7 +338,7 @@ var loadForEdit = function () {
 			$scope.project = new Projects();
 			$scope.projects = [];
     		
-    		var task = Tasks.get({taskId:$stateParams.taskId},function(response){
+    		var task = Tasks.get({taskId:$stateParams.id},function(response){
 
 			$scope.task = new Tasks();
 			$scope.task._id = task._id;
@@ -367,7 +368,7 @@ var loadForEdit = function () {
     		
 		}
 
-if($stateParams.taskId===undefined){
+if($stateParams.id===undefined){
 loadEntries();
 }
 else{
@@ -401,17 +402,17 @@ var task = new Tasks({
       */
     if($scope.task.currentState.assignedFor._id=="none")
     	delete $scope.task.currentState.assignedFor;
-    if($stateParams.taskId===undefined){
+    if($stateParams.id===undefined){
 		$scope.task.$save(function(response){
 			//$location.path('/dashBoard/task/'+$scope.task._id);
-			$state.go('dashBoard.task',{taskId:$scope.task._id});
+			$state.go('dashBoard.task',{'projectId':$stateParams.projectId, 'id':$scope.task._id});
 		});
 	}
 	
 	else{
 		$scope.task.$update({taskId:$scope.task._id},function(response){
 			//$location.path('/dashBoard/task/'+$scope.task._id);
-			$state.go('dashBoard.task',{taskId:$scope.task._id});
+			$state.go('dashBoard.task',{'projectId':$stateParams.projectId, 'id':$scope.task._id});
 		})
 	}
 
