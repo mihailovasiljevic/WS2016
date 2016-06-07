@@ -1,5 +1,5 @@
-angular.module('main').controller('myCtrl', ['$scope', '$rootScope', '$location','Authentication','$timeout','$window',
-    function($scope,$rootScope,$location, Authentication, $timeout, $window){
+angular.module('main').controller('myCtrl', ['$scope', '$rootScope', '$location','Authentication','$timeout','$window','$state',
+    function($scope,$rootScope,$location, Authentication, $timeout, $window,$state){
         
       $scope.authentication = Authentication;
       
@@ -38,6 +38,10 @@ angular.module('main').controller('myCtrl', ['$scope', '$rootScope', '$location'
         var path = path.toLowerCase();
         $location.path('/'+path);
       };
+      
+      $scope.showUserTasks = function(){
+        $state.go('dashBoard.userTasks', { 'userId': $scope.authentication.user._id});
+      }
       
       $scope.logout = function(){
         $scope.authentication.logout(function(data){

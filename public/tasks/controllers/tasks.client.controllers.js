@@ -101,7 +101,10 @@ angular.module('tasks').controller('listOfTasksCtrl', ['$scope', '$rootScope', '
 		}
 		
 		$scope.lookUpTask = function(id){
-			$state.go('dashBoard.task', { 'projectId': $stateParams.projectId,'id':id});
+			if($stateParams.projectId != undefined)
+				$state.go('dashBoard.task', { 'projectId': $stateParams.projectId,'id':id});
+			else
+				$state.go('dashBoard.userTask', { 'userId': $stateParams.userId,'id':id});
 		};
 		
 		$scope.initCheckboxs = function() 
@@ -253,7 +256,10 @@ angular.module('tasks').controller('taskModel', ['$scope', '$rootScope', '$locat
 		//$location.path('/dashBoard/edit_task/'+id);
 		console.log(id);
 		console.log($scope.task);
-		$state.go('dashBoard.editTask',{'projectId':$stateParams.projectId, 'id':id});
+		if($stateParams.projectId != undefined)
+			$state.go('dashBoard.editTask',{'projectId':$stateParams.projectId, 'id':id});
+		else
+			$state.go('dashBoard.editUserTask',{'userId':$stateParams.userId, 'id':id});
 
 	}
 
@@ -261,7 +267,10 @@ angular.module('tasks').controller('taskModel', ['$scope', '$rootScope', '$locat
 		
 		var task = Tasks.get({id:id},function(response){})
 		task.$delete({taskId:id},function(response){console.log("USPESNO BRISANJE");
-		$state.go('dashBoard.tasksForProject', {'projectId':$stateParams.projectId});
+		if($stateParams.projectId != undefined)
+			$state.go('dashBoard.tasksForProject', {'projectId':$stateParams.projectId});
+		else	
+			$state.go('dashBoard.userTasks', {'userId':$stateParams.userId});
 	})
 	}
 
@@ -405,14 +414,20 @@ var task = new Tasks({
     if($stateParams.id===undefined){
 		$scope.task.$save(function(response){
 			//$location.path('/dashBoard/task/'+$scope.task._id);
-			$state.go('dashBoard.task',{'projectId':$stateParams.projectId, 'id':$scope.task._id});
+			if($stateParams.projectId != undefined)
+				$state.go('dashBoard.task',{'projectId':$stateParams.projectId, 'id':$scope.task._id});
+			else
+				$state.go('dashBoard.userTask',{'userId':$stateParams.userId, 'id':$scope.task._id});
 		});
 	}
 	
 	else{
 		$scope.task.$update({taskId:$scope.task._id},function(response){
 			//$location.path('/dashBoard/task/'+$scope.task._id);
-			$state.go('dashBoard.task',{'projectId':$stateParams.projectId, 'id':$scope.task._id});
+			if($stateParams.projectId != undefined)
+				$state.go('dashBoard.task',{'projectId':$stateParams.projectId, 'id':$scope.task._id});
+			else
+				$state.go('dashBoard.userTask',{'userId':$stateParams.userId, 'id':$scope.task._id});
 		})
 	}
 

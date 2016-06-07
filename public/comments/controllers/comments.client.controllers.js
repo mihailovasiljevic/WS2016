@@ -44,7 +44,10 @@ angular.module('comments').controller('listOfComments', ['$scope', '$rootScope',
     	}
 
     	$scope.update = function(id) {
-    		$state.go('dashBoard.changeComment',{"commentId":id});
+			if($stateParams.projectId != undefined)
+    			$state.go('dashBoard.changeComment',{"projectId":$stateParams.projectId,"taskId":$stateParams.id,"commentId":id});
+			else
+				$state.go('dashBoard.changeUserTaskComment',{"userId":$stateParams.userId,"taskId":$stateParams.id,"commentId":id});
     	}
 
     	$scope.delete = function(id) {
@@ -84,8 +87,10 @@ angular.module('comments').controller('listOfComments', ['$scope', '$rootScope',
     	$scope.update = function() {
     		
     		$scope.commentM.$update({"commentId":$scope.commentId},function(response) {
-
-    			$state.go('dashBoard.task',{"taskId":$scope.taskId});
+				if($stateParams.projectId != undefined)
+    				$state.go('dashBoard.task',{"projectId":$stateParams.projectId,"id":$stateParams.taskId});
+				else
+					$state.go('dashBoard.userTask',{"userId":$stateParams.userId,"id":$stateParams.taskId});
     		});
     	}
 
