@@ -16,8 +16,8 @@
 		<div id = "menu">
 			<ul>
 				<li><a class="active" href="#">Projects</a></li>
-				<li><a href="#" ng-click="showUserTasks()">Tasks</a></li>
-				<li><a href="/#!/reports">Reports</a></li>
+				<li><a href="#" ng-click="showUserTasks();">Tasks</a></li>
+				<li><a href="#" ng-click="showReports();">Reports</a></li>
 			</ul>
 		</div>
 		
@@ -58,6 +58,7 @@ Priority:<br>
 	<tr> 
 		<th>Title</th>	
 		<th>Team Members</th>
+		<th>&nbsp;</th>	
 		<th>&nbsp;</th>		
 		<th>Tasks</th>
 		<th><button ng-click="addProject();" id="add-project">add project</button></th>
@@ -66,6 +67,7 @@ Priority:<br>
 		<td ng-bind="project.title"></td>
 		<td style="display:inline-block;"><p ng-repeat="member in project.teamMembers"> <span ng-bind="member.fullName"></span></p></td>
 		<td>&nbsp;</td>
+		<td><button ng-click="reports(project._id);" id="reports-project">Reports</button></td>
 		<td><button ng-click="listTasks(project._id);" id="list-tasks-project">Tasks</button></td>
 		<td><button ng-click="editProject(project._id);" id="edit-project">Edit project</button></td>		
 	</tr>

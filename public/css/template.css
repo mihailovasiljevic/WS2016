@@ -476,6 +476,29 @@ button#add-project:hover{
     opacity: 1;
     cursor: hand;
 }
+button#reports-project{
+   top: 0px;
+    left: 5px;
+    display: inline-block;
+    border: 0px;
+    border-radius: 5px;
+    width: 153px;
+    height: 28px;
+    text-align: center;
+    vertical-align: middle;
+    text-decoration: none;
+    color: white;
+    opacity: 0.9;
+    font-family: 'Roboto', Arial, sans-serif;
+    font-size: 13px;
+    padding-top: 0px;
+     border-radius: 5px;
+  background-color: #838390;
+}
+button#reports-project:hover{
+    opacity: 1;
+    cursor: hand;
+}
 button#list-tasks-project{
    top: 0px;
     left: 5px;

@@ -43,6 +43,11 @@ angular.module('main').controller('myCtrl', ['$scope', '$rootScope', '$location'
         $state.go('dashBoard.userTasks', { 'userId': $scope.authentication.user._id});
       }
       
+      $scope.showReports = function(){
+        $state.go('dashBoard.chooseReport', { 'projectId': '5754729cbfdbf0fc2d618125'});
+      }
+            
+      
       $scope.logout = function(){
         $scope.authentication.logout(function(data){
           if(data == true){
