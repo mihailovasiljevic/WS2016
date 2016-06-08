@@ -1,109 +1,318 @@
-angular.module('main').controller('listOfProjectsCtrl', ['$scope', '$rootScope', '$location',
-    function($scope,$rootScope,$location) {
-		var list = [
-		{
-			"id": "u32h4jjhj3245",
-			"mark": "xws1",
-			"title": "zadatak broj 1",
-			"description": "opisujemo",
-			"author": "Nemanja Starcev",
-			"assignedFor": "Milos Savic",
-			"status":"To Do",
-			"priority": "Major",
-			"updatedAt": "23-04-2016",
-		},
-		{
-			"id": "joij34jk3232",
-			"mark": "xws2",
-			"title": "zadatak broj 2",
-			"description": "opisujemo",
-			"author": "Nemanja Starcev",
-			"assignedFor": "Rale Ilic",
-			"status":"To Do",
-			"priority": "Major",
-			"updatedAt": "23-02-2016",
+angular.module('projects').controller('listOfProjectsCtrl', ['$scope', '$rootScope', '$location','Projects','Users','$stateParams','$state','$timeout','Authentication',
+    function($scope,$rootScope,$location,Projects,Users,$stateParams,$state,$timeout,Authentication) {
+		
+		$scope.dialogShown = false;
+		$scope.show = function(){
+			$scope.dialogShown = true;
 		}
-		]
-
-		$scope.listOfTasks = list;
-		$scope.allTasks = list;
-
-		$scope.cToDo = true;
-		$scope.cInProgress = true;
-		$scope.cVerify = true;
-		$scope.cDone = true;
-
-		$scope.cBlocker = true;
-		$scope.cCritical = true;
-		$scope.cMajor = true;
-		$scope.cMinor = true;
-		$scope.cTrivial = true;
-
-		var doFilter = function(model) {
-			var newList = [];
-			var allTasks = $scope.allTasks;
-			var ok = 0;
-			for(var i = 0; i < allTasks.length; i++) {
-				if(allTasks[i].status == 'To Do' && $scope.cToDo == true) {
-					ok = ok + 1;
-				}
-				if(allTasks[i].status == 'In Progress' && $scope.cInProgress == true) {
-					ok = ok + 1;
-				}
-				if(allTasks[i].status == 'Verify' && $scope.cVerify == true) {
-					ok = ok + 1;
-				}
-				if(allTasks[i].status == 'Done' && $scope.cDone == true) {
-					ok = ok + 1;
-				}
-				if(allTasks[i].priority == 'Blocker' && $scope.cBlocker == true) {
-					ok = ok + 1;
-				}
-				if(allTasks[i].priority == 'Critical' && $scope.cCritical == true) {
-					ok = ok + 1;
-				}
-				if(allTasks[i].priority == 'Major' && $scope.cMajor == true) {
-					ok = ok + 1;
-				}
-				if(allTasks[i].priority == 'Minor' && $scope.cMinor == true) {
-					ok = ok + 1;
-				}
-				if(allTasks[i].priority == 'Trivial' && $scope.cTrivial == true) {
-					ok = ok + 1;
-				}
-				if(ok > 0) {
-					newList.push(allTasks[i]);
-				}
-			}
-			alert(newList.length);
-			$scope.listOfTasks = newList ;
-		}
-		$scope.doFilter = doFilter;
-
-		var pregled = function(id) {
-			alert('usao');
-			$location.path('/project/'+id);
-
+		$scope.data = {
+			singleSelect: null,
+			multipleSelect: [],
+			option1: 'option-1',
 		};
-		$scope.pregled = pregled;
+		$scope.listProjects={};
+		$scope.addProject = function(){
+			$state.go('dashBoard.addProject');	
+		};
+		var loadEntries = function () {
+			$scope.listProjects = Projects.query();	
+			$scope.listProject = new Projects();
 
+			$scope.ubaci= function(member,project){
+
+				var oznaka=false;
+
+				var korisnici = Projects.get({projectId:project},function(response) {
+					$scope.teamMembers = korisnici.teamMembers;
+
+
+				$scope.listProject.teamMembers=[];
+
+
+				for(var i=0;i<$scope.teamMembers.length;i++){
+					$scope.listProject.teamMembers.push($scope.teamMembers[i]);
+					if($scope.teamMembers[i]._id==member){
+						 oznaka=true;
+					}
+					
+				}
+			
+				if (oznaka==false) {
+					$scope.listProject.teamMembers.push(member);
+
+				}
+
+				});
+	
+			}
+			
+		}
+		loadEntries();
+		
+
+		$scope.addProject = function(){
+			$timeout(function(){
+				$location.path('/projects/addProject');
+			});
+		}
+		var vm = this;
+		vm.project = {};
+		$scope.create = function(){
+			var project = new Projects({
+				title: this.projectTitle,
+				teamMembers: $scope.data.multipleSelect
+			})
+			var tmp = [];
+			for(var i = 0; i < project.teamMembers.length; i++){
+				if(project.teamMembers[i] != Authentication.user._id)
+					tmp.push({_id:project.teamMembers[i]});
+			}
+			project.teamMembers = tmp;
+			project.$save(function(response){
+				$timeout(function(){
+					$state.go('dashBoard.loadProjects');
+				});
+			}, function(errorResponse){
+				$scope.error = errorResponse.data.message;
+			});
+		};
+		$scope.findOne = function(){
+			console.log('projectId: ' + $stateParams.projectId);
+			$scope.project = Projects.get({
+				projectId: $stateParams.projectId
+			}, function(){console.log('project: ' + $scope.project._id)});
+		};
+		$scope.update = function(){
+			var tmp = [];
+			for(var i = 0; i < $scope.project.teamMembers.length; i++){
+				if($scope.project.teamMembers[i] != Authentication.user._id)
+					tmp.push({_id:$scope.project.teamMembers[i]});
+			}
+			$scope.project.teamMembers = tmp;
+			
+			$scope.project.$update(function(){
+				$state.go('dashBoard.loadProjects');
+			}, function(errorResponse){
+				$scope.error = JSON.stringify(errorResponse.data);
+			});
+		};
+		$scope.save = function () {
+
+			console.log('jeeeeeeeeej');
+			$scope.listProject = new Projects({
+				
+			});
+			$scope.listProject.teamMembers = $scope.data.multipleSelect;
+			$scop
+			if(!$scope.listProject._id){
+				console.log('1');
+				$scope.listProject.$save(loadEntries);
+				$state.go('dashBoard.projects');
+			}
+			else{
+				console.log('2');
+				$scope.listProject.$update(loadEntries);
+				$state.go('dashBoard.projects');		
+					console.log('3');		
+			}
+		
+
+			
+		} 
+		$scope.delete = function (listProject) {
+			listProject.$delete(loadEntries);
+	//		listProject1.$delete(loadEntries);
+		}
 
 		
+
+		$scope.addMember = function(id){
+
+			$state.go('dashBoard.addMember',{projectId:id});
+		}
+
+		$scope.deleteMember = function(index){
+		
+				$scope.listProject.teamMembers.splice(index, 1);
+				$scope.listProject.$update(loadEntries);
+
+				$state.go('dashBoard.teamMembers', {}, {reload: true});
+				
+		
+		}
+
+		$scope.edit = function (listProject) {
+			$scope.listProject = listProject;
+	//		$scope.listProject1 = listProject;
+			$state.go('dashBoard.editProject');
+		} 
+
+		
+
+
+		var loadEntriesUsers = function () {
+			
+			$scope.user = new Users();
+			var users = Users.query(
+
+				function(response) {
+					console.log('duzina users je: '+users.length)
+					if(users.length>0){
+					$scope.user._id = users[0]._id;
+					
+				}
+    			
+    		}
+    		);
+    		$scope.users=users;
+		
+   
+		}
+		loadEntriesUsers();
+
+		
+
+		$scope.Users = function(){
+			console.log('usao14');
+			console.log($scope.user);
+	
+			var korisnici = Users.get({userId:$scope.user._id},function(response) {
+			$scope.teamMembers = korisnici.teamMembers;
+	
+			});
+		}
+
+		$scope.Projects = function(){
+			console.log('usao14');
+			console.log($scope.user);
+	
+			var korisnici = Projects.get({projectId:$scope.project._id},function(response) {
+			$scope.teamMembers = korisnici.teamMembers;
+	
+			});
+		}
+
 		$scope.showAddProjectForm = function()
 		{
-			$location.path('/dashBoard/addProject');
-			//console.log('ffdfdfdffd');
+			$state.go('dashBoard.addProject');
 
 		}
 
-        
-}]);
+
+		var loadForEdit = function () {
+			
+			$scope.data.multipleSelect = [];
+			
+			$scope.project = new Projects();
+			
+    		
+    		var listProject = Projects.get({projectId:$stateParams.projectId},function(response){
 
 
-angular.module('main').controller('addProjectCtrl', ['$scope', '$rootScope', '$location',
-    function($scope,$rootScope,$location) {
+			$scope.listProject = new Projects();
+			$scope.listProject._id = listProject._id;
+			$scope.listProject.teamMembers={};
+			
+
+			$scope.listProject.title=listProject.title;
+			$scope.listProject.teamMembers=listProject.teamMembers;
+
+
+			$scope.projectTitle = listProject.title;
+			});
+
+			
+
+			var users = Users.query(
+
+						function(response) {
+							console.log('duzina users je: '+users.length)
+							if(users.length>0){
+							$scope.user._id = users[0]._id;
+
+						}
+		    			
+		    		}
+		    		);
+		    		$scope.users14=users;
+		    		console.log('aaaa'+$scope.users14.length);
+
+
+
+				//    var korisnici = Projects.get({projectId:project},function(response) {
+				var korisnici = Projects.get({projectId:$stateParams.projectId},function(response) {
+							$scope.teamMembers = korisnici.teamMembers;
+
+							$scope.listProject1 = new Projects();
+					$scope.listProject1._id = listProject._id;
+					$scope.listProject1.teamMembers={};
+			
+					$scope.listProject1.title=listProject.title;
+
+
+
+
+					for(var i=0;i<$scope.users14.length;i++){
+							for(var j=0;j<$scope.teamMembers.length;j++){
+							var name=$scope.users14[i]._id;
+							var name1=$scope.teamMembers[j]._id;
+							$scope.data.multipleSelect.push($scope.teamMembers[j]._id);
+								if(name1==name){
+								
+								console.log(name);
+								$scope.users14.splice(i,1);
+								console.log($scope.users14.length);
+								}
+							}
+						} 
+
+						$scope.listProject1.teamMembers=[];
+			
+
+						for(var i=0;i<$scope.users14.length;i++){
+							$scope.listProject1.teamMembers.push($scope.users14[i]);
+
+						}
+							
+
+				});
+			
+			console.log($scope.data.multipleSelect);
+    		
+    		
+		}
+
+		if($stateParams.projectId===undefined){
+			loadEntries();
+		}
+		else{
+			loadForEdit();
+
+		}
+
+		$scope.editProject = function(id){
+			$state.go('dashBoard.editProject',{projectId:id});
+		}
+
 		
-console.log('dfddfdffdfd3344334');
+
+		$scope.showUsers = function(id)
+		{
+			$state.go('dashBoard.teamMembers',{projectId:id});
+
+		}
+
+		$scope.listTasks = function(id)
+		{
+			$state.go('dashBoard.tasksForProject',{projectId:id});
+		}
+
+		$scope.reports = function(id)
+		{
+			$state.go('dashBoard.chooseReport',{projectId:id});
+		}
+		
         
 }]);
-   
+
+ 

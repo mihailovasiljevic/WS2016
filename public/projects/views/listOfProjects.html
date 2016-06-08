@@ -1,11 +1,5 @@
-<head>
-  <link rel="stylesheet" href="/projects/views/listOfProjects.css">
-</head>
-
-<div  ng-controller="listOfProjectsCtrl">
+<section ng-controller="listOfProjectsCtrl as prctrl" ng-init="prctrl.listProjects()">
 <br><hr><br>
-<div style="float:left; margin-left:20px;"><input type="button" value="Add Project"
- ng-click="showAddProjectForm()"></div>
 <div align="center">
 <div align="left" style="display:inline-block; width:150px;margin-left:-20px;">
 Status:<br>
@@ -27,29 +21,26 @@ Priority:<br>
 <select ng-options="item for item in priorities" ng-model="selected2" ng-change="selected_status(selected2)"> -->
 
 </div>
+
+
 <br><hr><br>
 
-<table id="t01" align="center" width="75%;">
-  <tr>
-    <th>&nbsp;</th>
-    <th>Mark</th>  
-    <th>Status</th>
-    <th>Priority</th>
-    <th>Title</th>
-    <th>Author</th>
-    <th>Assigned For</th>
-    <th>Last Change</th>
-  </tr>
-  <tr ng-repeat="element in listOfTasks">
-    <td style="width:4%;">{{$index+1}}&nbsp;</td>
-    <td style="width:11%;">{{element.mark}}</td>  
-    <td style="width:9%;">{{element.status}}</td>
-    <td style="width:9%;">{{element.priority}}</td>
-    <td style="width:21%;"><p style="color:blue" ng-click="pregled(element.id)"><u>{{element.title}}</u></p></td>
-    <td style="width:15%;">{{element.author}}</td>
-    <td style="width:15%;">{{element.assignedFor}}</td>
-    <td style="width:12%;">{{element.updatedAt}}</td>
-  </tr>
-
-</table>
-</div>
+ <table>
+	<tr> 
+		<th>Title</th>	
+		<th>Team Members</th>
+		<th>&nbsp;</th>	
+		<th>&nbsp;</th>		
+		<th>Tasks</th>
+		<th><button ng-click="addProject();" id="add-project">add project</button></th>
+	</tr>	 
+	<tr ng-repeat="project in listProjects">
+		<td ng-bind="project.title"></td>
+		<td style="display:inline-block;"><p ng-repeat="member in project.teamMembers"> <span ng-bind="member.fullName"></span></p></td>
+		<td>&nbsp;</td>
+		<td><button ng-click="reports(project._id);" id="reports-project">Reports</button></td>
+		<td><button ng-click="listTasks(project._id);" id="list-tasks-project">Tasks</button></td>
+		<td><button ng-click="editProject(project._id);" id="edit-project">Edit project</button></td>		
+	</tr>
+ </table>
+ </section>

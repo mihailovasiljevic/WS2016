@@ -40,6 +40,8 @@ app.use(express.static( './public'));
  require('../app/routes/users.server.routes.js')(app);
  require('../app/routes/projects.server.routes.js')(app);
  require('../app/routes/tasks.server.routes.js')(app);
+ require('../app/routes/comments.server.routes.js')(app);
+ require('../app/routes/reports.server.routes.js')(app);
  
  app.use(express.static('./public')); //middleware for serving static files
 

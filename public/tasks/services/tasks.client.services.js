@@ -1,11 +1,12 @@
 angular.module('tasks').factory('Tasks', ['$resource',
+	function($resource){
 
-function($resource){
-  return $resource('/api/tasks/', {
-    projectId : '@_id'
-  }, {
-    update : {
-      method: 'PUT'
-    }
-  });
+		return $resource('/api/tasks/:taskId', {
+		    taskId : '@_id'
+		  }, {
+		    update : {
+		      method: 'PUT'
+		    }
+		  });
+
 }]);

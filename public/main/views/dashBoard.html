@@ -1,25 +1,84 @@
-<head>
-	 <link rel="stylesheet" href="/main/views/dashBoard.css">
-</head>
 
-<div>
-<div class="top">
-   
-</div>
-
-<div data-ng-show="authentication.loggedin">
-	<div class="left" ng-controller="myCtrl">
-	<div ng-class="{option: $index != selectedIndex, option1: $index == selectedIndex, option2: $index == nodeSelected}" ng-repeat = "treeElement in treeElements" ng-mouseleave="nodeLeave($index)" ng-mouseover="nodeOver($index)" ng-mouseup="nodeClick($index,treeElements[$index])"><p style="margin-left:18px;">{{treeElement}}</p></div>
+<section ng-controller="myCtrl as ctrl">
+	<div id="menu-wrapper" ng-show="authentication.loggedin">
+		
+		<div id="logo-info">
+			<div id="logo-image">
+				<img src="img/logo.png" alt="ticketing system logo">
+			</div> 
+		</div>
+		
+		<div id="logged-user">
+			<span class="logged_as">Logged as:</span><br>
+			<span class="user" ng-bind="authentication.user.fullName"></span><span class="role" ng-bind="authentication.user.role"></span>
+			<a href="#" id="logout" ng-click="logout()"><span>logout</span></a>
+		</div>
+		<div id = "menu">
+			<ul>
+				<li><a class="active" href="#">Projects</a></li>
+				<li><a ng-click="showUserTasks();">Tasks</a></li>
+				<li><a ng-click="showReports();">Reports</a></li>
+			</ul>
+		</div>
+		
 	</div>
+
+	
+	<div id="content-wrapper" ng-show="authentication.loggedin" >
+		
+		<section ng-controller="listOfProjectsCtrl as prctrl" ng-init="prctrl.listProjects()">
+				<div id="projects-wrapper" ui-view>
+	<br><hr><br>
+<div align="center">
+<div align="left" style="display:inline-block; width:150px;margin-left:-20px;">
+Status:<br>
+<input type="checkbox" ng-change="doFilter(cToDo)" ng-model="cToDo">To Do<br>
+<input type="checkbox" ng-change="doFilter(cInProgress)" ng-model="cInProgress">In Progress<br>
+<input type="checkbox" ng-change="doFilter(cVerify)" ng-model="cVerify">Verify<br>
+<input type="checkbox" ng-change="doFilter(cDone)" ng-model="cDone">Done<br>
+<br>
 </div>
-<div data-ng-show="!authentication.loggedin">
-	<a href="/#!/login"> login </a>
+<div align="left" style="display:inline-block; width:150px; margin-left:-20px;">
+Priority:<br>
+<input type="checkbox" ng-change="doFilter(cBlocker)" ng-model="cBlocker">Blocker<br>
+<input type="checkbox" ng-change="doFilter(cCritical)" ng-model="cCritical">Criticalo<br>
+<input type="checkbox" ng-change="doFilter(cMajor)" ng-model="cMajor">Major<br>
+<input type="checkbox" ng-change="doFilter(cMinor)" ng-model="cMinor">Minor<br>
+<input type="checkbox" ng-change="doFilter(cTrivial)" ng-model="cTrivial">Trivial<br>
 </div>
-<div class="right">
-<section ui-view>
+<!-- <select ng-options="item for item in statusies" ng-model="selected1" ng-change="selected_status(selected1)">
+<select ng-options="item for item in priorities" ng-model="selected2" ng-change="selected_status(selected2)"> -->
+
+</div>
+
+
+<br><hr><br>
+
+ <table>
+	<tr> 
+		<th>Title</th>	
+		<th>Team Members</th>
+		<th>&nbsp;</th>	
+		<th>&nbsp;</th>		
+		<th>Tasks</th>
+		<th><button ng-click="addProject();" id="add-project">add project</button></th>
+	</tr>	 
+	<tr ng-repeat="project in listProjects">
+		<td ng-bind="project.title"></td>
+		<td style="display:inline-block;"><p ng-repeat="member in project.teamMembers"> <span ng-bind="member.fullName"></span></p></td>
+		<td>&nbsp;</td>
+		<td><button ng-click="reports(project._id);" id="reports-project">Reports</button></td>
+		<td><button ng-click="listTasks(project._id);" id="list-tasks-project">Tasks</button></td>
+		<td><button ng-click="editProject(project._id);" id="edit-project">Edit project</button></td>		
+	</tr>
+ </table>
+ 
+				</div>
+									
+				
+			</section>			
+		
+	</div>
 
 </section>
-
-</div>
-</div>
 

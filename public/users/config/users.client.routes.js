@@ -6,6 +6,10 @@ angular.module('users').config(['$urlRouterProvider','$stateProvider',
         url: '/login',
         templateUrl: 'users/views/login.html'
       })
+      .state('register', {
+        url: '/register',
+        templateUrl: 'users/views/register.html'
+      })      
       .state('users', {
         url:'/users',
         templateUrl: 'users/views/list-users.html'
