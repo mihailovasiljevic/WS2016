@@ -40,6 +40,11 @@ angular.module('main').controller('myCtrl', ['$scope', '$rootScope', '$location'
       };
       
       $scope.showUserTasks = function(){
+        var projects = document.getElementsByClassName('active')[0];
+        var tasks =  document.getElementsByClassName('active')[0].parentNode.parentNode.children[1].children[0];
+        tasks.style.className="active";
+        projects.style.className="active";
+
         $state.go('dashBoard.userTasks', { 'userId': $scope.authentication.user._id});
       }
       

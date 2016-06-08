@@ -6,6 +6,7 @@ var mongoose = require('mongoose'),
 	
 exports.report1 = function(req,res,next,id)
 {	
+	console.log("USAO U REPORT 1");
 	Project.findById(id)
 	.populate('teamMembers')
 	.exec(function(err, project){

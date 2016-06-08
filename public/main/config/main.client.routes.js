@@ -8,6 +8,11 @@ angular.module('main').config(['$urlRouterProvider','$stateProvider',
         templateUrl: 'main/views/dashBoard.html',
         controller: 'myCtrl',
       })
+     .state('dashBoard.loadProjects', {
+        url: '/',
+        templateUrl: 'projects/views/listOfProjects.html',
+        controller: 'myCtrl',
+      })
 	  .state('dashBoard.projects', {
         url: '/projects',
         templateUrl: 'projects/views/listOfTasks.html',
@@ -21,6 +26,14 @@ angular.module('main').config(['$urlRouterProvider','$stateProvider',
 	  .state('dashBoard.addProject', {
         url: 'projects/addProject',
         templateUrl: 'projects/views/addProject.html',
+        controller: function($scope){
+                    $scope.title = 'My Contacts';
+                    console.log($scope.title);
+                  }
+      })
+      .state('dashBoard.editProject', {
+        url: 'projects/:projectId/edit',
+        templateUrl: 'projects/views/editProject.html',
         controller: function($scope){
                     $scope.title = 'My Contacts';
                     console.log($scope.title);
