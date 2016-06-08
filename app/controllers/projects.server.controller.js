@@ -152,15 +152,18 @@ var processTeammembers = function(projectTeamMembers, reqTeamMembers, teamMember
         break;
       }
     }
-    if(!oldIsNew)
+    if(!oldIsNew){
+      console.log("id: "+reqTeamMembers[i]._id);
       teamMembersForAddition.push(reqTeamMembers[i]._id);
+    }
   }
   
 };
 
-function excludeUsers(project, collection,res, callback){
-
-  var usersIds = collection.slice(0);//clone collection;
+function excludeUsers(project, collectionn,res, callback){
+  if(collectionn == undefined)
+    return callback;
+  var usersIds = collectionn.slice(0);//clone collection;
   (function updateUsers(){
          var item = usersIds.splice(0,1)[0];
          User.findById(item)
@@ -179,8 +182,11 @@ function excludeUsers(project, collection,res, callback){
             }else{
                 if(usersIds.length == 0)
                   callback();
-                else
+                else{
+                    if(collectionn == undefined)
+                      callback();
                   excludeUsers();
+                }
             }
           });   
           
@@ -189,7 +195,8 @@ function excludeUsers(project, collection,res, callback){
 }
 
 function addUsers(project, collection,res, callback){
-
+  if(collectionn == undefined)
+    return callback;
   var usersIds = collection.slice(0);//clone collection;
   (function updateUsers(){
          var item = usersIds.splice(0,1)[0];
@@ -218,57 +225,72 @@ function addUsers(project, collection,res, callback){
 exports.update = function(req, res, next){
   
   var reqTeamMembers = req.body.teamMembers;
-  
-  if(reqTeamMembers == undefined)
-      return res.status(400).send({
-        message: errorHandler.getErrorMessage(err)
-      }); 
-  
-  var projectTeamMembers = req.project.teamMembers;
+ // reqTeamMembers.push(req.user);
+ //console.log(req.body.teamMembers);
+// console.log(req.project);
+ // for(var i = 0; i < req.project.teamMembers.length; i++){
+//    console.log(req.project.teamMembers[i]._id)
+ // }
+  reqTeamMembers.push(req.user);
+
+  Project.findById(req.project._id)
+  .populate('creator')
+  .populate('teamMembers')
+  .populate('tasks')
+  .exec(function(err, project){
+    if (err) return next(err);
+    if(!project) return next(new Error('Failed to load project ' + id));
+    
+    var projectTeamMembers = project.teamMembers;
 
 
-  var equal = testEqual(reqTeamMembers, projectTeamMembers);
-  console.log("Collections testEqual(): " + equal);
-  
-  //ako nema razlike u clanovima tima, nije ni doslo do promene
-  if(equal){
+    var equal = testEqual(reqTeamMembers, projectTeamMembers);
+    console.log("Collections testEqual(): " + equal);
     
-    res.json(req.project);
-    console.log("No changes in team members.");
-    
-  }else {
-    //ako ima razlike u clanovima tima doslo je do promene, obradi promenu
-    var teamMembersForExclusion = [];
-    var teamMembersForAddition = [];
-    processTeammembers(projectTeamMembers, reqTeamMembers, teamMembersForExclusion, teamMembersForAddition);
-    console.log("For exclusion: " + JSON.stringify(teamMembersForExclusion));
-    console.log("For addition: " + JSON.stringify(teamMembersForAddition));
-    
-     Project.findByIdAndUpdate(req.project.id, req.body, function(err, project){
-      if(err){
-          return res.status(400).send({
-            message: errorHandler.getErrorMessage(err)
-          }); 
-      }else{
-        if(teamMembersForExclusion.length > 0){
-          excludeUsers(project,teamMembersForExclusion,res, function(){
-            if(teamMembersForAddition.length > 0){
+    //ako nema razlike u clanovima tima, nije ni doslo do promene
+    if(equal){
+      
+      res.json(project);
+      console.log("No changes in team members.");
+      
+    }else {
+            //ako ima razlike u clanovima tima doslo je do promene, obradi promenu
+      var teamMembersForExclusion = [];
+      var teamMembersForAddition = [];
+      processTeammembers(projectTeamMembers, reqTeamMembers, teamMembersForExclusion, teamMembersForAddition);
+      console.log("For exclusion: " + JSON.stringify(teamMembersForExclusion));
+      console.log("For addition: " + JSON.stringify(teamMembersForAddition));
+      
+      Project.findByIdAndUpdate(req.project.id, req.body, function(err, project){
+        if(err){
+            return res.status(400).send({
+              message: errorHandler.getErrorMessage(err)
+            }); 
+        }else{
+          console.log("For exclusion: " + JSON.stringify(teamMembersForExclusion));
+          console.log("For addition: " + JSON.stringify(teamMembersForAddition));
+          if(teamMembersForExclusion.length > 0){
+            excludeUsers(project,teamMembersForExclusion,res, function(){
+              if(teamMembersForAddition.length > 0){
+                addUsers(project,teamMembersForAddition,res, function(){
+                    res.json(project);
+                });   
+              }else {
+                res.json(project);
+              }          
+            }); 
+          }else if(teamMembersForAddition.length > 0){
               addUsers(project,teamMembersForAddition,res, function(){
                   res.json(project);
-              });   
-            }else {
-              res.json(project);
-            }          
-          }); 
-        }else if(teamMembersForAddition.length > 0){
-            addUsers(project,teamMembersForAddition,res, function(){
-                res.json(project);
-            });           
+              });           
+          }
         }
-      }
-    });
+      });
+      
+    }    
     
-  }
+  });
+
 };
 
 exports.delete = function(req, res, next){

@@ -84,12 +84,13 @@ angular.module('projects').controller('listOfProjectsCtrl', ['$scope', '$rootSco
 		};
 		$scope.update = function(){
 			var tmp = [];
-			for(var i = 0; i < $scope.project.teamMembers.length; i++){
-				if($scope.project.teamMembers[i] != Authentication.user._id)
-					tmp.push({_id:$scope.project.teamMembers[i]});
+			for(var i = 0; i < $scope.data.multipleSelect.length; i++){
+				if($scope.data.multipleSelect[i] != Authentication.user._id)
+					tmp.push({_id:$scope.data.multipleSelect[i]});
 			}
+			$scope.project.teamMembers = [];
 			$scope.project.teamMembers = tmp;
-			
+			console.log(JSON.stringify($scope.project.teamMembers));
 			$scope.project.$update(function(){
 				$state.go('dashBoard.loadProjects');
 			}, function(errorResponse){
