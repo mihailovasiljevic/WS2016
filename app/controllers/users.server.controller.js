@@ -2,7 +2,8 @@ var User = require('mongoose').model('User'),
     passport = require('passport'),
       _ = require('lodash'),
     jwt = require('jsonwebtoken'),
-    config = require('../../config/config'); // use mongoose to call module method to get User model
+    config = require('../../config/config'), // use mongoose to call module method to get project model
+    errorHandler = require('../controllers/index.server.controller'); 
 
 var getErrorMessage = function(err){
   var message = '';
@@ -139,8 +140,7 @@ exports.create = function(req, res, next){
 
 exports.list = function(req, res, next){
   
-  User.find().sort('-role')
-  .exec(function(err, users){
+  User.find().sort('-role').exec(function(err, users){
     if(err){
          return res.status(400).send({
            message: errorHandler.getErrorMessage(err)
@@ -157,9 +157,7 @@ exports.read = function(req, res){
 
 exports.userByID = function(req, res, next, id){
   
-  User.findById(id)
-  .populate('projects')
-  .exec(function(err, user){
+  User.findById(id).exec(function(err, user){
     if (err) return next(err);
     if(!user) return next(new Error('Failed to load user ' + id));
     

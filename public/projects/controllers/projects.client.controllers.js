@@ -1,19 +1,7 @@
-angular.module('projects').controller('listOfProjectsCtrl', ['$scope', '$rootScope', '$location','Projects','Users','$stateParams','$state','$timeout','Authentication',
-    function($scope,$rootScope,$location,Projects,Users,$stateParams,$state,$timeout,Authentication) {
+angular.module('projects').controller('listOfProjectsCtrl', ['$scope', '$rootScope', '$location','Projects','Users','$stateParams','$state','$timeout',
+    function($scope,$rootScope,$location,Projects,Users,$stateParams,$state,$timeout) {
 		
-		$scope.dialogShown = false;
-		$scope.show = function(){
-			$scope.dialogShown = true;
-		}
-		$scope.data = {
-			singleSelect: null,
-			multipleSelect: [],
-			option1: 'option-1',
-		};
 		$scope.listProjects={};
-		$scope.addProject = function(){
-			$state.go('dashBoard.addProject');	
-		};
 		var loadEntries = function () {
 			$scope.listProjects = Projects.query();	
 			$scope.listProject = new Projects();
@@ -55,55 +43,11 @@ angular.module('projects').controller('listOfProjectsCtrl', ['$scope', '$rootSco
 				$location.path('/projects/addProject');
 			});
 		}
-		var vm = this;
-		vm.project = {};
-		$scope.create = function(){
-			var project = new Projects({
-				title: this.projectTitle,
-				teamMembers: $scope.data.multipleSelect
-			})
-			var tmp = [];
-			for(var i = 0; i < project.teamMembers.length; i++){
-				if(project.teamMembers[i] != Authentication.user._id)
-					tmp.push({_id:project.teamMembers[i]});
-			}
-			project.teamMembers = tmp;
-			project.$save(function(response){
-				$timeout(function(){
-					$state.go('dashBoard.loadProjects');
-				});
-			}, function(errorResponse){
-				$scope.error = errorResponse.data.message;
-			});
-		};
-		$scope.findOne = function(){
-			console.log('projectId: ' + $stateParams.projectId);
-			$scope.project = Projects.get({
-				projectId: $stateParams.projectId
-			}, function(){console.log('project: ' + $scope.project._id)});
-		};
-		$scope.update = function(){
-			var tmp = [];
-			for(var i = 0; i < $scope.project.teamMembers.length; i++){
-				if($scope.project.teamMembers[i] != Authentication.user._id)
-					tmp.push({_id:$scope.project.teamMembers[i]});
-			}
-			$scope.project.teamMembers = tmp;
-			
-			$scope.project.$update(function(){
-				$state.go('dashBoard.loadProjects');
-			}, function(errorResponse){
-				$scope.error = JSON.stringify(errorResponse.data);
-			});
-		};
+
 		$scope.save = function () {
 
 			console.log('jeeeeeeeeej');
-			$scope.listProject = new Projects({
-				
-			});
-			$scope.listProject.teamMembers = $scope.data.multipleSelect;
-			$scop
+
 			if(!$scope.listProject._id){
 				console.log('1');
 				$scope.listProject.$save(loadEntries);
@@ -201,8 +145,6 @@ angular.module('projects').controller('listOfProjectsCtrl', ['$scope', '$rootSco
 
 		var loadForEdit = function () {
 			
-			$scope.data.multipleSelect = [];
-			
 			$scope.project = new Projects();
 			
     		
@@ -218,10 +160,9 @@ angular.module('projects').controller('listOfProjectsCtrl', ['$scope', '$rootSco
 			$scope.listProject.teamMembers=listProject.teamMembers;
 
 
-			$scope.projectTitle = listProject.title;
 			});
 
-			
+
 
 			var users = Users.query(
 
@@ -256,7 +197,6 @@ angular.module('projects').controller('listOfProjectsCtrl', ['$scope', '$rootSco
 							for(var j=0;j<$scope.teamMembers.length;j++){
 							var name=$scope.users14[i]._id;
 							var name1=$scope.teamMembers[j]._id;
-							$scope.data.multipleSelect.push($scope.teamMembers[j]._id);
 								if(name1==name){
 								
 								console.log(name);
@@ -277,7 +217,7 @@ angular.module('projects').controller('listOfProjectsCtrl', ['$scope', '$rootSco
 
 				});
 			
-			console.log($scope.data.multipleSelect);
+			
     		
     		
 		}
@@ -291,7 +231,7 @@ angular.module('projects').controller('listOfProjectsCtrl', ['$scope', '$rootSco
 		}
 
 		$scope.editProject = function(id){
-			$state.go('dashBoard.editProject',{projectId:id});
+		$state.go('dashBoard.editProject',{projectId:id});
 		}
 
 		
@@ -307,10 +247,6 @@ angular.module('projects').controller('listOfProjectsCtrl', ['$scope', '$rootSco
 			$state.go('dashBoard.tasksForProject',{projectId:id});
 		}
 
-		$scope.reports = function(id)
-		{
-			$state.go('dashBoard.chooseReport',{projectId:id});
-		}
 		
         
 }]);

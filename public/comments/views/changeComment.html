@@ -1,19 +1,12 @@
 <div ng-controller="changeComment">
-	<div id="changeCommentForm">
-		<span class="title">Change comment</span><br>
-		<span class="subtitle">Freedom of speech guaranteed.</span>
-    
-		<form data-ng-submit="create()" name="addTaskForm" novalidate> 
-            <div>
-                <label>Comment:</label>
-                <textarea cols="40" rows="8" ng-model="commentM.text"></textarea>
-                <span ng-show="hasComment"><span>Morate uneti komentar</span><span>
-            </div>
-            
-            <div>
-                <input type="button" value="Submit" ng-click="update()"> 
-            </div>
-		</form>
-    
-	</div>
+<table align="center">
+<tr>
+<td>Title:</td> <td><input type="text" ng-model="commentM.title"></td>
+</tr>
+<tr>
+<td>Comment: &nbsp;</td><td><textarea cols="40" rows="8" ng-model="commentM.text"></textarea></td>
+</tr>
+<tr ng-show="hasComment"><td>&nbsp;</td><td>Morate uneti komentar</td></tr>
+<tr><td colspan="2" align="center"><input type="button" value="Submit" ng-click="update()"></td></tr>
+</table>
 </div>

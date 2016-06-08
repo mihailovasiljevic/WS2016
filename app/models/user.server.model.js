@@ -43,15 +43,7 @@ var UserSchema = new Schema({ //defining UserScehma object using Schema construc
     role: {
         type: String,
         enum: ['admin', 'user']
-    },
-    projects:[{
-      type: Schema.Types.ObjectId,
-      ref: 'Project'//,      
-    }],
-    tasks:[{
-      type: Schema.Types.ObjectId,
-      ref: 'Project'//,      
-    }]
+    }
 });
 
 UserSchema.virtual('fullName').get(function(){

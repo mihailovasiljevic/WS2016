@@ -1,0 +1,67 @@
+table {
+    /*width:100%;*/
+    margin: 0 auto;
+}
+table, th, td {
+    border: 1px solid black;
+    border-collapse: collapse;
+}
+th{
+    padding: 5px;
+    text-align: center;
+}
+td{
+	padding: 5px;
+    text-align: left;
+}
+table#t01 tr:nth-child(even) {
+    background-color: #eee;
+}
+table#t01 tr:nth-child(odd) {
+   background-color:#fff;
+}
+table#t01 th {
+    background-color: black;
+    color: white;
+}
+
+
+td#tdSubmitProject {
+    height: 40px;
+    text-align: center;
+
+}
+
+td#tdSubmitProject button{
+    height: 30px;
+    text-align: center;
+
+}
+
+table#tAddProject input{
+    width:180px;
+    height:30px;
+} 
+
+table#tAddProject select{
+    width:180px;
+    height:30px;
+} 
+
+table#tAddProject textarea{
+    width:270px;
+    height:150px;
+} 
+
+table#tAddProject tr{
+    height:40px;
+} 
+
+
+div#divProject{
+    padding-top: 100px;
+}
+
+li.selected {
+    background-color: yellow;
+}

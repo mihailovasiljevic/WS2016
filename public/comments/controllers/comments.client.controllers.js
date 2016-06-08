@@ -4,7 +4,7 @@ angular.module('comments').controller('listOfComments', ['$scope', '$rootScope',
 
     	$scope.hasComment = false;
     	Comments.query(function(response) {
-    		var taskId = $stateParams.id;
+    		var taskId = $stateParams.taskId;
     		var comments = [];
     		for(var i = 0; i < response.length; i++) {
     			if(response[i].task === taskId) {
@@ -27,7 +27,7 @@ angular.module('comments').controller('listOfComments', ['$scope', '$rootScope',
     	
     	$scope.create = function() {
     		$scope.comment = new Comments();
-    		$scope.comment.task = $stateParams.id;
+    		$scope.comment.task = $stateParams.taskId;
     		if($scope.commentM.text == "" || $scope.commentM.text == undefined) {
     			$scope.hasComment = true;
     			return false;
@@ -44,10 +44,7 @@ angular.module('comments').controller('listOfComments', ['$scope', '$rootScope',
     	}
 
     	$scope.update = function(id) {
-			if($stateParams.projectId != undefined)
-    			$state.go('dashBoard.changeComment',{"projectId":$stateParams.projectId,"taskId":$stateParams.id,"commentId":id});
-			else
-				$state.go('dashBoard.changeUserTaskComment',{"userId":$stateParams.userId,"taskId":$stateParams.id,"commentId":id});
+    		$state.go('dashBoard.changeComment',{"commentId":id});
     	}
 
     	$scope.delete = function(id) {
@@ -87,10 +84,8 @@ angular.module('comments').controller('listOfComments', ['$scope', '$rootScope',
     	$scope.update = function() {
     		
     		$scope.commentM.$update({"commentId":$scope.commentId},function(response) {
-				if($stateParams.projectId != undefined)
-    				$state.go('dashBoard.task',{"projectId":$stateParams.projectId,"id":$stateParams.taskId});
-				else
-					$state.go('dashBoard.userTask',{"userId":$stateParams.userId,"id":$stateParams.taskId});
+
+    			$state.go('dashBoard.task',{"taskId":$scope.taskId});
     		});
     	}
 
