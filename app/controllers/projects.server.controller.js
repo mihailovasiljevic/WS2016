@@ -16,6 +16,11 @@ exports.create = function(req, res, next){
     project.teamMembers.push(req.user._id);
     Project.find({"title":project.title})
       .exec(function(err,response) {
+        if(err){
+            return res.status(400).send({
+            message: errorHandler.getErrorMessage(err)
+          });          
+        }
           if(response.length > 0) {
             res.send({"forbidden":"true"});
           } else {
@@ -183,7 +188,7 @@ function excludeUsers(project, teamMembersForExclusion,res, callback){
           console.log("project_id: " + user._id );
           console.log("ObjectId(project._id): " + ObjectId(user._id) );
           Task
-          .find({ 'currentState.assignedFor': ObjectId(user._id)})
+          .find({ 'currentState.assignedFor': ObjectId(user._id), 'currentState.project': ObjectId(project._id)})
           .exec(function(err, tasks){
             console.log("TASKS: " + tasks.length);
             if(err || !tasks) return next(err);

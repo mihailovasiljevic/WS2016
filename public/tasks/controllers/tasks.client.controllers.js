@@ -394,11 +394,11 @@ var loadForEdit = function () {
 				$scope.teamMembers = response.teamMembers;
 				$scope.projects.push(response);
 			});
-			if(task.currentState.assignedFor!=undefined)
+			if(task.currentState.assignedFor._id!=undefined)
 			$scope.task.currentState.assignedFor._id=task.currentState.assignedFor._id;
 			else $scope.task.currentState.assignedFor._id = "none";
 
-
+				$scope.error = "";
 			});
     		
     		

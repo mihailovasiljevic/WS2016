@@ -783,6 +783,9 @@ div#container div#taskBackground div#comments-show{
     position:relative;
     top:110px;
 }
+div#container div#taskBackground div#comments-show p.comment-text{
+    width: 40%;
+}
 div#container div#taskBackground span.description{
     color:white;
     font-family: 'Roboto', Arial, sans-serif;

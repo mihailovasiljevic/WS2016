@@ -64,7 +64,7 @@
 
 			<div ng-repeat="comment in comments" id="comments-show">
 				<b style="font-size:18px;">Title:</b> {{comment.title}} <br>
-				<b style="font-size:18px;">Comment:</b> {{comment.text}} <br>
+				<b style="font-size:18px;">Comment:</b> <p class="comment-text">{{comment.text}}</p> <br>
 				<b style="font-size:18px;">Author:</b> {{comment.author.firstName}} {{comment.author.lastName}} <br>
 				<input type="button" value="Change" ng-click="update(comment._id)" ng-if="comment.show" id="update-comment">
 				<input type="button" value="Delete" ng-click="delete(comment._id)" ng-if="comment.show" id="delete-comment">

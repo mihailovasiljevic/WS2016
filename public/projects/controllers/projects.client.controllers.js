@@ -92,9 +92,11 @@ angular.module('projects').controller('listOfProjectsCtrl', ['$scope', '$rootSco
 			}
 			project.teamMembers = tmp;
 			project.$save(function(response){
-				$timeout(function(){
-					$state.go('dashBoard.loadProjects');
-				});
+					console.log(response);
+					if(response.forbidden != 'true')
+						$state.go('dashBoard.loadProjects');
+					else
+						$scope.error = "Title already exists";
 			}, function(errorResponse){
 				$scope.error = errorResponse.data.message;
 			});

@@ -6,7 +6,7 @@ var projectSchema = new Schema({
   title: {
     type: String,
     required: 'Title cannot be blank.',
-	  unique: true,
+	  unique: 'Title already exists.',
     trim: true
   },
   teamMembers: [{
