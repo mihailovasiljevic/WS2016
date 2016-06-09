@@ -65,6 +65,10 @@ angular.module('main').config(['$urlRouterProvider','$stateProvider',
           url: 'userId/:userId/tasks',
           templateUrl: 'tasks/views/userTasks.html'
        })
+       .state('dashBoard.addUserTask',{
+          url: 'userId/:userId/addTask',
+          templateUrl: 'tasks/views/addTask.html'
+       })
        .state('dashBoard.userTask',{
           url: 'userId/:userId/tasks/:id',
           templateUrl: 'tasks/views/taskDetails.html'

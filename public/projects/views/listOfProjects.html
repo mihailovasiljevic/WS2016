@@ -38,7 +38,8 @@ Priority:<br>
 		<td ng-bind="project.title"></td>
 		<td style="display:inline-block;"><p ng-repeat="member in project.teamMembers"> <span ng-bind="member.fullName"></span></p></td>
 		<td>&nbsp;</td>
-		<td><button ng-click="reports(project._id);" id="reports-project">Reports</button></td>
+		<td ng-show="authentication.isAdmin"><button ng-click="reports(project._id);" id="reports-project">Reports</button></td>
+    <td ng-show="!authentication.isAdmin">&nbsp;</td>
 		<td><button ng-click="listTasks(project._id);" id="list-tasks-project">Tasks</button></td>
 		<td><button ng-click="editProject(project._id);" id="edit-project">Edit project</button></td>		
 	</tr>

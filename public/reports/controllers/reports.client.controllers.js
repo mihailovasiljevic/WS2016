@@ -54,7 +54,7 @@ angular.module('reports').controller('reportCtrl', ['$scope', '$rootScope', '$lo
 				$scope.user = Authentication.user;
 	    		var res=Report3.get({report3Id:$stateParams.projectId}, function(response){
     				loadReport(res);
-    			})
+    			});
     		}
 
     		if($state.current.name.includes("report4"))

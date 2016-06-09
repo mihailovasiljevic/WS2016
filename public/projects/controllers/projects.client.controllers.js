@@ -1,6 +1,8 @@
 angular.module('projects').controller('listOfProjectsCtrl', ['$scope', '$rootScope', '$location','Projects','Users','$stateParams','$state','$timeout','Authentication',
     function($scope,$rootScope,$location,Projects,Users,$stateParams,$state,$timeout,Authentication) {
 		
+     	$scope.authentication = Authentication;
+		  
 		$scope.dialogShown = false;
 		$scope.show = function(){
 			$scope.dialogShown = true;
@@ -48,20 +50,24 @@ angular.module('projects').controller('listOfProjectsCtrl', ['$scope', '$rootSco
 							
 				
 						}
+						
+						var listClone = [];
+						
+						
 						if(!Authentication.isAdmin){
 								for(var i = 0; i <$scope.listProjects.length; i++){
-									var found = false;
 									for(var j = 0; j < $scope.listProjects[i].teamMembers.length; j++){
 										if(Authentication.user._id ==  $scope.listProjects[i].teamMembers[j]._id){
-											found = true;
+											listClone.push($scope.listProjects[i]);
 											break;
 										}
-									}
-									if(!found){
-										$scope.listProjects.splice(i,1);
-									}
+									}	
 								}
-						}					
+						}	
+						if(listClone.length > 0){
+							$scope.listProjects = [];
+							$scope.listProjects	= listClone;		
+						}
 			});		
 		}
 		loadEntries();

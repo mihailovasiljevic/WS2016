@@ -28,6 +28,7 @@ Priority:<br>
 
 <table id="t01" align="center" width="75%;">
   <tr>
+    <th>Index</th>  
     <th>Mark</th>  
     <th>Status</th>
     <th>Priority</th>
@@ -35,7 +36,7 @@ Priority:<br>
     <th>Author</th>
     <th>Assigned For</th>
     <th>Last Change</th>
-    <th><input type="button" value="Add Task" ng-click="showAddTaskForm()" id="add-task"></th>   
+    <th><input type="button" value="Add Task" ng-click="showAddUserTaskForm()" id="add-task"></th>   
   </tr>
   <tr ng-repeat="element in listOfTasks">
     <td style="width:4%;">{{$index+1}}&nbsp;</td>

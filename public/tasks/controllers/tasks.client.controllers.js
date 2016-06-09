@@ -185,7 +185,13 @@ angular.module('tasks').controller('listOfTasksCtrl', ['$scope', '$rootScope', '
 			$state.go('dashBoard.addTask');
 			else $state.go('dashBoard.addTask',{projectId:$stateParams.projectId});
 		}
-
+		$scope.showAddUserTaskForm = function()
+		{
+			//$location.path('/dashBoard/addTask');
+			if(!$stateParams.projectId)
+				$state.go('dashBoard.addUserTask',{userId:$stateParams.userId});
+			else $state.go('dashBoard.addTask',{projectId:$stateParams.projectId});
+		}
 		$scope.selectedIndex = -1;
 		$scope.tleave = function(index) {
 			$scope.selectedIndex = -1;
@@ -231,15 +237,15 @@ angular.module('tasks').controller('taskModel', ['$scope', '$rootScope', '$locat
 				task.id = response._id;
 				task.mark = response.currentState.mark;
 				task.title = response.currentState.title;
-				task.name = response.currentState.firstName;
-				task.surname = response.currentState.lastName;
+				task.name = response.currentState.author.firstName;
+				task.surname = response.currentState.author.lastName;
 				task.createdAt = createdAt;
 				task.updatedAt = updatedAt;
 				task.status = response.currentState.status;
 				task.priority = response.currentState.priority;
 				task.assignedFor = assignedFor;
 				task.description = response.currentState.description;
-
+				task.author = response.currentState.author.fullName;
 				$scope.task = task;
 		});
 
@@ -276,8 +282,8 @@ angular.module('tasks').controller('taskModel', ['$scope', '$rootScope', '$locat
 
 }]);
 
-angular.module('tasks').controller('addTaskCtrl', ['$scope', '$rootScope', '$location','Projects','$http','Tasks','$stateParams','$state',
-    function($scope,$rootScope,$location,Projects,$http,Tasks,$stateParams,$state) {
+angular.module('tasks').controller('addTaskCtrl', ['$scope', '$rootScope', '$location','Projects','$http','Tasks','$stateParams','$state','Authentication',
+    function($scope,$rootScope,$location,Projects,$http,Tasks,$stateParams,$state,Authentication) {
 		
 
 
@@ -295,10 +301,30 @@ var loadEntries = function () {
 			$scope.project = new Projects();
 			//$scope.projects = Projects.query();	
 			if(!$stateParams.projectId){
+				
 			var prjs = Projects.query(
 
 				function(response) {
 					console.log('duzina prjs je: '+prjs.length)
+					
+					var listClone = [];
+					
+
+					for(var i = 0; i <response.length; i++){
+						for(var j = 0; j < response[i].teamMembers.length; j++){
+							if(Authentication.user._id ==  response[i].teamMembers[j]._id){
+								listClone.push(response[i]);
+								break;
+							}
+						}	
+					}
+	
+					if(listClone.length > 0){
+						response= [];
+						response	= listClone;		
+						$scope.projects = listClone;
+					}
+					
 					if(response.length>0){
 					$scope.teamMembers = response[0].teamMembers;
 					$scope.task.currentState.project._id = response[0]._id;
@@ -306,6 +332,7 @@ var loadEntries = function () {
 					$scope.task.currentState.assignedFor._id=response[0].teamMembers[0]._id;
 					}
 				}
+				
     			/*for(var i=0; i<prjs.length;i++)
     			{
     				
@@ -418,6 +445,8 @@ var task = new Tasks({
 				$state.go('dashBoard.task',{'projectId':$stateParams.projectId, 'id':$scope.task._id});
 			else
 				$state.go('dashBoard.userTask',{'userId':$stateParams.userId, 'id':$scope.task._id});
+		}, function(errorResponse){
+				$scope.error = errorResponse.data.message;
 		});
 	}
 	
@@ -428,6 +457,8 @@ var task = new Tasks({
 				$state.go('dashBoard.task',{'projectId':$stateParams.projectId, 'id':$scope.task._id});
 			else
 				$state.go('dashBoard.userTask',{'userId':$stateParams.userId, 'id':$scope.task._id});
+		}, function(errorResponse){
+				$scope.error = errorResponse.data.message;
 		})
 	}
 
