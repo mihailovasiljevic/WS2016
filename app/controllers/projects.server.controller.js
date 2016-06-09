@@ -209,27 +209,55 @@ function excludeUsers(project, teamMembersForExclusion,res, callback){
                 }
               }
             }
-            
-            User.findByIdAndUpdate(user.id, user, function(err, user){
-              if(err){
-                  return res.status(400).send({
-                    message: errorHandler.getErrorMessage(err)
-                  }); 
-              }else{
-                  if(usersIds.length == 0)
-                    callback();
-                  else{
-                    excludeUsers();
-                  }
-              }
-            }); 
+
+            updateTasks(user, tasks, res, function(){
+                  User.findByIdAndUpdate(user.id, user, function(err, user){
+                    if(err){
+                        return res.status(400).send({
+                          message: errorHandler.getErrorMessage(err)
+                        }); 
+                    }else{
+                        if(usersIds.length == 0)
+                          callback();
+                        else{
+                          excludeUsers();
+                        }
+                    }
+                  });               
+            });
 
           });  
           
         });       
     })();
 }
-
+function updateTasks(user, tasksForUpdate,res, callback){
+  var usersIds = tasksForUpdate.slice(0);//clone collection;
+  (function updateTasks(){
+         var item = usersIds.splice(0,1)[0];
+         Task.findById(item)
+        .exec(function(err, task){
+          if (err) return next(err);
+          task.history.push(task.currentState);
+          task.currentState.assignedFor = undefined;
+          delete task['currentState.assignedFor'];
+          
+            Task.findByIdAndUpdate(task.id, task, function(err, task){
+              if(err){
+                  return res.status(400).send({
+                    message: errorHandler.getErrorMessage(err)
+                  }); 
+              }else{
+                 if(usersIds.length == 0)
+                   callback();
+                else
+                  updateTasks();               
+              }
+            }); 
+          
+        });       
+    })();
+}
 function addUsers(project, teamMembersForAddition,res, callback){
   var usersIds = teamMembersForAddition.slice(0);//clone collection;
   (function addUsers(){
