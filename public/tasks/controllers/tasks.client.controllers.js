@@ -59,6 +59,13 @@ angular.module('tasks').controller('listOfTasksCtrl', ['$scope', '$rootScope', '
 						if(response.currentState.assignedFor!=undefined)
 						var assignedFor = response.currentState.assignedFor.fullName;
 						else assignedFor="--";
+						if(response.currentState.updatedAt != undefined) {
+							var date = new Date(response.currentState.updatedAt);
+							var updatedAt = (date.getMonth() + 1).toString() + "/" + date.getDate().toString() + "/" + date.getFullYear().toString()
+								+ "  " + date.getHours().toString() + ":" + date.getMinutes().toString();
+						} else {
+							updatedAt = "";
+						}
 						var task = {
 							"id": response._id,
 							"mark": response.currentState.mark,
@@ -67,7 +74,7 @@ angular.module('tasks').controller('listOfTasksCtrl', ['$scope', '$rootScope', '
 							"assignedFor": assignedFor,
 							"status":response.currentState.status,
 							"priority": response.currentState.priority,
-							"updatedAt": "23-04-2016"
+							"updatedAt": updatedAt
 						}
 						return task;
 
@@ -224,10 +231,12 @@ angular.module('tasks').controller('taskModel', ['$scope', '$rootScope', '$locat
 				else assignedFor="";
 
 				var date = new Date(response.currentState.createdAt);
-				var createdAt = (date.getMonth() + 1).toString() + "/" + date.getDate().toString() + "/" + date.getFullYear().toString();
+				var createdAt = (date.getMonth() + 1).toString() + "/" + date.getDate().toString() + "/" + date.getFullYear().toString()
+					+ "  " + date.getHours().toString() + ":" + date.getMinutes().toString();
 				if(response.currentState.updatedAt != undefined) {
 					var date = new Date(response.currentState.updatedAt);
-					var updatedAt = (date.getMonth() + 1).toString() + "/" + date.getDate().toString() + "/" + date.getFullYear().toString();
+					var updatedAt = (date.getMonth() + 1).toString() + "/" + date.getDate().toString() + "/" + date.getFullYear().toString()
+						+ "  " + date.getHours().toString() + ":" + date.getMinutes().toString();
 					$scope.lastUpdate = true;
 				} else {
 					$scope.lastUpdate = false;
