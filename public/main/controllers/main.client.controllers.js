@@ -40,21 +40,29 @@ angular.module('main').controller('myCtrl', ['$scope', '$rootScope', '$location'
       };
       
       $scope.showUserTasks = function(){
-        var projects = document.getElementsByClassName('active')[0];
-        var tasks =  document.getElementsByClassName('active')[0].parentNode.parentNode.children[1].children[0];
-        tasks.setAttribute('class', 'active');
-        projects.setAttribute('class', '');
+        if(document.getElementsByClassName('active')[0].text != 'Tasks'){
+          var projects = document.getElementsByClassName('active')[0];
+          var tasks =  document.getElementsByClassName('active')[0].parentNode.parentNode.children[1].children[0];
+          tasks.setAttribute('class', 'active');
+          projects.setAttribute('class', '');
 
-        $state.go('dashBoard.userTasks', { 'userId': $scope.authentication.user._id});
+          $state.go('dashBoard.userTasks', { 'userId': $scope.authentication.user._id});
+        }else{
+          $state.go('dashBoard.userTasks', { 'userId': $scope.authentication.user._id});
+        }
       }
       
       $scope.showProjects = function(){
-        var tasks = document.getElementsByClassName('active')[0];
-        var projects =  document.getElementsByClassName('active')[0].parentNode.parentNode.children[0].children[0];
-        projects.setAttribute('class', 'active');
-        tasks.setAttribute('class', '');
+        if(document.getElementsByClassName('active')[0].text != 'Projects'){
+          var tasks = document.getElementsByClassName('active')[0];
+          var projects =  document.getElementsByClassName('active')[0].parentNode.parentNode.children[0].children[0];
+          projects.setAttribute('class', 'active');
+          tasks.setAttribute('class', '');
 
-        $state.go('dashBoard.loadProjects');
+          $state.go('dashBoard.loadProjects');
+        }else {
+          $state.go('dashBoard.loadProjects');
+        }
       }      
       
       $scope.showReports = function(){
