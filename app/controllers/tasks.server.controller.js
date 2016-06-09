@@ -126,7 +126,11 @@ exports.update = function(req, res, next){
            console.log(req.body.currentState.assignedFor);
            console.log(task.currentState.assignedFor);
            console.log(req.body.currentState.assignedFor != task.currentState.assignedFor);
-          if(req.body.currentState.assignedFor != task.currentState.assignedFor){
+           var requestAssigned;
+           if(req.body.currentState.assignedFor)
+            requestAssigned = req.body.currentState.assignedFor._id;
+          else requestAssigned = undefined;
+          if(requestAssigned != task.currentState.assignedFor){
             //task doesn't have to be assigned to a user
             if(task.currentState.assignedFor)
             User.findById(task.currentState.assignedFor)
@@ -194,6 +198,9 @@ exports.update = function(req, res, next){
 
             }       
           } 
+          else {
+            res.json(task);
+          }
          
     }
   });

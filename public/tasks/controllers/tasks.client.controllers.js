@@ -505,7 +505,9 @@ angular.module('tasks').controller('showHistory', ['$scope', '$rootScope', '$loc
 
     		var histories = [];
     		for(var i = 0; i < response.history.length; i++) {
+    			if(response.history[i].assignedFor)
 				var assignedFor = response.history[i].assignedFor.firstName + " " + response.history[i].assignedFor.lastName;
+				else var assignedFor = "--";
 				var date = new Date(response.history[i].createdAt);
 				var createdAt = (date.getMonth() + 1).toString() + "/" + date.getDate().toString() + "/" + date.getFullYear().toString();
 				if(response.history[i].updatedAt != undefined) {
