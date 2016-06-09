@@ -23,6 +23,7 @@ angular.module('users').factory('Authentication', ['$rootScope', '$http', '$loca
       this.loginError = 0;
       this.usernameError = null;
       this.passwordError = null;
+      this.error = null;
       $http.get('/api/users/me').success(this.onIdentity.bind(this));
       self = this;   
     }
@@ -53,7 +54,13 @@ angular.module('users').factory('Authentication', ['$rootScope', '$http', '$loca
           this.usernameError = null;
           this.passwordError = null;
           $cookieStore.put("user", this.user);      
-        }else {
+        } else if (response.message == 'Failure'){
+          this.loggedin = false;
+          
+          this.loginError++;
+          this.error = response.message.error    
+        }
+        else {
           
           this.loggedin = false;
           
@@ -86,7 +93,7 @@ angular.module('users').factory('Authentication', ['$rootScope', '$http', '$loca
     }
      else
         var User = new UserClass();
-    UserClass.prototype.login = function(user, callback){
+    UserClass.prototype.login = function(user){
       var destination = $location.path().indexOf('/login') === -1 ? $location.absUrl() : false;
       $http.post('/api/login', {
         username: user.username,

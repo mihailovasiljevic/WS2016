@@ -42,11 +42,20 @@ angular.module('main').controller('myCtrl', ['$scope', '$rootScope', '$location'
       $scope.showUserTasks = function(){
         var projects = document.getElementsByClassName('active')[0];
         var tasks =  document.getElementsByClassName('active')[0].parentNode.parentNode.children[1].children[0];
-        tasks.style.className="active";
-        projects.style.className="active";
+        tasks.setAttribute('class', 'active');
+        projects.setAttribute('class', '');
 
         $state.go('dashBoard.userTasks', { 'userId': $scope.authentication.user._id});
       }
+      
+      $scope.showProjects = function(){
+        var tasks = document.getElementsByClassName('active')[0];
+        var projects =  document.getElementsByClassName('active')[0].parentNode.parentNode.children[0].children[0];
+        projects.setAttribute('class', 'active');
+        tasks.setAttribute('class', '');
+
+        $state.go('dashBoard.loadProjects');
+      }      
       
       $scope.showReports = function(){
         $state.go('dashBoard.chooseReport', { 'projectId': '5754729cbfdbf0fc2d618125'});

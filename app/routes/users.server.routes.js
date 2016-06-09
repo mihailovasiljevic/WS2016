@@ -36,7 +36,7 @@ app.post('/api/login',function(req, res, next) {
     // ***********************************************************************
     req.login(user, loginErr => {
       if (loginErr) {
-        return next(loginErr);
+        return res.send({ message : 'Failure', error : loginErr });;
       }
       return res.send({ message : 'Success', user : req.user });
     });      

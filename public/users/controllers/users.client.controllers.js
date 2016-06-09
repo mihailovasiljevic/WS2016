@@ -47,15 +47,15 @@ angular.module('users')
         this.user.username = $scope.username;
         this.user.password = $scope.password;
         
-        Authentication.login(this.user)
-                
-        $scope.loginError = "";        
-        if(loginError.usernameError != null){
-           $scope.loginError+=loginError.usernameError;
-        }else if(loginError.passwordError != null){
-           $scope.loginError+=loginError.passwordError;
-        }
+        Authentication.login(this.user);
+          (function(){
+           $scope.loginError = Authentication.error;   
+            if($scope.loginError != null) 
+              alert($scope.loginError);           
+        })();
       };
+
+      
         
 }])
 
