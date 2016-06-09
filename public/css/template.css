@@ -72,9 +72,9 @@ div#menu-wrapper{
 }
 div#content-wrapper{
     background-color: #070723;
-    position: absolute;
+    position: relative;
     top:0px;
-    left:640px;
+    left:240px;
     vertical-align: middle;   
     width: 720px;       
     height: 100%;    
