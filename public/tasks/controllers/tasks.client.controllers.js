@@ -112,6 +112,7 @@ angular.module('tasks').controller('listOfTasksCtrl', ['$scope', '$rootScope', '
 				$state.go('dashBoard.task', { 'projectId': $stateParams.projectId,'id':id});
 			else
 				$state.go('dashBoard.userTask', { 'userId': $stateParams.userId,'id':id});
+
 		};
 		
 		$scope.initCheckboxs = function() 
@@ -182,6 +183,7 @@ angular.module('tasks').controller('listOfTasksCtrl', ['$scope', '$rootScope', '
 		//	$location.path('/dashBoard/task/'+id);
 			$state.go('dashBoard.task',{taskId:id});
 			document.body.style.cursor = "auto";
+			alert('pregled');
 		}
 
 		
