@@ -7,7 +7,7 @@ var UserSchema = new Schema({ //defining UserScehma object using Schema construc
     username: {
         type: String,
         required: 'Username is required!',
-        unique: true,
+        unique: 'Username is already taken.',
         trim: true
     },
     password: {
@@ -34,7 +34,7 @@ var UserSchema = new Schema({ //defining UserScehma object using Schema construc
     email: {
         type: String,
         required: true,
-        unique: true,
+        unique: 'Email is already taken.',
         //this regex is made to validate email addresses by RFC2822 guidlines
         match: [/^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/, 'Please enter a valid email']
     },
