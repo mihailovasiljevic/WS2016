@@ -1,7 +1,9 @@
 var mongoose = require('mongoose'),
     Project = mongoose.model('Project'),
-    User = mongoose.model('User'), // use mongoose to call module method to get project model
-    errorHandler = require('../controllers/index.server.controller');
+    User = mongoose.model('User'),
+    Task = mongoose.model('Task'), // use mongoose to call module method to get project model
+    errorHandler = require('../controllers/index.server.controller'),
+    ObjectId = require('mongoose').Types.ObjectId; 
 
 exports.create = function(req, res, next){
   
@@ -113,8 +115,6 @@ var testEqual = function(lst1, lst2){
   for(var i = 0; i < lst1.length; i++){
     var found = false;
     for(var j = 0; j < lst2.length; j++){
-      console.log("projectTeamMembers: " + JSON.stringify(lst1[i]._id));
-      console.log("reqTeamMembers: " + JSON.stringify(lst2[j]._id));
       if(lst1[i]._id == lst2[j]._id){
         found = true;
         break;
@@ -134,71 +134,100 @@ var processTeammembers = function(projectTeamMembers, reqTeamMembers, teamMember
   for(var i = 0; i < projectTeamMembers.length; i++){
     var newIsOld = false;
     for(var j = 0; j < reqTeamMembers.length; j++){
-      
-      if(projectTeamMembers[i]._id == reqTeamMembers[j]._id){
+      console.log("====================");
+      console.log("Comparing: "+projectTeamMembers[i]._id + " and: " + reqTeamMembers[j]._id);
+      console.log("Result is:  "+ (JSON.stringify(projectTeamMembers[i]._id) == JSON.stringify(reqTeamMembers[j]._id)));
+      console.log("====================");
+      if(JSON.stringify(projectTeamMembers[i]._id) == JSON.stringify(reqTeamMembers[j]._id)){
         newIsOld = true;
         break;
       }
     }
-    if(!newIsOld)
+    if(!newIsOld){
       teamMembersForExclusion.push(projectTeamMembers[i]._id);
+    }
   }
   
   for(var i = 0; i < reqTeamMembers.length; i++){
     var oldIsNew = false;
     for(var j = 0; j < projectTeamMembers.length; j++){
-      if(reqTeamMembers[i]._id == projectTeamMembers[j]._id){
+      console.log("====================");
+      console.log("Comparing: "+projectTeamMembers[j]._id + " and: " + reqTeamMembers[i]._id);
+      console.log("Result is:  "+ (projectTeamMembers[j]._id == reqTeamMembers[i]._id));
+      console.log("====================");
+      if(JSON.stringify(reqTeamMembers[i]._id) == JSON.stringify(projectTeamMembers[j]._id)){
         oldIsNew = true;
         break;
       }
     }
     if(!oldIsNew){
-      console.log("id: "+reqTeamMembers[i]._id);
       teamMembersForAddition.push(reqTeamMembers[i]._id);
     }
   }
+ 
   
 };
+function excludeUsers(project, teamMembersForExclusion,res, callback){
 
-function excludeUsers(project, collectionn,res, callback){
-  if(collectionn == undefined)
-    return callback;
-  var usersIds = collectionn.slice(0);//clone collection;
-  (function updateUsers(){
+  var usersIds = teamMembersForExclusion.slice(0);//clone collection;
+  
+  (function excludeUsers(){
          var item = usersIds.splice(0,1)[0];
          User.findById(item)
         .exec(function(err, user){
           if (err) return next(err);
-      
+          console.log("projectId " + project._id);
           var index = user.projects.indexOf(project._id);
           console.log("index "+index);
           user.projects.splice(index,1);
-          
-          User.findByIdAndUpdate(user.id, user, function(err, user){
-            if(err){
-                return res.status(400).send({
-                  message: errorHandler.getErrorMessage(err)
-                }); 
-            }else{
-                if(usersIds.length == 0)
-                  callback();
-                else{
-                    if(collectionn == undefined)
-                      callback();
-                  excludeUsers();
+          console.log("project_id: " + user._id );
+          console.log("ObjectId(project._id): " + ObjectId(user._id) );
+          Task
+          .find({ 'currentState.assignedFor': ObjectId(user._id)})
+          .exec(function(err, tasks){
+            console.log("TASKS: " + tasks.length);
+            if(err || !tasks) return next(err);
+            
+            if(tasks.length != 0){
+              for(var i = 0; i < tasks.length; i++){
+                for(var j = 0; j < user.tasks.length; j++){
+                  console.log("====== EXCLUDING FROM TASK =========");
+                  console.log("user.tasks[j]: " + user.tasks[j]);
+                  console.log("user.tasks[j]._id "+ user.tasks[j]._id);
+                  console.log("Comparing: "+tasks[i]._id + " and: " + user.tasks[j]);
+                  console.log("Result is:  "+ (JSON.stringify(tasks[i]._id) == JSON.stringify(user.tasks[j])));
+                  console.log("====================");
+                  if(JSON.stringify(tasks[i]._id) == JSON.stringify(user.tasks[j])){
+                    user.tasks.splice(j,1);
+                    break;
+                  }
                 }
+              }
             }
-          });   
+            
+            User.findByIdAndUpdate(user.id, user, function(err, user){
+              if(err){
+                  return res.status(400).send({
+                    message: errorHandler.getErrorMessage(err)
+                  }); 
+              }else{
+                  if(usersIds.length == 0)
+                    callback();
+                  else{
+                    excludeUsers();
+                  }
+              }
+            }); 
+
+          });  
           
         });       
     })();
 }
 
-function addUsers(project, collection,res, callback){
-  if(collectionn == undefined)
-    return callback;
-  var usersIds = collection.slice(0);//clone collection;
-  (function updateUsers(){
+function addUsers(project, teamMembersForAddition,res, callback){
+  var usersIds = teamMembersForAddition.slice(0);//clone collection;
+  (function addUsers(){
          var item = usersIds.splice(0,1)[0];
          User.findById(item)
         .exec(function(err, user){
@@ -232,7 +261,7 @@ exports.update = function(req, res, next){
 //    console.log(req.project.teamMembers[i]._id)
  // }
   reqTeamMembers.push(req.user);
-
+  console.log("REQ.USER: "+req.user);
   Project.findById(req.project._id)
   .populate('creator')
   .populate('teamMembers')
@@ -243,7 +272,14 @@ exports.update = function(req, res, next){
     
     var projectTeamMembers = project.teamMembers;
 
-
+    console.log("Project team members: " );
+    for(var i = 0; i < projectTeamMembers.length; i++){
+      console.log("id: " + projectTeamMembers[i]._id);
+    }
+    console.log("Req team members: ");   
+    for(var i = 0; i < reqTeamMembers.length; i++){
+      console.log("id: " + reqTeamMembers[i]._id);
+    }     
     var equal = testEqual(reqTeamMembers, projectTeamMembers);
     console.log("Collections testEqual(): " + equal);
     
@@ -258,6 +294,7 @@ exports.update = function(req, res, next){
       var teamMembersForExclusion = [];
       var teamMembersForAddition = [];
       processTeammembers(projectTeamMembers, reqTeamMembers, teamMembersForExclusion, teamMembersForAddition);
+      
       console.log("For exclusion: " + JSON.stringify(teamMembersForExclusion));
       console.log("For addition: " + JSON.stringify(teamMembersForAddition));
       
@@ -269,6 +306,7 @@ exports.update = function(req, res, next){
         }else{
           console.log("For exclusion: " + JSON.stringify(teamMembersForExclusion));
           console.log("For addition: " + JSON.stringify(teamMembersForAddition));
+          
           if(teamMembersForExclusion.length > 0){
             excludeUsers(project,teamMembersForExclusion,res, function(){
               if(teamMembersForAddition.length > 0){

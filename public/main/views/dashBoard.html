@@ -17,7 +17,6 @@
 			<ul>
 				<li><a class="active" href="#">Projects</a></li>
 				<li><a ng-click="showUserTasks();">Tasks</a></li>
-				<li><a ng-click="showReports();">Reports</a></li>
 			</ul>
 		</div>
 		
@@ -25,8 +24,8 @@
 
 	
 	<div id="content-wrapper" ng-show="authentication.loggedin" >
-		
-		<section ng-controller="listOfProjectsCtrl as prctrl" ng-init="prctrl.listProjects()">
+
+		<section ng-controller="listOfProjectsCtrl as prctrl">
 				<div id="projects-wrapper" ui-view>
 	<br><hr><br>
 <div align="center">
@@ -61,7 +60,8 @@ Priority:<br>
 		<th>&nbsp;</th>	
 		<th>&nbsp;</th>		
 		<th>Tasks</th>
-		<th><button ng-click="addProject();" id="add-project">add project</button></th>
+		<th ng-show="authentication.isAdmin"><button ng-click="addProject();" id="add-project">add project</button></th>
+		<th ng-show="!authentication.isAdmin">&nbsp;</th>
 	</tr>	 
 	<tr ng-repeat="project in listProjects">
 		<td ng-bind="project.title"></td>
@@ -77,7 +77,6 @@ Priority:<br>
 									
 				
 			</section>			
-		
 	</div>
 
 </section>

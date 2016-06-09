@@ -15,37 +15,54 @@ angular.module('projects').controller('listOfProjectsCtrl', ['$scope', '$rootSco
 			$state.go('dashBoard.addProject');	
 		};
 		var loadEntries = function () {
-			$scope.listProjects = Projects.query();	
-			$scope.listProject = new Projects();
+			$scope.listProjects = Projects.query(function(){
+				$scope.listProject = new Projects();
+						console.log("NIJE USAO");
 
-			$scope.ubaci= function(member,project){
+						$scope.ubaci= function(member,project){
+							console.log("USAO");
+							var oznaka=false;
 
-				var oznaka=false;
-
-				var korisnici = Projects.get({projectId:project},function(response) {
-					$scope.teamMembers = korisnici.teamMembers;
-
-
-				$scope.listProject.teamMembers=[];
+							var korisnici = Projects.get({projectId:project},function(response) {
+								$scope.teamMembers = korisnici.teamMembers;
 
 
-				for(var i=0;i<$scope.teamMembers.length;i++){
-					$scope.listProject.teamMembers.push($scope.teamMembers[i]);
-					if($scope.teamMembers[i]._id==member){
-						 oznaka=true;
-					}
-					
-				}
-			
-				if (oznaka==false) {
-					$scope.listProject.teamMembers.push(member);
+							$scope.listProject.teamMembers=[];
 
-				}
 
-				});
-	
-			}
-			
+							for(var i=0;i<$scope.teamMembers.length;i++){
+								$scope.listProject.teamMembers.push($scope.teamMembers[i]);
+								if($scope.teamMembers[i]._id==member){
+									oznaka=true;
+								}
+								
+							}
+						
+							if (oznaka==false) {
+								$scope.listProject.teamMembers.push(member);
+
+							}
+										
+							
+							});
+							
+				
+						}
+						if(!Authentication.isAdmin){
+								for(var i = 0; i <$scope.listProjects.length; i++){
+									var found = false;
+									for(var j = 0; j < $scope.listProjects[i].teamMembers.length; j++){
+										if(Authentication.user._id ==  $scope.listProjects[i].teamMembers[j]._id){
+											found = true;
+											break;
+										}
+									}
+									if(!found){
+										$scope.listProjects.splice(i,1);
+									}
+								}
+						}					
+			});		
 		}
 		loadEntries();
 		
