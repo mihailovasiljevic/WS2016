@@ -420,9 +420,11 @@ var loadForEdit = function () {
 		}
 
 if($stateParams.id===undefined){
+$scope.addOrChange = "Add task";
 loadEntries();
 }
 else{
+	$scope.addOrChange = "Change task";
 	loadForEdit();
 }
 

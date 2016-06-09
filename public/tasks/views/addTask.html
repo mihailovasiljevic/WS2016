@@ -1,6 +1,7 @@
 <div ng-controller="addTaskCtrl">
 	<div id="addTaskForm">
-		<span class="title">Add task</span><br>
+
+		<span ng-model="addOrChange" class="title">{{addOrChange}}</span><br>
 		<span class="subtitle">One more step closer.</span>
     
 		<form data-ng-submit="create()" name="addTaskForm" novalidate>
