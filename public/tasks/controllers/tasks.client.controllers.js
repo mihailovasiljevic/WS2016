@@ -137,6 +137,11 @@ angular.module('tasks').controller('listOfTasksCtrl', ['$scope', '$rootScope', '
 
 			for(var i = 0; i < allTasks.length; i++) {
 				var ok = 0;
+
+				if(allTasks[i].assignedFor == undefined) {
+					allTasks[i].assignedFor = '--';
+				}
+
 				if(allTasks[i].status == 'To Do' && $scope.cToDo == true || allTasks[i].assignedFor == '--') {
 					ok = ok + 1;
 				}
@@ -183,7 +188,6 @@ angular.module('tasks').controller('listOfTasksCtrl', ['$scope', '$rootScope', '
 		//	$location.path('/dashBoard/task/'+id);
 			$state.go('dashBoard.task',{taskId:id});
 			document.body.style.cursor = "auto";
-			alert('pregled');
 		}
 
 		
