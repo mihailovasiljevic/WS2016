@@ -54,12 +54,12 @@ body{
     margin: 0 auto;
     z-index: 0;
 }
-div#myContainer{
+div#container{
     background-color: #070723;
     height: 100%;
     display: table-cell;   
     vertical-align: middle;   
-    width:960px;
+    width:1140px;
     z-index: 1;
 }
 div#menu-wrapper{ 
@@ -72,9 +72,9 @@ div#menu-wrapper{
 }
 div#content-wrapper{
     background-color: #070723;
-    position: relative;
+    position: absolute;
     top:0px;
-    left:240px;
+    left:640px;
     vertical-align: middle;   
     width: 720px;       
     height: 100%;    
