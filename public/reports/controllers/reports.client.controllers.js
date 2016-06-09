@@ -239,9 +239,16 @@ angular.module('reports').controller('reportCntrl', ['$scope', '$rootScope', '$l
 			    	}
 					
 			        var data = google.visualization.arrayToDataTable(report);
-
+					
+					var reportTitel = "";
+					if(value == "Not assigned") {
+						reportTitel = "Tasks assigned to users";
+					} else if(value == "Unifinished") {
+						reportTitel = "Finished tasks";
+					}
+					
 			        var options = {
-			          title: 'Percentage of tasks assigned for users'
+			          title: reportTitel
 			        };
 
 			        var chart = new google.visualization.PieChart(document.getElementById('piechart'));
