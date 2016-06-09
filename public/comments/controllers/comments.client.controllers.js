@@ -58,7 +58,10 @@ angular.module('comments').controller('listOfComments', ['$scope', '$rootScope',
 						$scope.comments.splice(i,1);
     				}
     			}
-    		});
+    		}, function(errorResponse){
+				alert("Somebody probably already deleted that.");
+				console.log("Somebody probably already deleted that.");
+			});
     	}
 
 
@@ -91,7 +94,9 @@ angular.module('comments').controller('listOfComments', ['$scope', '$rootScope',
     				$state.go('dashBoard.task',{"projectId":$stateParams.projectId,"id":$stateParams.taskId});
 				else
 					$state.go('dashBoard.userTask',{"userId":$stateParams.userId,"id":$stateParams.taskId});
-    		});
+    		}, function(errorResponse){
+				alert("Somebody probably already deleted that.");
+			});
     	}
 
 }]);
