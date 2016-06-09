@@ -1,29 +1,5 @@
 <section ng-controller="listOfProjectsCtrl as prctrl" ng-init="prctrl.listProjects()">
-<br><hr><br>
-<div align="center">
-<div align="left" style="display:inline-block; width:150px;margin-left:-20px;">
-Status:<br>
-<input type="checkbox" ng-change="doFilter(cToDo)" ng-model="cToDo">To Do<br>
-<input type="checkbox" ng-change="doFilter(cInProgress)" ng-model="cInProgress">In Progress<br>
-<input type="checkbox" ng-change="doFilter(cVerify)" ng-model="cVerify">Verify<br>
-<input type="checkbox" ng-change="doFilter(cDone)" ng-model="cDone">Done<br>
-<br>
-</div>
-<div align="left" style="display:inline-block; width:150px; margin-left:-20px;">
-Priority:<br>
-<input type="checkbox" ng-change="doFilter(cBlocker)" ng-model="cBlocker">Blocker<br>
-<input type="checkbox" ng-change="doFilter(cCritical)" ng-model="cCritical">Criticalo<br>
-<input type="checkbox" ng-change="doFilter(cMajor)" ng-model="cMajor">Major<br>
-<input type="checkbox" ng-change="doFilter(cMinor)" ng-model="cMinor">Minor<br>
-<input type="checkbox" ng-change="doFilter(cTrivial)" ng-model="cTrivial">Trivial<br>
-</div>
-<!-- <select ng-options="item for item in statusies" ng-model="selected1" ng-change="selected_status(selected1)">
-<select ng-options="item for item in priorities" ng-model="selected2" ng-change="selected_status(selected2)"> -->
 
-</div>
-
-
-<br><hr><br>
 
  <table>
 	<tr> 
