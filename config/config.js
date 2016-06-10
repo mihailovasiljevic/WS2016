@@ -1,1 +1,0 @@
-module.exports = require('./env/'+process.env.NODE_ENV+'.js'); //loads /env/development.js by default
