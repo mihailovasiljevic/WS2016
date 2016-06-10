@@ -1,5 +1,5 @@
-angular.module('users').factory('Authentication', ['$rootScope', '$http', '$location', '$cookies', '$q', '$timeout', '$cookieStore','$log',
-  function($rootScope, $http, $location, $cookies, $q, $timeout, $cookieStore,$log){
+angular.module('users').factory('Authentication', ['$rootScope', '$http', '$location', '$cookies', '$q', '$timeout', '$cookieStore','$log','UserLogin',
+  function($rootScope, $http, $location, $cookies, $q, $timeout, $cookieStore,$log,UserLogin){
     var self;
     
     function escape(html) {
@@ -28,7 +28,7 @@ angular.module('users').factory('Authentication', ['$rootScope', '$http', '$loca
       self = this;   
     }
     
-    UserClass.prototype.onIdentity = function(response){
+    UserClass.prototype.onIdentity = function(response,callback){
       this.loginError = 0;
       this.loggedin = true;
       
@@ -58,7 +58,8 @@ angular.module('users').factory('Authentication', ['$rootScope', '$http', '$loca
           this.loggedin = false;
           
           this.loginError++;
-          this.error = response.message.error    
+          this.error = response.message.error;
+          callback(error);    
         }
         else {
           
@@ -72,6 +73,8 @@ angular.module('users').factory('Authentication', ['$rootScope', '$http', '$loca
             this.loginError++;
             this.passwordError = response.information.message;
           }
+          
+          callback(response.information.message); 
             
         }
       }
@@ -93,19 +96,39 @@ angular.module('users').factory('Authentication', ['$rootScope', '$http', '$loca
     }
      else
         var User = new UserClass();
-    UserClass.prototype.login = function(user){
+    UserClass.prototype.login = function(user, callback){
+      /*
       var destination = $location.path().indexOf('/login') === -1 ? $location.absUrl() : false;
       $http.post('/api/login', {
         username: user.username,
         password: user.password,
         redirect: destination
       })
-      .success(this.onIdentity.bind(this))
+      .success(
+        function(){
+          this.onIdentity.bind(this);
+          this.onIdentity(this, callback);
+          
+        }
+      )
       .error(this.onIdFail.bind(this));
       return {
           usernameError: this.usernameError,
           password: this.passwordError
       }
+      */
+
+      var login = new UserLogin({
+        username: user.username,
+        password: user.password,
+      })
+      
+      login.$save(function(response){
+        User.onIdentity(response, callback )
+      }, function(errorResponse){
+        this.onIdentity(errorResponse, callback )
+      });
+    
     };
     
     UserClass.prototype.logout = function(callback){
