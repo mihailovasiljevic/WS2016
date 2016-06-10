@@ -1,0 +1,55 @@
+{
+  "name": "ticketing-system",
+  "version": "1.0.0",
+  "description": "System for project menaging.",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/remixgit/WS2016.git"
+  },
+  "keywords": [
+    "to-do",
+    "project",
+    "menaging",
+    "project",
+    "task"
+  ],
+  "author": "Mihailo Vasiljevic, Nemanja Starcev, Rajko Ilic, Milos Savic",
+  "license": "GPL-2.0",
+  "bugs": {
+    "url": "https://github.com/remixgit/WS2016/issues"
+  },
+  "homepage": "https://github.com/remixgit/WS2016#readme",
+  "dependencies": {
+    "body-parser": "^1.15.1",
+    "compression": "^1.6.2",
+    "connect-flash": "^0.1.1",
+    "ejs": "^2.4.1",
+    "express": "^4.13.4",
+    "express-session": "^1.13.0",
+    "grunt-bower": "^0.21.2",
+    "grunt-contrib-clean": "^1.0.0",
+    "grunt-contrib-concat": "^1.0.1",
+    "grunt-contrib-copy": "^1.0.0",
+    "grunt-contrib-uglify": "^1.0.1",
+    "grunt-html2js": "^0.3.6",
+    "grunt-injector": "^1.0.1",
+    "grunt-ng-annotate": "^2.0.2",
+    "grunt-nodemon": "^0.4.2",
+    "grunt-wiredep": "^3.0.1",
+    "jsonwebtoken": "^7.0.0",
+    "lodash": "^4.12.0",
+    "method-override": "^2.3.5",
+    "mongoose": "^4.4.17",
+    "morgan": "^1.7.0",
+    "passport": "^0.3.2",
+    "passport-local": "^1.0.0"
+  },
+  "devDependencies": {
+    "grunt": "^1.0.1",
+    "grunt-contrib-jshint": "^1.0.0"
+  }
+}

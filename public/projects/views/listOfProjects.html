@@ -1,0 +1,22 @@
+<section ng-controller="listOfProjectsCtrl as prctrl" ng-init="prctrl.listProjects()">
+
+
+ <table>
+	<tr> 
+		<th>Title</th>	
+		<th>Team Members</th>
+		<th>&nbsp;</th>	
+		<th>&nbsp;</th>		
+		<th>Tasks</th>
+		<th><button ng-click="addProject();" id="add-project" ng-show="authentication.isAdmin">Add project</button><span ng-show="!authentication.isAdmin">&nbsp;</span></th>
+	</tr>	 
+	<tr ng-repeat="project in listProjects">
+		<td ng-bind="project.title"></td>
+		<td style="display:inline-block;"><p ng-repeat="member in project.teamMembers"> <span ng-bind="member.fullName"></span></p></td>
+		<td>&nbsp;</td>
+		<td><button ng-click="reports(project._id);" id="reports-project" ng-show="authentication.isAdmin">Reports</button><span ng-show="!authentication.isAdmin">&nbsp;</span></td>
+		<td><button ng-click="listTasks(project._id);" id="list-tasks-project">Tasks</button></td>
+		<td><button ng-click="editProject(project._id);" id="edit-project" ng-show="authentication.isAdmin">Edit project</button><span ng-show="!authentication.isAdmin">&nbsp;</span></td>		
+	</tr>
+ </table>
+ </section>

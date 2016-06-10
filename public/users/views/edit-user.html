@@ -1,0 +1,50 @@
+<section data-ng-controller="UsersController" data-ng-init="findOne()">
+    
+    <h1> Edit User </h1>
+    
+    <form data-ng-submit="update()" novalidate>
+        <div>
+            <label for="firstName">First name</label>
+            <div> 
+                <input type="text" data-ng-model="user.firstName" id="firstName" placeholder="First name">
+            </div> 
+        </div>
+        <div>
+            <label for="lastName">Last name</label>
+            <div> 
+                <input type="text" data-ng-model="user.lastName" id="lastName" placeholder="Last name">
+            </div> 
+        </div>
+        <div>
+            <label for="username">Username</label>
+            <div> 
+                <input type="text" data-ng-model="user.username" id="username" placeholder="Username" required>
+            </div> 
+        </div>       
+        <div>
+            <label for="password">Password</label>
+            <div> 
+                <input type="password" data-ng-model="user.password" id="password" required>
+            </div> 
+        </div>          
+        <div>
+            <label for="email">Email</label>
+            <div> 
+                <input type="email" data-ng-model="user.email" id="email" placeholder="Email" required>
+            </div> 
+        </div>        
+        <div>
+            <label for="role">Role</label>
+            <div> 
+                <input type="role" data-ng-model="user.role" id="role" placeholder="Role" required>
+            </div> 
+        </div>       
+        <div>
+            <input type="Submit">
+        </div>
+        <div data-ng-show="error">
+            <strong data-ng-bind="error"></strong>
+        </div>
+    </form>
+
+</section>
