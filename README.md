@@ -11,11 +11,11 @@ Installation:
       ``` 
       $ npm install 
       ```
-   - Install bower dependencies: 
+  - Install bower dependencies: 
       ``` 
       $ bower install 
       ```
-   - Start mongo-db ( in seperate console/ terminal and if not started ): 
+  - Start mongo-db ( in seperate console/ terminal and if not started ): 
       ```
       $ mongod  --dbpath $PATH_TO_YOUR_DB
       ``` 
