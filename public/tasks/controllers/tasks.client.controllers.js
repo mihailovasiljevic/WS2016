@@ -61,8 +61,18 @@ angular.module('tasks').controller('listOfTasksCtrl', ['$scope', '$rootScope', '
 						else assignedFor="--";
 						if(response.currentState.updatedAt != undefined) {
 							var date = new Date(response.currentState.updatedAt);
+							if(date.getHours() <= 9) {
+								var hours = "0" + date.getHours().toString();
+							} else {
+								var hours = date.getHours().toString();
+							}
+							if(date.getMinutes() <= 9) {
+								var minutes = "0" + date.getMinutes().toString();
+							} else {
+								var minutes = date.getMinutes().toString();
+							}
 							var updatedAt = (date.getMonth() + 1).toString() + "/" + date.getDate().toString() + "/" + date.getFullYear().toString()
-								+ "  " + date.getHours().toString() + ":" + date.getMinutes().toString();
+								+ "  " +  hours + ":" + minutes;
 						} else {
 							updatedAt = "";
 						}
@@ -237,12 +247,32 @@ angular.module('tasks').controller('taskModel', ['$scope', '$rootScope', '$locat
 				else assignedFor="";
 
 				var date = new Date(response.currentState.createdAt);
+				if(date.getHours() <= 9) {
+					var hours = "0" + date.getHours().toString();
+				} else {
+					var hours = date.getHours().toString();
+				}
+				if(date.getMinutes() <= 9) {
+					var minutes = "0" + date.getMinutes().toString();
+				} else {
+					var minutes = date.getMinutes().toString();
+				}
 				var createdAt = (date.getMonth() + 1).toString() + "/" + date.getDate().toString() + "/" + date.getFullYear().toString()
-					+ "  " + date.getHours().toString() + ":" + date.getMinutes().toString();
+					+ "  " + hours + ":" + minutes;
 				if(response.currentState.updatedAt != undefined) {
 					var date = new Date(response.currentState.updatedAt);
+					if(date.getHours() <= 9) {
+						var hours = "0" + date.getHours().toString();
+					} else {
+						var hours = date.getHours().toString();
+					}
+					if(date.getMinutes() <= 9) {
+						var minutes = "0" + date.getMinutes().toString();
+					} else {
+						var minutes = date.getMinutes().toString();
+					}
 					var updatedAt = (date.getMonth() + 1).toString() + "/" + date.getDate().toString() + "/" + date.getFullYear().toString()
-						+ "  " + date.getHours().toString() + ":" + date.getMinutes().toString();
+						+ "  " + hours + ":" + minutes;
 					$scope.lastUpdate = true;
 				} else {
 					$scope.lastUpdate = false;
@@ -509,11 +539,32 @@ angular.module('tasks').controller('showHistory', ['$scope', '$rootScope', '$loc
 				var assignedFor = response.history[i].assignedFor.firstName + " " + response.history[i].assignedFor.lastName;
 				else var assignedFor = "--";
 				var date = new Date(response.history[i].createdAt);
-				var createdAt = (date.getMonth() + 1).toString() + "/" + date.getDate().toString() + "/" + date.getFullYear().toString();
+				if(date.getHours() <= 9) {
+					var hours = "0" + date.getHours().toString();
+				} else {
+					var hours = date.getHours().toString();
+				}
+				if(date.getMinutes() <= 9) {
+					var minutes = "0" + date.getMinutes().toString();
+				} else {
+					var minutes = date.getMinutes().toString();
+				}
+				var createdAt = (date.getMonth() + 1).toString() + "/" + date.getDate().toString() + "/" + date.getFullYear().toString()
+					+ " " + hours + ":" + minutes; 
 				if(response.history[i].updatedAt != undefined) {
 					var date = new Date(response.history[i].updatedAt);
+					if(date.getHours() <= 9) {
+						var hours = "0" + date.getHours().toString();
+					} else {
+						var hours = date.getHours().toString();
+					}
+					if(date.getMinutes() <= 9) {
+						var minutes = "0" + date.getMinutes().toString();
+					} else {
+						var minutes = date.getMinutes().toString();
+					}
 					var updatedAt = (date.getMonth() + 1).toString() + "/" + date.getDate().toString() + "/" + date.getFullYear().toString() 
-						+ " " + date.getHours() + ":" + date.getMinutes();
+						+ " " + hours + ":" + minutes;
 					$scope.lastUpdate = true;
 				} else {
 					$scope.lastUpdate = false;

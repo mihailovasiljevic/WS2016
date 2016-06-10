@@ -3,6 +3,10 @@ angular.module('comments').controller('listOfComments', ['$scope', '$rootScope',
     	
 
     	$scope.hasComment = false;
+    	$scope.warning = false;
+    	$scope.commentM = {};
+    	$scope.commentM.title = "";
+    	$scope.commentM.text = "";
     	Comments.query(function(response) {
     		var taskId = $stateParams.id;
     		var comments = [];
@@ -18,6 +22,20 @@ angular.module('comments').controller('listOfComments', ['$scope', '$rootScope',
 							response[i].show = false;
     					}
     				}
+					var date = new Date(response[i].createdAt);
+					if(date.getHours() <= 9) {
+						var hours = "0" + date.getHours().toString();
+					} else {
+						var hours = date.getHours().toString();
+					}
+					if(date.getMinutes() <= 9) {
+						var minutes = "0" + date.getMinutes().toString();
+					} else {
+						var minutes = date.getMinutes().toString();
+					}
+					var createdAt = (date.getMonth() + 1).toString() + "/" + date.getDate().toString() + "/" + date.getFullYear().toString()
+						+ "  " + hours + ":" + minutes;
+					response[i].createdAt = createdAt;
     				comments.push(response[i]);
     			}
     		}
@@ -30,6 +48,7 @@ angular.module('comments').controller('listOfComments', ['$scope', '$rootScope',
     		$scope.comment.task = $stateParams.id;
     		if($scope.commentM.text == "" || $scope.commentM.text == undefined) {
     			$scope.hasComment = true;
+    			$scope.warning = true;
     			return false;
     		}
     		$scope.comment.title = $scope.commentM.title;
@@ -39,6 +58,21 @@ angular.module('comments').controller('listOfComments', ['$scope', '$rootScope',
     			$scope.commentM.text = "";
     			$scope.hasComment = false;
     			response.show = true;
+    			var date = new Date(response.createdAt);
+				if(date.getHours() <= 9) {
+					var hours = "0" + date.getHours().toString();
+				} else {
+					var hours = date.getHours().toString();
+				}
+				if(date.getMinutes() <= 9) {
+					var minutes = "0" + date.getMinutes().toString();
+				} else {
+					var minutes = date.getMinutes().toString();
+				}
+				var createdAt = (date.getMonth() + 1).toString() + "/" + date.getDate().toString() + "/" + date.getFullYear().toString()
+					+ "  " + hours + ":" + minutes;
+				response.createdAt = createdAt;
+				$scope.warning = false;
     			$scope.comments.push(response);
     		});
     	}
@@ -86,9 +120,12 @@ angular.module('comments').controller('listOfComments', ['$scope', '$rootScope',
     	});
 
 
-
+		$scope.hasComment = false;
     	$scope.update = function() {
-    		
+    		if($scope.commentM.text == "") {
+    			$scope.hasComment = true;
+    			return false;
+    		}
     		$scope.commentM.$update({"commentId":$scope.commentId},function(response) {
 				if($stateParams.projectId != undefined)
     				$state.go('dashBoard.task',{"projectId":$stateParams.projectId,"id":$stateParams.taskId});
