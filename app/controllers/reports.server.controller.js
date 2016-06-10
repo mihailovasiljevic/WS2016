@@ -71,10 +71,14 @@ exports.report2 = function(req,res,next,id)
 				map[project.teamMembers[i]._id] = 0;
 			}
 			map[-1] = 0;
+			map[-2] = 0;
 			for(var i = 0; i < tasks.length; i++) {
 				if(tasks[i].currentState.assignedFor != undefined && tasks[i].currentState.status == 'Done') {
 					map[tasks[i].currentState.assignedFor._id] = map[tasks[i].currentState.assignedFor._id] + 1;
-				} else {
+				} else if(tasks[i].currentState.assignedFor == undefined && tasks[i].currentState.status == 'Done') {
+					map[-2] = map[-2] + 1;
+				}
+				else {
 					map[-1] = map[-1] + 1;
 				}
 			}
@@ -95,6 +99,14 @@ exports.report2 = function(req,res,next,id)
 			user.username = "";
 			user.percantage = Math.round(((map[-1] / tasks.length) * 100) * 100) / 100;
 			report.push(user);
+			
+			user = {};
+			user.firstName = "-2";
+			user.lastName = "-2";
+			user.username = "#";
+			user.percantage = Math.round(((map[-2] / tasks.length) * 100) * 100) / 100;
+			report.push(user);
+			
 			report.sort(function (a, b) {
 				if (a.percantage < b.percantage) {
 					return 1;
