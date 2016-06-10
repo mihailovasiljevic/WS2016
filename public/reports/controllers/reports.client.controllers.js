@@ -229,8 +229,10 @@ angular.module('reports').controller('reportCntrl', ['$scope', '$rootScope', '$l
 					var report = [];
 					report.push(['', '']);
 			    	for(var i = 0; i < response.length; i++) {
-			    		if(response[i].username !== "") {
+			    		if(response[i].username !== "" && response[i].username !== "#") {
 			    			var name = response[i].firstName + " " + response[i].lastName + " (" +  response[i].username + ") ";
+			    		}  else if(response[i].username === "#") {
+			    			var name = "Unknown";
 			    		} else {
 			    			var name = value;
 			    		}
@@ -240,15 +242,15 @@ angular.module('reports').controller('reportCntrl', ['$scope', '$rootScope', '$l
 					
 			        var data = google.visualization.arrayToDataTable(report);
 					
-					var reportTitel = "";
+					var reportTitle = "";
 					if(value == "Not assigned") {
-						reportTitel = "Tasks assigned to users";
+						reportTitle = "Tasks assigned to users";
 					} else if(value == "Unifinished") {
-						reportTitel = "Finished tasks";
+						reportTitle = "Finished tasks";
 					}
 					
 			        var options = {
-			          title: reportTitel
+			          title: reportTitle
 			        };
 
 			        var chart = new google.visualization.PieChart(document.getElementById('piechart'));
