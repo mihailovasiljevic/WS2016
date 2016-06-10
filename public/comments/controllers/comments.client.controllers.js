@@ -40,7 +40,9 @@ angular.module('comments').controller('listOfComments', ['$scope', '$rootScope',
     			$scope.hasComment = false;
     			response.show = true;
     			$scope.comments.push(response);
-    		});
+    		}, function(errorResponse){
+				$scope.comments_error = errorResponse.data.message;
+			});
     	}
 
     	$scope.update = function(id) {
